@@ -3,14 +3,14 @@ import { mergeDistributions, processChunkForDistribution } from '../src/utils/st
 
 export default testSuite(({ describe }) => {
   describe('processChunkForDistribution', ({ test }) => {
-    test('should count tries correctly for multiple users and games', () => {
+    test('should count tries correctly for multiple users and puzzles', () => {
       const mockChunk = [
         {
           device_id: 'user1',
           progress: {
-            games: {
-              game1: { tries: 3, timestamp: '2025-01-01T00:00:00.000Z' },
-              game2: { tries: 5, timestamp: '2025-01-02T00:00:00.000Z' },
+            puzzles: {
+              puzzle1: { tries: 3, timestamp: '2025-01-01T00:00:00.000Z' },
+              puzzle2: { tries: 5, timestamp: '2025-01-02T00:00:00.000Z' },
             },
           },
           updated_at: new Date(),
@@ -18,9 +18,9 @@ export default testSuite(({ describe }) => {
         {
           device_id: 'user2',
           progress: {
-            games: {
-              game3: { tries: 3, timestamp: '2025-01-03T00:00:00.000Z' },
-              game4: { tries: 7, timestamp: '2025-01-04T00:00:00.000Z' },
+            puzzles: {
+              puzzle3: { tries: 3, timestamp: '2025-01-03T00:00:00.000Z' },
+              puzzle4: { tries: 7, timestamp: '2025-01-04T00:00:00.000Z' },
             },
           },
           updated_at: new Date(),
@@ -30,9 +30,9 @@ export default testSuite(({ describe }) => {
       const result = processChunkForDistribution(mockChunk)
 
       expect(result).toEqual({
-        3: 2, // two games with 3 tries
-        5: 1, // one game with 5 tries
-        7: 1, // one game with 7 tries
+        3: 2, // two puzzles with 3 tries
+        5: 1, // one puzzle with 5 tries
+        7: 1, // one puzzle with 7 tries
       })
     })
 
@@ -46,25 +46,25 @@ export default testSuite(({ describe }) => {
         {
           device_id: 'user1',
           progress: {
-            games: {
-              game1: { tries: 3, timestamp: '2025-01-01T00:00:00.000Z' },
-              game2: { tries: 3, timestamp: '2025-01-02T00:00:00.000Z' },
-              game3: { tries: 3, timestamp: '2025-01-03T00:00:00.000Z' },
+            puzzles: {
+              puzzle1: { tries: 3, timestamp: '2025-01-01T00:00:00.000Z' },
+              puzzle2: { tries: 3, timestamp: '2025-01-02T00:00:00.000Z' },
+              puzzle3: { tries: 3, timestamp: '2025-01-03T00:00:00.000Z' },
             },
           },
         },
         {
           device_id: 'user2',
           progress: {
-            games: {
-              game4: { tries: 3, timestamp: '2025-01-04T00:00:00.000Z' },
+            puzzles: {
+              puzzle4: { tries: 3, timestamp: '2025-01-04T00:00:00.000Z' },
             },
           },
         },
       ]
 
       const result = processChunkForDistribution(mockChunk)
-      expect(result).toEqual({ 3: 4 }) // 3 games from user1 + 1 game from user2
+      expect(result).toEqual({ 3: 4 }) // 3 puzzles from user1 + 1 puzzle from user2
     })
 
     test('should handle large tries values', () => {
@@ -72,10 +72,10 @@ export default testSuite(({ describe }) => {
         {
           device_id: 'user1',
           progress: {
-            games: {
-              game1: { tries: 10, timestamp: '2025-01-01T00:00:00.000Z' },
-              game2: { tries: 25, timestamp: '2025-01-02T00:00:00.000Z' },
-              game3: { tries: 50, timestamp: '2025-01-03T00:00:00.000Z' },
+            puzzles: {
+              puzzle1: { tries: 10, timestamp: '2025-01-01T00:00:00.000Z' },
+              puzzle2: { tries: 25, timestamp: '2025-01-02T00:00:00.000Z' },
+              puzzle3: { tries: 50, timestamp: '2025-01-03T00:00:00.000Z' },
             },
           },
         },

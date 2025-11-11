@@ -13,9 +13,9 @@ export function processChunkForDistribution(chunk: Array<{
   const distribution: Record<number, number> = {}
 
   for (const record of chunk) {
-    const games = record.progress?.games || {}
-    for (const [_gameId, gameRecord] of Object.entries(games)) {
-      const { tries } = gameRecord as any
+    const puzzles = record.progress?.puzzles || {}
+    for (const [_puzzleId, puzzleRecord] of Object.entries(puzzles)) {
+      const { tries } = puzzleRecord as any
       distribution[tries] = (distribution[tries] || 0) + 1
     }
   }

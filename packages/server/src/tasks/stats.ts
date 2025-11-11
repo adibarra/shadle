@@ -4,15 +4,15 @@ import { mergeDistributions, processChunkForDistribution } from '../utils/stats-
 
 const logger = getLogger('TASKS')
 
-interface GameStats {
-  totalGames: number
+interface PuzzleStats {
+  totalPuzzles: number
   totalUsers: number
   avgTries: number
-  successRate: number // games completed in <= 6 tries
+  successRate: number // puzzles completed in <= 6 tries
   triesDistribution: Record<number, number>
   dailyActiveUsers: number
-  avgGamesPerUser: number
-  completionRate: number // games that were actually completed (not abandoned)
+  avgPuzzlesPerUser: number
+  completionRate: number // puzzles that were actually completed (not abandoned)
 }
 
 /**
@@ -51,15 +51,15 @@ export default {
       logger.info(`Streaming processing completed in ${streamTime.toFixed(2)}ms (${chunksProcessed} chunks)`)
 
       // phase 3: combine results
-      const finalStats: GameStats = {
+      const finalStats: PuzzleStats = {
         ...basicStats,
         triesDistribution,
-        avgGamesPerUser: basicStats.totalUsers > 0 ? basicStats.totalGames / basicStats.totalUsers : 0,
+        avgPuzzlesPerUser: basicStats.totalUsers > 0 ? basicStats.totalPuzzles / basicStats.totalUsers : 0,
       }
 
       const totalTime = performance.now() - startTime
       logger.info(`Total stats generation time: ${totalTime.toFixed(2)}ms`)
-      logger.info(`Statistics: totalGames=${finalStats.totalGames}, totalUsers=${finalStats.totalUsers}, avgTries=${finalStats.avgTries.toFixed(2)}, successRate=${(finalStats.successRate * 100).toFixed(1)}%, dailyActiveUsers=${finalStats.dailyActiveUsers}, avgGamesPerUser=${finalStats.avgGamesPerUser.toFixed(2)}, completionRate=${(finalStats.completionRate * 100).toFixed(1)}%`)
+      logger.info(`Statistics: totalPuzzles=${finalStats.totalPuzzles}, totalUsers=${finalStats.totalUsers}, avgTries=${finalStats.avgTries.toFixed(2)}, successRate=${(finalStats.successRate * 100).toFixed(1)}%, dailyActiveUsers=${finalStats.dailyActiveUsers}, avgPuzzlesPerUser=${finalStats.avgPuzzlesPerUser.toFixed(2)}, completionRate=${(finalStats.completionRate * 100).toFixed(1)}%`)
       logger.info(`Distribution: ${JSON.stringify(finalStats.triesDistribution)}`)
 
       // store daily stats
