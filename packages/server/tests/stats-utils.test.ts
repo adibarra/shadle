@@ -9,8 +9,8 @@ export default testSuite(({ describe }) => {
           device_id: 'user1',
           progress: {
             puzzles: {
-              puzzle1: { tries: 3, timestamp: '2025-01-01T00:00:00.000Z' },
-              puzzle2: { tries: 5, timestamp: '2025-01-02T00:00:00.000Z' },
+              puzzle1: { tries: 3, timestamp: '2025-01-01T00:00:00.000Z', completed: true },
+              puzzle2: { tries: 5, timestamp: '2025-01-02T00:00:00.000Z', completed: true },
             },
           },
           updated_at: new Date(),
@@ -19,8 +19,8 @@ export default testSuite(({ describe }) => {
           device_id: 'user2',
           progress: {
             puzzles: {
-              puzzle3: { tries: 3, timestamp: '2025-01-03T00:00:00.000Z' },
-              puzzle4: { tries: 7, timestamp: '2025-01-04T00:00:00.000Z' },
+              puzzle3: { tries: 3, timestamp: '2025-01-03T00:00:00.000Z', completed: true },
+              puzzle4: { tries: 7, timestamp: '2025-01-04T00:00:00.000Z', completed: false },
             },
           },
           updated_at: new Date(),
@@ -47,9 +47,9 @@ export default testSuite(({ describe }) => {
           device_id: 'user1',
           progress: {
             puzzles: {
-              puzzle1: { tries: 3, timestamp: '2025-01-01T00:00:00.000Z' },
-              puzzle2: { tries: 3, timestamp: '2025-01-02T00:00:00.000Z' },
-              puzzle3: { tries: 3, timestamp: '2025-01-03T00:00:00.000Z' },
+              puzzle1: { tries: 3, timestamp: '2025-01-01T00:00:00.000Z', completed: true },
+              puzzle2: { tries: 3, timestamp: '2025-01-02T00:00:00.000Z', completed: false },
+              puzzle3: { tries: 3, timestamp: '2025-01-03T00:00:00.000Z', completed: true },
             },
           },
         },
@@ -57,7 +57,7 @@ export default testSuite(({ describe }) => {
           device_id: 'user2',
           progress: {
             puzzles: {
-              puzzle4: { tries: 3, timestamp: '2025-01-04T00:00:00.000Z' },
+              puzzle4: { tries: 3, timestamp: '2025-01-04T00:00:00.000Z', completed: false },
             },
           },
         },
@@ -73,9 +73,9 @@ export default testSuite(({ describe }) => {
           device_id: 'user1',
           progress: {
             puzzles: {
-              puzzle1: { tries: 10, timestamp: '2025-01-01T00:00:00.000Z' },
-              puzzle2: { tries: 25, timestamp: '2025-01-02T00:00:00.000Z' },
-              puzzle3: { tries: 50, timestamp: '2025-01-03T00:00:00.000Z' },
+              puzzle1: { tries: 10, timestamp: '2025-01-01T00:00:00.000Z', completed: true },
+              puzzle2: { tries: 25, timestamp: '2025-01-02T00:00:00.000Z', completed: false },
+              puzzle3: { tries: 50, timestamp: '2025-01-03T00:00:00.000Z', completed: true },
             },
           },
         },

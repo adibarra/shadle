@@ -30,7 +30,7 @@ export async function upsertNotification(notificationData: CreateNotificationDat
 /**
  * Gets a notification subscription by device_id.
  */
-export async function getNotification(deviceId: string): Promise<Notification | null> {
+export async function getNotification(device_id: string): Promise<Notification | null> {
   const result = await sql`
     select
       device_id,
@@ -39,7 +39,7 @@ export async function getNotification(deviceId: string): Promise<Notification | 
       created_at,
       updated_at
     from notifications
-    where device_id = ${deviceId};
+    where device_id = ${device_id};
   `
   if (result.length === 0) return null
   return {
@@ -51,9 +51,9 @@ export async function getNotification(deviceId: string): Promise<Notification | 
 /**
  * Deletes a notification subscription.
  */
-export async function deleteNotification(deviceId: string): Promise<void> {
+export async function deleteNotification(device_id: string): Promise<void> {
   await sql`
     delete from notifications
-    where device_id = ${deviceId};
+    where device_id = ${device_id};
   `
 }

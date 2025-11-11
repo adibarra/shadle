@@ -17,6 +17,7 @@ export type PushSubData = NativePushSubscription | WebPushSubscription
 export interface PuzzleRecord {
   tries: number
   timestamp: string // iso 8601 date-time string (e.g., "2025-11-10T14:30:00.000Z")
+  completed: boolean
 }
 
 export interface PuzzleHistory {
@@ -77,4 +78,19 @@ export interface HealthResponse {
 
 export interface ApiError {
   error: string
+}
+
+export interface GuessRequest {
+  deviceId: string
+  puzzleId: string // YYYY-MM-DD format (date-based puzzle identifier)
+  guess: string // e.g., "RGBYP" - 5 color letters
+}
+
+export interface GuessResponse {
+  correct: boolean
+  tries: number
+  feedback: Array<{
+    letter: string
+    status: 'correct' | 'present' | 'absent'
+  }>
 }

@@ -28,7 +28,7 @@ export async function upsertHistory(historyData: CreateHistoryData): Promise<His
 /**
  * Gets puzzle history by device_id.
  */
-export async function getHistory(deviceId: string): Promise<History | null> {
+export async function getHistory(device_id: string): Promise<History | null> {
   const result = await sql`
     select
       device_id,
@@ -36,7 +36,7 @@ export async function getHistory(deviceId: string): Promise<History | null> {
       created_at,
       updated_at
     from history
-    where device_id = ${deviceId};
+    where device_id = ${device_id};
   `
   if (result.length === 0) return null
   return {
@@ -48,13 +48,13 @@ export async function getHistory(deviceId: string): Promise<History | null> {
 /**
  * Updates puzzle history progress.
  */
-export async function updateHistory(deviceId: string, updateData: UpdateHistoryData): Promise<History | null> {
+export async function updateHistory(device_id: string, updateData: UpdateHistoryData): Promise<History | null> {
   const result = await sql`
     update history
     set
       progress = ${JSON.stringify(updateData.progress)},
       updated_at = now()
-    where device_id = ${deviceId}
+    where device_id = ${device_id}
     returning
       device_id,
       progress,
@@ -71,10 +71,10 @@ export async function updateHistory(deviceId: string, updateData: UpdateHistoryD
 /**
  * Deletes puzzle history for a device.
  */
-export async function deleteHistory(deviceId: string): Promise<void> {
+export async function deleteHistory(device_id: string): Promise<void> {
   await sql`
     delete from history
-    where device_id = ${deviceId};
+    where device_id = ${device_id};
   `
 }
 
@@ -98,14 +98,17 @@ export async function getAllHistory(): Promise<History[]> {
 
 /**
  * Gets aggregated statistics from history data using SQL.
+ * If puzzleId is provided, returns stats for that specific puzzle only.
+ * Otherwise returns stats across all puzzles (all-time).
  */
-export async function getHistoryAggregates(): Promise<{
+export async function getHistoryAggregates(puzzleId?: string): Promise<{
   totalUsers: number
   totalPuzzles: number
   avgTries: number
   successRate: number
   dailyActiveUsers: number
   completionRate: number
+  triesDistribution: Record<number, number>
 }> {
   const now = new Date()
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
@@ -116,12 +119,23 @@ export async function getHistoryAggregates(): Promise<{
         h.device_id,
         h.updated_at,
         jsonb_object_length(h.progress->'puzzles') as puzzle_count,
-        COUNT(CASE WHEN (puzzle_data->>'tries')::int <= 6 THEN 1 END) as completed_puzzles,
-        COUNT(CASE WHEN (puzzle_data->>'tries')::int <= 6 THEN 1 END) as successful_puzzles,
-        AVG((puzzle_data->>'tries')::int) FILTER (WHERE (puzzle_data->>'tries')::int <= 6) as avg_completed_tries
+        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true THEN 1 END) as completed_puzzles,
+        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int <= 6 THEN 1 END) as successful_puzzles,
+        AVG((puzzle_data->>'tries')::int) FILTER (WHERE (puzzle_data->>'completed')::boolean = true) as avg_completed_tries,
+        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 1 THEN 1 END) as tries_1,
+        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 2 THEN 1 END) as tries_2,
+        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 3 THEN 1 END) as tries_3,
+        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 4 THEN 1 END) as tries_4,
+        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 5 THEN 1 END) as tries_5,
+        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 6 THEN 1 END) as tries_6,
+        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 7 THEN 1 END) as tries_7,
+        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 8 THEN 1 END) as tries_8,
+        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 9 THEN 1 END) as tries_9,
+        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int >= 10 THEN 1 END) as tries_10_plus
       FROM history h,
       LATERAL jsonb_object_keys(h.progress->'puzzles') as puzzle_key,
       LATERAL jsonb_extract_path(h.progress->'puzzles', puzzle_key) as puzzle_data
+      ${puzzleId ? sql`WHERE puzzle_key = ${puzzleId}` : sql``}
       GROUP BY h.device_id, h.updated_at
     )
     SELECT
@@ -138,7 +152,17 @@ export async function getHistoryAggregates(): Promise<{
         WHEN SUM(puzzle_count) > 0
         THEN SUM(completed_puzzles)::float / SUM(puzzle_count)
         ELSE 0
-      END as completion_rate
+      END as completion_rate,
+      COALESCE(SUM(tries_1), 0) as tries_1,
+      COALESCE(SUM(tries_2), 0) as tries_2,
+      COALESCE(SUM(tries_3), 0) as tries_3,
+      COALESCE(SUM(tries_4), 0) as tries_4,
+      COALESCE(SUM(tries_5), 0) as tries_5,
+      COALESCE(SUM(tries_6), 0) as tries_6,
+      COALESCE(SUM(tries_7), 0) as tries_7,
+      COALESCE(SUM(tries_8), 0) as tries_8,
+      COALESCE(SUM(tries_9), 0) as tries_9,
+      COALESCE(SUM(tries_10_plus), 0) as tries_10_plus
     FROM user_puzzle_stats;
   `
 
@@ -150,6 +174,18 @@ export async function getHistoryAggregates(): Promise<{
     successRate: Number(row.success_rate),
     dailyActiveUsers: Number(row.daily_active_users),
     completionRate: Number(row.completion_rate),
+    triesDistribution: {
+      1: Number(row.tries_1),
+      2: Number(row.tries_2),
+      3: Number(row.tries_3),
+      4: Number(row.tries_4),
+      5: Number(row.tries_5),
+      6: Number(row.tries_6),
+      7: Number(row.tries_7),
+      8: Number(row.tries_8),
+      9: Number(row.tries_9),
+      10: Number(row.tries_10_plus),
+    },
   }
 }
 
@@ -194,9 +230,9 @@ export async function* streamHistoryChunks(chunkSize: number = 1000): AsyncGener
  * Records a puzzle attempt for a specific date, incrementing tries.
  * Creates the history record if it doesn't exist.
  */
-export async function recordPuzzleAttempt(deviceId: string, date: string, completed?: boolean): Promise<History> {
+export async function recordPuzzleAttempt(device_id: string, date: string, completed?: boolean): Promise<History> {
   // First, get current history
-  const currentHistory = await getHistory(deviceId)
+  const currentHistory = await getHistory(device_id)
 
   const puzzles = currentHistory?.progress.puzzles || {}
   const puzzleKey = date
@@ -205,19 +241,20 @@ export async function recordPuzzleAttempt(deviceId: string, date: string, comple
   const currentTries = puzzles[puzzleKey]?.tries || 0
   const newTries = currentTries + 1
 
-  // If completed is specified, we might want to set tries to 6 (completed) or keep incrementing
-  // For now, just increment tries. The "completed" flag might be used for analytics
-  const finalTries = completed && newTries > 6 ? 6 : newTries
+  // completed means they found the answer (regardless of tries)
+  // tries should always reflect the actual number of attempts made
+  const finalTries = newTries
 
   // Update the puzzles object
   puzzles[puzzleKey] = {
     tries: finalTries,
     timestamp: new Date().toISOString(),
+    completed: completed || false,
   }
 
   // Upsert the history
   const historyData: CreateHistoryData = {
-    device_id: deviceId,
+    device_id,
     progress: { puzzles },
   }
 
