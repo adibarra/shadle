@@ -189,3 +189,37 @@ export async function* streamHistoryChunks(chunkSize: number = 1000): AsyncGener
     offset += chunkSize
   }
 }
+
+/**
+ * Records a game attempt for a specific date, incrementing tries.
+ * Creates the history record if it doesn't exist.
+ */
+export async function recordGameAttempt(deviceId: string, date: string, completed?: boolean): Promise<History> {
+  // First, get current history
+  const currentHistory = await getHistory(deviceId)
+
+  const games = currentHistory?.progress.games || {}
+  const gameKey = date
+
+  // Get current tries for this date, default to 0
+  const currentTries = games[gameKey]?.tries || 0
+  const newTries = currentTries + 1
+
+  // If completed is specified, we might want to set tries to 6 (completed) or keep incrementing
+  // For now, just increment tries. The "completed" flag might be used for analytics
+  const finalTries = completed && newTries > 6 ? 6 : newTries
+
+  // Update the games object
+  games[gameKey] = {
+    tries: finalTries,
+    timestamp: new Date().toISOString(),
+  }
+
+  // Upsert the history
+  const historyData: CreateHistoryData = {
+    device_id: deviceId,
+    progress: { games },
+  }
+
+  return await upsertHistory(historyData)
+}

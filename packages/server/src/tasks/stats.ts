@@ -59,10 +59,8 @@ export default {
 
       const totalTime = performance.now() - startTime
       logger.info(`Total stats generation time: ${totalTime.toFixed(2)}ms`)
-
-      logger.info(`📊 Game Statistics: totalGames=${finalStats.totalGames}, totalUsers=${finalStats.totalUsers}, avgTries=${finalStats.avgTries.toFixed(2)}, successRate=${(finalStats.successRate * 100).toFixed(1)}%, dailyActiveUsers=${finalStats.dailyActiveUsers}, avgGamesPerUser=${finalStats.avgGamesPerUser.toFixed(2)}, completionRate=${(finalStats.completionRate * 100).toFixed(1)}%`)
-
-      logger.info(`🎯 Tries Distribution: ${JSON.stringify(finalStats.triesDistribution)}`)
+      logger.info(`Statistics: totalGames=${finalStats.totalGames}, totalUsers=${finalStats.totalUsers}, avgTries=${finalStats.avgTries.toFixed(2)}, successRate=${(finalStats.successRate * 100).toFixed(1)}%, dailyActiveUsers=${finalStats.dailyActiveUsers}, avgGamesPerUser=${finalStats.avgGamesPerUser.toFixed(2)}, completionRate=${(finalStats.completionRate * 100).toFixed(1)}%`)
+      logger.info(`Distribution: ${JSON.stringify(finalStats.triesDistribution)}`)
 
       // store daily stats
       const today = new Date().toISOString().split('T')[0] // yyyy-mm-dd format
@@ -72,7 +70,7 @@ export default {
       }
 
       await upsertDailyStats(dailyStats)
-      logger.info(`✅ Daily stats stored for ${today}`)
+      logger.info(`Daily stats stored for ${today}`)
     } catch (error) {
       logger.error(`Failed to generate statistics: ${error instanceof Error ? error.message : String(error)}`)
     }

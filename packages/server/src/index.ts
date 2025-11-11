@@ -1,21 +1,78 @@
+import path from 'node:path'
 import process from 'node:process'
+import autoload from '@fastify/autoload'
+import compress from '@fastify/compress'
+import cors from '@fastify/cors'
+import helmet from '@fastify/helmet'
+import ratelimit from '@fastify/rate-limit'
 import config from '@shadle/config'
 import { sql } from '@shadle/database'
 import { getLogger } from '@shadle/logger'
 import fastify from 'fastify'
 import prexit from 'prexit'
-import { loadApiRoutes } from './route-loader'
 import { startTasks, stopTasks } from './task-runner'
 
 const logger = getLogger('SERVER')
 const _skipTasks = process.env.SKIP_TASKS === 'true'
 const startTime = performance.now()
 
-// initialize the api server
-const app = fastify({ logger: false })
+// set up fastify
+const app = fastify({
+  loggerInstance: getLogger('API'),
+  disableRequestLogging: true,
+  // cloudflare
+  trustProxy: 1,
+})
 
-// load and register api routes
-await loadApiRoutes(app)
+// configure CORS
+await app.register(cors, {
+  origin: new RegExp(config.API_CORS_ORIGIN_REGEX),
+})
+
+// configure headers
+await app.register(helmet, {
+  contentSecurityPolicy: false,
+  dnsPrefetchControl: false,
+  permittedCrossDomainPolicies: true,
+  noSniff: true,
+  strictTransportSecurity: {
+    maxAge: 15552000,
+    includeSubDomains: true,
+  },
+})
+
+// configure rate limiting
+await app.register(ratelimit, {
+  timeWindow: 60 * 1000,
+  max: 500,
+})
+
+// configure compression
+await app.register(compress)
+
+// autoload api routes
+await app.register(autoload, {
+  dir: path.join(import.meta.dirname, 'routes'),
+})
+
+// handle 404
+app.setNotFoundHandler(async (request, reply) => {
+  app.log.warn(`404: ${request.url}`)
+  return reply.code(404).send({
+    message: 'Not Found',
+    code: 404,
+  })
+})
+
+// handle errors
+app.setErrorHandler(async (err, _, reply) => {
+  app.log.error(err)
+  const statusCode = (err as any)?.statusCode ?? 500
+  return reply.code(statusCode).send({
+    message: 'Something went wrong',
+    code: statusCode,
+  })
+})
 
 // start listening for http requests
 await app.listen({

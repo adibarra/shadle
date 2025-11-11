@@ -4,7 +4,7 @@ create table daily_stats (
 
     -- data
     stats           jsonb not null,
-    tries_distribution jsonb not null,
+    tries           jsonb not null,
 
     -- audit
     created_at      timestamptz not null default now(),
