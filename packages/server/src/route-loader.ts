@@ -45,7 +45,7 @@ export async function loadApiRoutes(app: FastifyInstance): Promise<void> {
 
   for (const fullPath of routeFiles) {
     const relativePath = relative(apiDir, fullPath)
-    const routePath = `/${relativePath.replace(/\.ts$/, '').replace(/\\/g, '/')}`
+    const routePath = `/${relativePath.replace(/\.ts$/, '').replace(/\\/g, '/').replace(/\[([^\]]+)\]/g, ':$1')}`
 
     try {
       const routeModule = await import(fullPath)
