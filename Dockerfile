@@ -20,7 +20,7 @@ COPY packages/server/package.json packages/server/
 
 RUN pnpm install --frozen-lockfile
 
-FROM deps AS client-builder
+FROM deps AS builder
 
 ARG COMMIT_HASH=unknown
 ENV COMMIT_HASH=${COMMIT_HASH}
@@ -28,27 +28,17 @@ ENV CI=true
 
 COPY . .
 
-RUN pnpm --filter @shadle/client... run test
+RUN pnpm --parallel run test
 RUN pnpm --filter @shadle/client run build
-
-FROM deps AS server-builder
-
-ARG COMMIT_HASH=unknown
-ENV COMMIT_HASH=${COMMIT_HASH}
-ENV CI=true
-
-COPY . .
-
-RUN pnpm --filter @shadle/server... run test
 
 FROM adibarra/nginx-static:latest AS client
 
 COPY nginx.conf /usr/local/nginx/conf/nginx.conf
-COPY --from=client-builder /app/packages/client/dist /srv
+COPY --from=builder /app/packages/client/dist /srv
 CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
 
 FROM base AS server
 
-COPY --from=server-builder /app /app
+COPY --from=builder --exclude=packages/client/dist /app /app
 EXPOSE 80
 CMD ["pnpm", "run", "start"]
