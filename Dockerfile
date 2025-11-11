@@ -9,16 +9,12 @@ WORKDIR /app
 
 FROM base AS deps
 
-COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
-COPY packages/config/package.json packages/config/
-COPY packages/constants/package.json packages/constants/
-COPY packages/database/package.json packages/database/
-COPY packages/logger/package.json packages/logger/
-COPY packages/types/package.json packages/types/
-COPY packages/client/package.json packages/client/
-COPY packages/server/package.json packages/server/
+COPY pnpm-lock.yaml ./
+RUN pnpm fetch
 
-RUN pnpm install --frozen-lockfile
+COPY pnpm-workspace.yaml package.json ./
+COPY --parents packages/*/package.json ./
+RUN pnpm install --frozen-lockfile --offline
 
 FROM deps AS builder
 
