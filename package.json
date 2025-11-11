@@ -1,0 +1,38 @@
+{
+  "name": "shadle",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.21.0",
+  "description": "A React-based Wordle-style game for colors with PWA and notifications.",
+  "contributors": [
+    "adibarra <github@adibarra.com> (https://adibarra.com)"
+  ],
+  "scripts": {
+    "build": "pnpm --parallel --color run build",
+    "clean": "pnpm --parallel run clean",
+    "clean:all": "pnpm --parallel run clean:all && rm -rf node_modules/ .pnpm-store/ tsconfig.tsbuildinfo",
+    "dev": "pnpm --parallel --color run dev",
+    "dev:client": "pnpm --filter @shadle/client run dev",
+    "dev:core": "SKIP_TASKS=true pnpm --parallel --color run dev",
+    "dev:server": "pnpm --filter @shadle/server run dev",
+    "lint": "eslint . --cache; exit 0",
+    "lint:fix": "eslint . --fix --cache; exit 0",
+    "preview": "pnpm --parallel --color run preview",
+    "start": "pnpm --filter @shadle/server run start",
+    "taze": "taze -r -I",
+    "test": "pnpm --parallel --color run test",
+    "check": "pnpm --parallel run check"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^6.2.0",
+    "@eslint-react/eslint-plugin": "^2.3.1",
+    "@types/node": "^24.10.0",
+    "eslint": "^9.39.1",
+    "eslint-plugin-format": "^1.0.2",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "taze": "^19.9.0",
+    "typescript": "^5.9.3"
+  }
+}

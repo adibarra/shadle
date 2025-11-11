@@ -1,0 +1,16 @@
+.idea/
+.yarn/
+.npm/
+.pnpm-store/
+node_modules/
+data/
+
+.DS_Store
+*:Zone.Identifier
+
+.pnp.*
+.eslintcache
+.env*
+!.env.example
+
+tsconfig.tsbuildinfo

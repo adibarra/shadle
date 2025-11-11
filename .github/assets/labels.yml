@@ -1,0 +1,82 @@
+---
+# type labels
+- name: type/bug
+  color: ff0000
+  description: Related to actual project. Something is broken.
+- name: type/ci-env
+  color: ffa500
+  description: 'Related to continuous integration, workflows, or dev environment.'
+- name: type/dependencies
+  color: 800080
+  description: Related to project dependencies.
+- name: type/documentation
+  color: 00ffff
+  description: Related to project documentation.
+- name: type/other
+  color: 008000
+  description: Related to something else.
+- name: type/new-feature
+  color: ffff00
+  description: Related to new features or options.
+- name: type/performance
+  color: ff69b4
+  description: 'Related to improving performance, not introducing new features.'
+- name: type/refactor
+  color: ff4500
+  description: 'Related to improving existing structure, not introducing new features.'
+
+# status labels
+- name: status/duplicate
+  color: cfd3d7
+  description: This issue or PR already exists.
+- name: status/in-progress
+  color: fbca04
+  description: This Issue is currently being resolved by a developer.
+- name: status/missing-info
+  color: fc5b05
+  description: This issue or PR is missing information.
+- name: status/stale
+  color: fef2c0
+  description: This issue or PR is inactive.
+- name: status/superseded
+  color: cfd3d7
+  description: This issue or PR has been superseded.
+- name: status/triage
+  color: 00ff00
+  description: This issue or PR needs to be triaged.
+- name: status/wontfix
+  color: ffffff
+  description: This issue or PR will not be fixed.
+
+# review labels
+- name: review/pending
+  color: e5ff00
+  description: This PR needs to be reviewed.
+- name: review/needs-work
+  color: ff8c00
+  description: 'This PR needs some work, please see the review comments.'
+
+# help labels
+- name: help/beginner
+  color: 54ff00
+  description: This is a good first issue for new contributors.
+- name: help/intermediate
+  color: ff8c00
+  description: This issue may require some familiarity with the codebase.
+- name: help/advanced
+  color: ff0000
+  description: This issue requires familiarity with the codebase.
+
+# priority labels
+- name: priority/low
+  color: 54ff00
+  description: This should be dealt with after all medium priority issues are fixed.
+- name: priority/medium
+  color: e5ff00
+  description: This should be dealt with after all high priority issues are fixed.
+- name: priority/high
+  color: ff8c00
+  description: This should be dealt with after all critical issues are fixed.
+- name: priority/critical
+  color: ff0000
+  description: This should be dealt with ASAP.

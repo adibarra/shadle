@@ -1,0 +1,87 @@
+{
+  // enable eslint
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": ["."],
+  "eslint.options": {
+    "cache": true,
+    "cacheLocation": ".eslintcache"
+  },
+
+  // disable the default formatter, use eslint instead
+  "prettier.enable": false,
+  "editor.formatOnSave": false,
+
+  // auto fix
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+
+  // silent the stylistic rules in IDE, but still auto fix them
+  "eslint.rules.customizations": [
+    { "rule": "style/*", "severity": "off", "fixable": true },
+    { "rule": "format/*", "severity": "off", "fixable": true },
+    { "rule": "*-indent", "severity": "off", "fixable": true },
+    { "rule": "*-spacing", "severity": "off", "fixable": true },
+    { "rule": "*-spaces", "severity": "off", "fixable": true },
+    { "rule": "*-order", "severity": "off", "fixable": true },
+    { "rule": "*-dangle", "severity": "off", "fixable": true },
+    { "rule": "*-newline", "severity": "off", "fixable": true },
+    { "rule": "*quotes", "severity": "off", "fixable": true },
+    { "rule": "*semi", "severity": "off", "fixable": true }
+  ],
+
+  // enable eslint for all supported languages
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml",
+    "toml",
+    "xml",
+    "gql",
+    "graphql",
+    "astro",
+    "svelte",
+    "css",
+    "less",
+    "scss",
+    "pcss",
+    "postcss"
+  ],
+
+  // set folder icons
+  "material-icon-theme.folders.associations": {
+    "logger": "interceptor",
+    "migrations": "pipe",
+    "operations": "tools"
+  },
+
+  // spellcheck dictionary
+  "cSpell.words": [
+    "adibarra",
+    "buildx",
+    "chakra",
+    "citext",
+    "esbuild",
+    "eslintcache",
+    "iconify",
+    "manten",
+    "onnotice",
+    "ossp",
+    "plpgsql",
+    "prexit",
+    "regclass",
+    "shadle",
+    "taze",
+    "unocss",
+    "vite",
+    "wordle"
+  ]
+}

@@ -1,0 +1,33 @@
+---
+name: Sync labels
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/assets/labels.yml
+      - .github/workflows/sync-labels.yml
+  workflow_dispatch:
+
+jobs:
+  sync-labels:
+    name: ♻️ Sync labels
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code from GitHub
+        uses: actions/checkout@v5
+
+      - name: Sync Labels
+        uses: micnncim/action-label-syncer@v1.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          manifest: .github/assets/labels.yml

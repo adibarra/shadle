@@ -1,0 +1,85 @@
+<!doctype html>
+<html class="dark" lang="en" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A Wordle-style game with colors. Challenge your mind with daily color pattern puzzles."
+    />
+    <meta name="keywords" content="shadle, wordle, color game, puzzle, pattern recognition" />
+    <meta name="author" content="shadle" />
+
+    <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#121212" />
+
+    <meta property="og:url" content="https://shadle.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="shadle - Wordle Color Game" />
+    <meta property="og:site_name" content="shadle" />
+    <meta
+      property="og:description"
+      content="A Wordle-style game with colors. Challenge your mind with daily color pattern puzzles."
+    />
+    <meta property="og:image" content="https://shadle.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="shadle - Wordle Color Game" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="shadle - Wordle Color Game" />
+    <meta
+      name="twitter:description"
+      content="A Wordle-style game with colors. Challenge your mind with daily color pattern puzzles."
+    />
+    <meta name="twitter:image" content="https://shadle.app/og-image.png" />
+    <meta name="twitter:image:alt" content="shadle - Wordle Color Game" />
+
+    <title>shadle - Wordle Color Game</title>
+    <style>
+      html {
+        color: white;
+        background: black;
+      }
+    </style>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "shadle",
+        "url": "https://shadle.app",
+        "description": "A Wordle-style game with colors. Challenge your mind with daily color pattern puzzles.",
+        "creator": {
+          "@type": "Person",
+          "name": "adibarra"
+        },
+        "genre": "Puzzle Game"
+      }
+    </script>
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HS51DZ5HEM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', 'G-HS51DZ5HEM')
+    </script>
+    -->
+  </head>
+  <body>
+    <noscript>
+      <div style="padding: 2rem; text-align: center; font-family: sans-serif">
+        <h1>shadle - Wordle Color Game</h1>
+        <p>A Wordle-style game with colors. Challenge your mind with daily color pattern puzzles!</p>
+        <p>This application requires JavaScript to function. Please enable JavaScript in your browser.</p>
+      </div>
+    </noscript>
+    <div id="app" font-sans></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

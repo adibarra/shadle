@@ -1,0 +1,15 @@
+{
+  "name": "@shadle/config",
+  "type": "module",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "clean:all": "rm -rf node_modules/ tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@shadle/constants": "workspace:*",
+    "dotenv": "^17.2.3"
+  }
+}

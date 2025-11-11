@@ -1,0 +1,15 @@
+/*  global styles  */
+:root {
+  color-scheme: light dark;
+  --color-accent: var(--chakra-colors-green-300);
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #1a202c;
+  color: white;
+}

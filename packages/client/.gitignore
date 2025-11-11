@@ -1,0 +1,6 @@
+dist/
+node_modules/
+
+vite.config.ts.timestamp-*
+components.d.ts
+auto-imports.d.ts

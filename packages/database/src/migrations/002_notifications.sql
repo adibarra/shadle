@@ -1,0 +1,18 @@
+-- enums
+create type platform as enum ('ios', 'android', 'web');
+
+create table notifications (
+    -- unique identifiers
+    device_id       text primary key,
+
+    -- data
+    platform        platform not null,
+    push_sub        jsonb not null,
+
+    -- audit
+    created_at      timestamptz not null default now(),
+    updated_at      timestamptz
+);
+
+-- triggers
+select create_updated_at_trigger ('notifications');
