@@ -8,7 +8,7 @@ import { validateDeviceId } from '../../../utils/validation'
  */
 const route: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.get('/', async (request, reply): Promise<HistoryResponse | ApiError> => {
-    const { deviceId, puzzleDate } = request.query as HistoryRequest
+    const { deviceId, puzzleId } = request.query as HistoryRequest
 
     const deviceValidation = validateDeviceId(deviceId)
     if (!deviceValidation.isValid) {
@@ -16,7 +16,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
 
     try {
-      const history = await getPuzzleAttempts(deviceId, puzzleDate)
+      const history = await getPuzzleAttempts(deviceId, puzzleId)
       return reply.code(200).send({ attempts: history as PuzzleAttemptResponse[] })
     } catch (error) {
       fastify.log.error(`Failed to get puzzle history: ${error}`)

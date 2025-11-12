@@ -1,24 +1,24 @@
 import type { ApiError, GuessRequest, GuessResponse } from '@shadle/types'
 import type { FastifyPluginAsync } from 'fastify'
 import { recordPuzzleAttempt } from '@shadle/database'
-import { getDailyAnswer, validateGuess } from '../../../logic/guess'
-import { validateDeviceId, validateGuessFormat, validatePuzzleDate } from '../../../utils/validation'
+import { getPuzzleAnswer, validateGuess } from '../../../logic/guess'
+import { validateDeviceId, validateGuessFormat, validatePuzzleId } from '../../../utils/validation'
 
 /**
  * Fastify route for puzzle guess operations.
  */
 const route: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.post('/', async (request, reply): Promise<GuessResponse | ApiError> => {
-    const { deviceId, puzzleDate, guess } = request.body as GuessRequest
+    const { deviceId, puzzleId, guess } = request.body as GuessRequest
 
     const deviceValidation = validateDeviceId(deviceId)
     if (!deviceValidation.isValid) {
       return reply.code(400).send({ error: deviceValidation.error })
     }
 
-    const dateValidation = validatePuzzleDate(puzzleDate)
-    if (!dateValidation.isValid) {
-      return reply.code(400).send({ error: dateValidation.error })
+    const idValidation = validatePuzzleId(puzzleId)
+    if (!idValidation.isValid) {
+      return reply.code(400).send({ error: idValidation.error })
     }
 
     const guessValidation = validateGuessFormat(guess)
@@ -27,10 +27,14 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
 
     try {
-      const answer = getDailyAnswer(puzzleDate)
+      const answer = getPuzzleAnswer(puzzleId)
+      if (!answer) {
+        return reply.code(404).send({ error: 'Puzzle not found' })
+      }
+
       const feedback = validateGuess(guess.toUpperCase(), answer)
       const correct = feedback.every((item: { letter: string, status: string }) => item.status === 'correct')
-      const { tries } = await recordPuzzleAttempt(deviceId, puzzleDate, correct)
+      const { tries } = await recordPuzzleAttempt(deviceId, puzzleId, correct)
 
       return reply.code(200).send({
         tries,

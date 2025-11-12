@@ -1,6 +1,6 @@
 create table puzzle_stats (
     -- unique identifiers
-    date            date primary key,
+    puzzle_id       text primary key,
 
     -- data
     stats           jsonb not null,

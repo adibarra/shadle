@@ -2,17 +2,17 @@ import type { PuzzleStats } from '../types'
 import { sql } from '../initializer'
 
 /**
- * Stores puzzle statistics for a given date.
- * Upserts if stats for the date already exist.
+ * Stores puzzle statistics for a given puzzle id.
+ * Upserts if stats for the puzzle id already exist.
  */
 export async function upsertPuzzleStats(stats: PuzzleStats): Promise<void> {
   await sql`
-    insert into puzzle_stats (date, stats)
+    insert into puzzle_stats (puzzle_id, stats)
     values (
-      ${stats.puzzle_date},
+      ${stats.puzzle_id},
       ${JSON.stringify(stats)}
     )
-    on conflict (date)
+    on conflict (puzzle_id)
     do update set
       stats = excluded.stats,
       updated_at = now();
@@ -20,16 +20,16 @@ export async function upsertPuzzleStats(stats: PuzzleStats): Promise<void> {
 }
 
 /**
- * Gets puzzle statistics for a specific date, or all puzzle statistics if no date provided.
+ * Gets puzzle statistics for a specific puzzle id, or all puzzle statistics if no id provided.
  */
-export async function getPuzzleStats(date?: string): Promise<PuzzleStats[]> {
+export async function getPuzzleStats(puzzleId?: string): Promise<PuzzleStats[]> {
   const result = await sql`
     select
-      date,
+      puzzle_id,
       stats
     from puzzle_stats
-    ${date ? sql`where date = ${date}` : sql``}
-    order by date;
+    ${puzzleId ? sql`where puzzle_id = ${puzzleId}` : sql``}
+    order by puzzle_id;
   `
 
   return result.map(row => JSON.parse(row.stats)) as PuzzleStats[]

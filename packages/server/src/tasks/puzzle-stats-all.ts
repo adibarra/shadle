@@ -4,7 +4,7 @@ import { getLogger } from '@shadle/logger'
 const logger = getLogger('TASKS')
 
 /**
- * Generate puzzle statistics for all puzzle dates.
+ * Generate puzzle statistics for all puzzle ids.
  * Runs daily at 3:00 AM UTC.
  */
 export default {
@@ -14,20 +14,20 @@ export default {
   run: async () => {
     try {
       const dateResult = await sql`
-        select distinct puzzle_date
+        select distinct puzzle_id
         from puzzle_attempts
-        order by puzzle_date
+        order by puzzle_id
       `
 
-      const puzzleDates = dateResult.map(row => row.puzzle_date as string)
-      logger.info(`Found ${puzzleDates.length} puzzle dates to update`)
+      const puzzleIds = dateResult.map(row => row.puzzle_id as string)
+      logger.info(`Found ${puzzleIds.length} puzzle ids to update`)
 
-      for (const puzzleDate of puzzleDates) {
+      for (const puzzleId of puzzleIds) {
         try {
-          const stats = await getPuzzleAttemptAggregates(puzzleDate)
+          const stats = await getPuzzleAttemptAggregates(puzzleId)
           await upsertPuzzleStats(stats)
         } catch (error) {
-          logger.error(`Failed to update stats for ${puzzleDate}: ${error instanceof Error ? error.message : String(error)}`)
+          logger.error(`Failed to update stats for ${puzzleId}: ${error instanceof Error ? error.message : String(error)}`)
         }
       }
     } catch (error) {

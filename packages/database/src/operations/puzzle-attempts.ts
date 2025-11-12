@@ -3,24 +3,24 @@ import { sql } from '../initializer'
 
 /**
  * Gets puzzle attempts by device_id.
- * If puzzle_date is provided, filters attempts for that specific date.
+ * If puzzle_id is provided, filters attempts for that specific puzzle.
  */
-export async function getPuzzleAttempts(device_id: string, puzzle_date?: string): Promise<PuzzleAttempt[]> {
+export async function getPuzzleAttempts(device_id: string, puzzle_id?: string): Promise<PuzzleAttempt[]> {
   const result = await sql`
     select
       device_id,
-      puzzle_date,
+      puzzle_id,
       tries,
       timestamp,
       completed
     from puzzle_attempts
     where device_id = ${device_id}
-    ${puzzle_date ? sql`and puzzle_date = ${puzzle_date}` : sql``}
-    order by puzzle_date desc;
+    ${puzzle_id ? sql`and puzzle_id = ${puzzle_id}` : sql``}
+    order by puzzle_id desc;
   `
   return result.map(row => ({
     device_id: row.device_id,
-    puzzle_date: row.puzzle_date,
+    puzzle_id: row.puzzle_id,
     tries: Number(row.tries),
     timestamp: row.timestamp.toISOString(),
     completed: Boolean(row.completed),
@@ -29,9 +29,9 @@ export async function getPuzzleAttempts(device_id: string, puzzle_date?: string)
 
 /**
  * Gets aggregated statistics from puzzle attempt data using SQL.
- * Returns stats for the specific puzzle date provided.
+ * Returns stats for the specific puzzle id provided.
  */
-export async function getPuzzleAttemptAggregates(puzzle_date: string): Promise<PuzzleStats> {
+export async function getPuzzleAttemptAggregates(puzzle_id: string): Promise<PuzzleStats> {
   const result = await sql`
     select
       count(distinct device_id) as total_users,
@@ -59,14 +59,14 @@ export async function getPuzzleAttemptAggregates(puzzle_date: string): Promise<P
       count(*) filter (where completed = true and tries = 9) as tries_9,
       count(*) filter (where completed = true and tries >= 10) as tries_10_plus
     from puzzle_attempts
-    where puzzle_date = ${puzzle_date};
+    where puzzle_id = ${puzzle_id};
   `
 
   const row = result[0] as any
   const totalUsers = Number(row.total_users)
   const totalAttempts = Number(row.total_puzzles)
   return {
-    puzzle_date,
+    puzzle_id,
     totalAttempts,
     totalUsers,
     avgTries: Number(row.avg_tries),
@@ -89,15 +89,15 @@ export async function getPuzzleAttemptAggregates(puzzle_date: string): Promise<P
 }
 
 /**
- * Records a puzzle attempt for a specific date, incrementing tries.
+ * Records a puzzle attempt for a specific puzzle id, incrementing tries.
  * Creates the history record if it doesn't exist.
  * If the puzzle was already completed, does nothing.
  */
-export async function recordPuzzleAttempt(device_id: string, puzzle_date: string, completed?: boolean): Promise<{ tries: number }> {
+export async function recordPuzzleAttempt(device_id: string, puzzle_id: string, completed?: boolean): Promise<{ tries: number }> {
   const result = await sql`
-    insert into puzzle_attempts (device_id, puzzle_date, tries, completed)
-    values (${device_id}, ${puzzle_date}, 1, ${completed || false})
-    on conflict (device_id, puzzle_date)
+    insert into puzzle_attempts (device_id, puzzle_id, tries, completed)
+    values (${device_id}, ${puzzle_id}, 1, ${completed || false})
+    on conflict (device_id, puzzle_id)
     do update set
       tries = puzzle_attempts.tries + 1,
       completed = excluded.completed,

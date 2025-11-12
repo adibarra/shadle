@@ -5,23 +5,12 @@
 import { VALID_COLORS, VALID_COLORS_REGEX } from '@shadle/types'
 
 /**
- * Validates that a date string is in YYYY-MM-DD format and represents a valid, non-future date
+ * Validates that a puzzle ID is present and non-empty
  */
-export function validatePuzzleDate(dateString: string): { isValid: boolean, error?: string } {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
-    return { isValid: false, error: 'Invalid date format. Use YYYY-MM-DD.' }
+export function validatePuzzleId(puzzleId: string): { isValid: boolean, error?: string } {
+  if (!puzzleId) {
+    return { isValid: false, error: 'Puzzle ID is required' }
   }
-
-  const requestedDate = new Date(`${dateString}T00:00:00.000Z`)
-  if (Number.isNaN(requestedDate.getTime())) {
-    return { isValid: false, error: 'Invalid date format. Use YYYY-MM-DD.' }
-  }
-
-  const today = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate()))
-  if (requestedDate > today) {
-    return { isValid: false, error: 'Cannot request data for future dates.' }
-  }
-
   return { isValid: true }
 }
 

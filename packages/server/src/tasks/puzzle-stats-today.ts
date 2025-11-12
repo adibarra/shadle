@@ -13,8 +13,8 @@ export default {
   enabled: true,
   run: async () => {
     try {
-      const today = new Date().toISOString().split('T')[0] // yyyy-mm-dd format
-      const finalStats = await getPuzzleAttemptAggregates(today)
+      const puzzleId = `§${new Date().toISOString().split('T')[0]}`
+      const finalStats = await getPuzzleAttemptAggregates(puzzleId)
 
       await upsertPuzzleStats(finalStats)
     } catch (error) {

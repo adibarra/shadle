@@ -14,14 +14,14 @@ export interface PushSubscription {
 
 export interface PuzzleAttempt {
   device_id: string
-  puzzle_date: string // YYYY-MM-DD format
+  puzzle_id: string // unique puzzle identifier
   tries: number
   completed: boolean
   timestamp: Date
 }
 
 export interface PuzzleStats {
-  puzzle_date: string // YYYY-MM-DD format
+  puzzle_id: string // unique puzzle identifier
   totalAttempts: number // total attempts on this puzzle
   totalUsers: number // unique users who attempted this puzzle
   avgTries: number // average tries for completed attempts

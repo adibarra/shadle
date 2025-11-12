@@ -2,24 +2,33 @@ import type { GuessResponse } from '@shadle/types'
 import { VALID_COLORS } from '@shadle/types'
 
 /**
- * Generate the correct answer for a given puzzle date (deterministic)
- * For now, uses a simple algorithm based on date
+ * Get the correct answer for a given puzzle id
+ * - §PUZZLE_ID format: daily puzzles (PUZZLE_ID is like §2025-11-11)
+ * - PUZZLE_ID format: custom puzzles (checks database)
+ * - Returns null if puzzle id format is invalid or not found
  */
-export function getDailyAnswer(puzzleDate: string): string {
-  const puzzleDateObj = new Date(`${puzzleDate}T00:00:00.000Z`) // Parse as UTC
-  const seed = puzzleDateObj.getUTCFullYear() * 10000 + (puzzleDateObj.getUTCMonth() + 1) * 100 + puzzleDateObj.getUTCDate()
-  const colors = VALID_COLORS
+export function getPuzzleAnswer(puzzleId: string): string | null {
+  const dailyMatch = puzzleId.match(/^§(\d{4})-(\d{2})-(\d{2})$/)
+  if (dailyMatch) {
+    const [, year, month, day] = dailyMatch
+    const seed = Number.parseInt(year) * 10000 + Number.parseInt(month) * 100 + Number.parseInt(day)
 
-  let answer = ''
-  let tempSeed = seed
+    const colors = VALID_COLORS
+    let answer = ''
+    let tempSeed = seed
 
-  for (let i = 0; i < 5; i++) {
-    tempSeed = (tempSeed * 9301 + 49297) % 233280 // Simple LCG
-    const index = tempSeed % colors.length
-    answer += colors[index]
+    for (let i = 0; i < 5; i++) {
+      tempSeed = (tempSeed * 9301 + 49297) % 233280 // simple lcg
+      const index = tempSeed % colors.length
+      answer += colors[index]
+    }
+
+    return answer
+  } else {
+    // TODO: custom puzzle - should check database (not implemented yet)
+    // for now, return null to indicate not found
+    return null
   }
-
-  return answer
 }
 
 /**

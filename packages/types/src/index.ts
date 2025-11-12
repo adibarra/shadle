@@ -38,7 +38,7 @@ export type PushSubData = NativePushSubscription | WebPushSubscription
 // =============================================================================
 
 export interface StatsResponse {
-  puzzleDate: string // YYYY-MM-DD format
+  puzzleId: string // unique puzzle identifier
   totalAttempts: number // total attempts on this puzzle
   totalUsers: number // unique users who attempted this puzzle
   avgTries: number // average tries for completed attempts
@@ -50,9 +50,9 @@ export interface StatsResponse {
 
 export interface PuzzleAttemptResponse {
   device_id: string
-  puzzle_date: string // YYYY-MM-DD format
+  puzzle_id: string
   tries: number
-  timestamp: Date // Date object (serialized to ISO string in JSON)
+  timestamp: Date
   completed: boolean
 }
 
@@ -66,7 +66,6 @@ export interface ApiError {
 
 export interface HealthResponse {
   status: 'ok'
-  timestamp: string // iso 8601 date-time string
 }
 
 // =============================================================================
@@ -75,8 +74,8 @@ export interface HealthResponse {
 
 export interface GuessRequest {
   deviceId: string
-  puzzleDate: string // YYYY-MM-DD format (date-based puzzle identifier)
-  guess: string // e.g., "RGBYP" - 5 color letters
+  puzzleId: string
+  guess: string
 }
 
 export interface GuessResponse {
@@ -94,7 +93,7 @@ export interface GuessResponse {
 
 export interface HistoryRequest {
   deviceId: string
-  puzzleDate?: string // optional, if provided returns history for that date, otherwise returns all-time history
+  puzzleId?: string
 }
 
 export interface HistoryResponse {
@@ -106,5 +105,5 @@ export interface HistoryResponse {
 // =============================================================================
 
 export interface StatsRequest {
-  puzzleDate: string // YYYY-MM-DD format (date-based puzzle identifier)
+  puzzleId: string
 }

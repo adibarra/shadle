@@ -1,7 +1,7 @@
 create table puzzle_attempts (
     -- unique identifiers
     device_id       text not null,
-    puzzle_date     text not null,  -- YYYY-MM-DD format
+    puzzle_id       text not null,
 
     -- data
     tries           integer not null,
@@ -13,7 +13,7 @@ create table puzzle_attempts (
     updated_at      timestamptz
 
     -- constraints
-    primary key (device_id, puzzle_date)
+    primary key (device_id, puzzle_id)
 );
 
 -- triggers
