@@ -10,7 +10,7 @@ create table puzzle_attempts (
 
     -- audit
     created_at      timestamptz not null default now(),
-    updated_at      timestamptz
+    updated_at      timestamptz,
 
     -- constraints
     primary key (device_id, puzzle_id)
