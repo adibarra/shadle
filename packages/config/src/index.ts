@@ -13,7 +13,6 @@ interface DotEnvSchema {
   API_PORT: number
   API_CORS_ORIGIN_REGEX: string
   POSTGRES_URL: string
-  JWT_SECRET: string
   LOG_LEVEL: {
     CONSOLE: string
     FILE: string
@@ -47,7 +46,6 @@ function getConfig(): DotEnvSchema {
     API_PORT: 80,
     API_CORS_ORIGIN_REGEX: '.*',
     POSTGRES_URL: '',
-    JWT_SECRET: 'your-secret-key-change-in-production',
     LOG_LEVEL: {
       CONSOLE: IS_PRODUCTION ? 'silent' : 'trace',
       FILE: IS_PRODUCTION ? 'info' : 'silent',
@@ -61,7 +59,6 @@ function getConfig(): DotEnvSchema {
     API_PORT: Number(parsed.API_PORT) || defaults.API_PORT,
     API_CORS_ORIGIN_REGEX: parsed.API_CORS_ORIGIN_REGEX || defaults.API_CORS_ORIGIN_REGEX,
     POSTGRES_URL: parsed.POSTGRES_URL || defaults.POSTGRES_URL,
-    JWT_SECRET: parsed.JWT_SECRET || defaults.JWT_SECRET,
     LOG_LEVEL: {
       CONSOLE: parsed.LOG_LEVEL_CONSOLE || defaults.LOG_LEVEL.CONSOLE,
       FILE: parsed.LOG_LEVEL_FILE || defaults.LOG_LEVEL.FILE,
