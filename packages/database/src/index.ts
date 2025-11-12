@@ -1,5 +1,6 @@
 export * from './initializer'
 export * from './migrations'
+export * from './operations/custom-puzzles'
 export * from './operations/push-subscriptions'
 export * from './operations/puzzle-attempts'
 export * from './operations/puzzle-stats'

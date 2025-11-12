@@ -1,4 +1,5 @@
 import type { GuessResponse } from '@shadle/types'
+import { getCustomPuzzle } from '@shadle/database'
 import { VALID_COLORS } from '@shadle/types'
 
 /**
@@ -7,7 +8,7 @@ import { VALID_COLORS } from '@shadle/types'
  * - PUZZLE_ID format: custom puzzles (checks database)
  * - Returns null if puzzle id format is invalid or not found
  */
-export function getPuzzleAnswer(puzzleId: string): string | null {
+export async function getPuzzleAnswer(puzzleId: string): Promise<string | null> {
   const dailyMatch = puzzleId.match(/^§(\d{4})-(\d{2})-(\d{2})$/)
   if (dailyMatch) {
     const [, year, month, day] = dailyMatch
@@ -25,9 +26,8 @@ export function getPuzzleAnswer(puzzleId: string): string | null {
 
     return answer
   } else {
-    // TODO: custom puzzle - should check database (not implemented yet)
-    // for now, return null to indicate not found
-    return null
+    const customPuzzle = await getCustomPuzzle(puzzleId)
+    return customPuzzle ? customPuzzle.answer : null
   }
 }
 

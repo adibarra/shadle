@@ -27,7 +27,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
 
     try {
-      const answer = getPuzzleAnswer(puzzleId)
+      const answer = await getPuzzleAnswer(puzzleId)
       if (!answer) {
         return reply.code(404).send({ error: 'Puzzle not found' })
       }

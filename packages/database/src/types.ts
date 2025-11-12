@@ -14,7 +14,7 @@ export interface PushSubscription {
 
 export interface PuzzleAttempt {
   device_id: string
-  puzzle_id: string // unique puzzle identifier
+  puzzle_id: string
   tries: number
   completed: boolean
   timestamp: Date
@@ -29,4 +29,9 @@ export interface PuzzleStats {
   failedAttempts: number // completed attempts that failed (>6 tries)
   triesDistribution: Record<number, number> // distribution of tries for completed attempts
   completionRate: number // percentage of attempts that were completed
+}
+
+export interface CustomPuzzle {
+  id: string
+  answer: string
 }
