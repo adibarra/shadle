@@ -1,7 +1,6 @@
--- enums
 create type platform as enum ('ios', 'android', 'web');
 
-create table notifications (
+create table push_subscriptions (
     -- unique identifiers
     device_id       text primary key,
 
@@ -15,4 +14,4 @@ create table notifications (
 );
 
 -- triggers
-select create_updated_at_trigger ('notifications');
+select create_updated_at_trigger ('push_subscriptions');

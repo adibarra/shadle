@@ -1,29 +1,38 @@
+import type { PuzzleAttempt } from '@shadle/database'
 import { expect, testSuite } from 'manten'
 import { mergeDistributions, processChunkForDistribution } from '../src/utils/stats-utils.js'
 
 export default testSuite(({ describe }) => {
   describe('processChunkForDistribution', ({ test }) => {
     test('should count tries correctly for multiple users and puzzles', () => {
-      const mockChunk = [
+      const mockChunk: PuzzleAttempt[] = [
         {
           device_id: 'user1',
-          progress: {
-            puzzles: {
-              puzzle1: { tries: 3, timestamp: '2025-01-01T00:00:00.000Z', completed: true },
-              puzzle2: { tries: 5, timestamp: '2025-01-02T00:00:00.000Z', completed: true },
-            },
-          },
-          updated_at: new Date(),
+          puzzle_date: '2025-01-01',
+          tries: 3,
+          timestamp: new Date('2025-01-01T00:00:00.000Z'),
+          completed: true,
+        },
+        {
+          device_id: 'user1',
+          puzzle_date: '2025-01-02',
+          tries: 5,
+          timestamp: new Date('2025-01-02T00:00:00.000Z'),
+          completed: true,
         },
         {
           device_id: 'user2',
-          progress: {
-            puzzles: {
-              puzzle3: { tries: 3, timestamp: '2025-01-03T00:00:00.000Z', completed: true },
-              puzzle4: { tries: 7, timestamp: '2025-01-04T00:00:00.000Z', completed: false },
-            },
-          },
-          updated_at: new Date(),
+          puzzle_date: '2025-01-03',
+          tries: 3,
+          timestamp: new Date('2025-01-03T00:00:00.000Z'),
+          completed: true,
+        },
+        {
+          device_id: 'user2',
+          puzzle_date: '2025-01-04',
+          tries: 7,
+          timestamp: new Date('2025-01-04T00:00:00.000Z'),
+          completed: false,
         },
       ]
 
@@ -42,24 +51,34 @@ export default testSuite(({ describe }) => {
     })
 
     test('should accumulate counts for same tries values', () => {
-      const mockChunk = [
+      const mockChunk: PuzzleAttempt[] = [
         {
           device_id: 'user1',
-          progress: {
-            puzzles: {
-              puzzle1: { tries: 3, timestamp: '2025-01-01T00:00:00.000Z', completed: true },
-              puzzle2: { tries: 3, timestamp: '2025-01-02T00:00:00.000Z', completed: false },
-              puzzle3: { tries: 3, timestamp: '2025-01-03T00:00:00.000Z', completed: true },
-            },
-          },
+          puzzle_date: '2025-01-01',
+          tries: 3,
+          timestamp: new Date('2025-01-01T00:00:00.000Z'),
+          completed: true,
+        },
+        {
+          device_id: 'user1',
+          puzzle_date: '2025-01-02',
+          tries: 3,
+          timestamp: new Date('2025-01-02T00:00:00.000Z'),
+          completed: false,
+        },
+        {
+          device_id: 'user1',
+          puzzle_date: '2025-01-03',
+          tries: 3,
+          timestamp: new Date('2025-01-03T00:00:00.000Z'),
+          completed: true,
         },
         {
           device_id: 'user2',
-          progress: {
-            puzzles: {
-              puzzle4: { tries: 3, timestamp: '2025-01-04T00:00:00.000Z', completed: false },
-            },
-          },
+          puzzle_date: '2025-01-04',
+          tries: 3,
+          timestamp: new Date('2025-01-04T00:00:00.000Z'),
+          completed: false,
         },
       ]
 
@@ -68,16 +87,27 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle large tries values', () => {
-      const mockChunk = [
+      const mockChunk: PuzzleAttempt[] = [
         {
           device_id: 'user1',
-          progress: {
-            puzzles: {
-              puzzle1: { tries: 10, timestamp: '2025-01-01T00:00:00.000Z', completed: true },
-              puzzle2: { tries: 25, timestamp: '2025-01-02T00:00:00.000Z', completed: false },
-              puzzle3: { tries: 50, timestamp: '2025-01-03T00:00:00.000Z', completed: true },
-            },
-          },
+          puzzle_date: '2025-01-01',
+          tries: 10,
+          timestamp: new Date('2025-01-01T00:00:00.000Z'),
+          completed: true,
+        },
+        {
+          device_id: 'user1',
+          puzzle_date: '2025-01-02',
+          tries: 25,
+          timestamp: new Date('2025-01-02T00:00:00.000Z'),
+          completed: false,
+        },
+        {
+          device_id: 'user1',
+          puzzle_date: '2025-01-03',
+          tries: 50,
+          timestamp: new Date('2025-01-03T00:00:00.000Z'),
+          completed: true,
         },
       ]
 

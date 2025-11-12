@@ -1,37 +1,38 @@
-import type { ApiError, DailyStats } from '@shadle/types'
+import type { ApiError, StatsRequest, StatsResponse } from '@shadle/types'
 import type { FastifyPluginAsync } from 'fastify'
-import { getDailyStats } from '@shadle/database'
+import { getPuzzleStats } from '@shadle/database'
+import { validatePuzzleDate } from '../../../utils/validation'
 
 /**
- * Fastify route for daily stats by date.
+ * Fastify route for puzzle stats by date.
  */
 const route: FastifyPluginAsync = async (fastify): Promise<void> => {
-  fastify.get('/:date', async (request, reply): Promise<DailyStats | ApiError> => {
-    const { date } = request.params as { date: string }
+  fastify.get('/', async (request, reply): Promise<StatsResponse | ApiError> => {
+    const { puzzleDate } = request.body as StatsRequest
 
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-      return reply.code(400).send({ error: 'Invalid date format. Use YYYY-MM-DD.' })
-    }
-
-    const requestedDate = new Date(`${date}T00:00:00.000Z`)
-    if (Number.isNaN(requestedDate.getTime())) {
-      return reply.code(400).send({ error: 'Invalid date format. Use YYYY-MM-DD.' })
-    }
-
-    const today = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate()))
-
-    if (requestedDate > today) {
-      return reply.code(422).send({ error: 'Cannot request stats for future dates.' })
+    const dateValidation = validatePuzzleDate(puzzleDate)
+    if (!dateValidation.isValid) {
+      return reply.code(400).send({ error: dateValidation.error })
     }
 
     try {
-      const stats = await getDailyStats(date)
-      if (!stats) {
+      const stats = await getPuzzleStats(puzzleDate)
+      if (stats.length === 0) {
         return reply.code(404).send({ error: 'No stats found for this date.' })
       }
-      return reply.code(200).send(stats)
+      const puzzleStats = stats[0]
+      return reply.code(200).send({
+        puzzleDate: puzzleStats.puzzle_date,
+        totalAttempts: puzzleStats.totalAttempts,
+        totalUsers: puzzleStats.totalUsers,
+        avgTries: puzzleStats.avgTries,
+        successRate: puzzleStats.successRate,
+        failedAttempts: puzzleStats.failedAttempts,
+        triesDistribution: puzzleStats.triesDistribution,
+        completionRate: puzzleStats.completionRate,
+      })
     } catch {
-      return reply.code(500).send({ error: 'Failed to fetch daily stats' })
+      return reply.code(500).send({ error: 'Failed to fetch puzzle stats' })
     }
   })
 }

@@ -1,178 +1,77 @@
-import type { CreateHistoryData, UpdateHistoryData } from '@shadle/types'
-import type { History } from '../types'
+import type { PuzzleAttempt, PuzzleStats } from '../types'
 import { sql } from '../initializer'
 
 /**
- * Creates or updates puzzle history for a device.
+ * Gets puzzle attempts by device_id.
+ * If puzzle_date is provided, filters attempts for that specific date.
  */
-export async function upsertHistory(historyData: CreateHistoryData): Promise<History> {
-  const result = await sql`
-    insert into history (device_id, progress)
-    values (${historyData.device_id}, ${JSON.stringify(historyData.progress)})
-    on conflict (device_id)
-    do update set
-      progress = excluded.progress,
-      updated_at = now()
-    returning
-      device_id,
-      progress,
-      created_at,
-      updated_at;
-  `
-  return {
-    ...result[0],
-    progress: JSON.parse(result[0].progress),
-  } as History
-}
-
-/**
- * Gets puzzle history by device_id.
- */
-export async function getHistory(device_id: string): Promise<History | null> {
+export async function getPuzzleAttempts(device_id: string, puzzle_date?: string): Promise<PuzzleAttempt[]> {
   const result = await sql`
     select
       device_id,
-      progress,
-      created_at,
-      updated_at
-    from history
-    where device_id = ${device_id};
-  `
-  if (result.length === 0) return null
-  return {
-    ...result[0],
-    progress: JSON.parse(result[0].progress),
-  } as History
-}
-
-/**
- * Updates puzzle history progress.
- */
-export async function updateHistory(device_id: string, updateData: UpdateHistoryData): Promise<History | null> {
-  const result = await sql`
-    update history
-    set
-      progress = ${JSON.stringify(updateData.progress)},
-      updated_at = now()
+      puzzle_date,
+      tries,
+      timestamp,
+      completed
+    from puzzle_attempts
     where device_id = ${device_id}
-    returning
-      device_id,
-      progress,
-      created_at,
-      updated_at;
-  `
-  if (result.length === 0) return null
-  return {
-    ...result[0],
-    progress: JSON.parse(result[0].progress),
-  } as History
-}
-
-/**
- * Deletes puzzle history for a device.
- */
-export async function deleteHistory(device_id: string): Promise<void> {
-  await sql`
-    delete from history
-    where device_id = ${device_id};
-  `
-}
-
-/**
- * Gets all puzzle history records for statistics.
- */
-export async function getAllHistory(): Promise<History[]> {
-  const result = await sql`
-    select
-      device_id,
-      progress,
-      created_at,
-      updated_at
-    from history;
+    ${puzzle_date ? sql`and puzzle_date = ${puzzle_date}` : sql``}
+    order by puzzle_date desc;
   `
   return result.map(row => ({
-    ...row,
-    progress: JSON.parse(row.progress),
-  })) as History[]
+    device_id: row.device_id,
+    puzzle_date: row.puzzle_date,
+    tries: Number(row.tries),
+    timestamp: row.timestamp.toISOString(),
+    completed: Boolean(row.completed),
+  })) as PuzzleAttempt[]
 }
 
 /**
- * Gets aggregated statistics from history data using SQL.
- * If puzzleId is provided, returns stats for that specific puzzle only.
- * Otherwise returns stats across all puzzles (all-time).
+ * Gets aggregated statistics from puzzle attempt data using SQL.
+ * Returns stats for the specific puzzle date provided.
  */
-export async function getHistoryAggregates(puzzleId?: string): Promise<{
-  totalUsers: number
-  totalPuzzles: number
-  avgTries: number
-  successRate: number
-  dailyActiveUsers: number
-  completionRate: number
-  triesDistribution: Record<number, number>
-}> {
-  const now = new Date()
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-
+export async function getPuzzleAttemptAggregates(puzzle_date: string): Promise<PuzzleStats> {
   const result = await sql`
-    WITH user_puzzle_stats AS (
-      SELECT
-        h.device_id,
-        h.updated_at,
-        jsonb_object_length(h.progress->'puzzles') as puzzle_count,
-        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true THEN 1 END) as completed_puzzles,
-        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int <= 6 THEN 1 END) as successful_puzzles,
-        AVG((puzzle_data->>'tries')::int) FILTER (WHERE (puzzle_data->>'completed')::boolean = true) as avg_completed_tries,
-        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 1 THEN 1 END) as tries_1,
-        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 2 THEN 1 END) as tries_2,
-        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 3 THEN 1 END) as tries_3,
-        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 4 THEN 1 END) as tries_4,
-        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 5 THEN 1 END) as tries_5,
-        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 6 THEN 1 END) as tries_6,
-        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 7 THEN 1 END) as tries_7,
-        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 8 THEN 1 END) as tries_8,
-        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int = 9 THEN 1 END) as tries_9,
-        COUNT(CASE WHEN (puzzle_data->>'completed')::boolean = true AND (puzzle_data->>'tries')::int >= 10 THEN 1 END) as tries_10_plus
-      FROM history h,
-      LATERAL jsonb_object_keys(h.progress->'puzzles') as puzzle_key,
-      LATERAL jsonb_extract_path(h.progress->'puzzles', puzzle_key) as puzzle_data
-      ${puzzleId ? sql`WHERE puzzle_key = ${puzzleId}` : sql``}
-      GROUP BY h.device_id, h.updated_at
-    )
-    SELECT
-      COUNT(*) as total_users,
-      COALESCE(SUM(puzzle_count), 0) as total_puzzles,
-      COALESCE(AVG(avg_completed_tries), 0) as avg_tries,
-      CASE
-        WHEN SUM(completed_puzzles) > 0
-        THEN SUM(successful_puzzles)::float / SUM(completed_puzzles)
-        ELSE 0
-      END as success_rate,
-      COUNT(CASE WHEN updated_at >= ${today.toISOString()} THEN 1 END) as daily_active_users,
-      CASE
-        WHEN SUM(puzzle_count) > 0
-        THEN SUM(completed_puzzles)::float / SUM(puzzle_count)
-        ELSE 0
-      END as completion_rate,
-      COALESCE(SUM(tries_1), 0) as tries_1,
-      COALESCE(SUM(tries_2), 0) as tries_2,
-      COALESCE(SUM(tries_3), 0) as tries_3,
-      COALESCE(SUM(tries_4), 0) as tries_4,
-      COALESCE(SUM(tries_5), 0) as tries_5,
-      COALESCE(SUM(tries_6), 0) as tries_6,
-      COALESCE(SUM(tries_7), 0) as tries_7,
-      COALESCE(SUM(tries_8), 0) as tries_8,
-      COALESCE(SUM(tries_9), 0) as tries_9,
-      COALESCE(SUM(tries_10_plus), 0) as tries_10_plus
-    FROM user_puzzle_stats;
+    select
+      count(distinct device_id) as total_users,
+      count(*) as total_puzzles,
+      coalesce(avg(tries) filter (where completed = true), 0) as avg_tries,
+      case
+        when count(*) filter (where completed = true) > 0
+        then count(*) filter (where completed = true and tries <= 6)::float / count(*) filter (where completed = true)
+        else 0
+      end as success_rate,
+      count(*) filter (where completed = true and tries > 6) as failed_puzzles,
+      case
+        when count(*) > 0
+        then count(*) filter (where completed = true)::float / count(*)
+        else 0
+      end as completion_rate,
+      count(*) filter (where completed = true and tries = 1) as tries_1,
+      count(*) filter (where completed = true and tries = 2) as tries_2,
+      count(*) filter (where completed = true and tries = 3) as tries_3,
+      count(*) filter (where completed = true and tries = 4) as tries_4,
+      count(*) filter (where completed = true and tries = 5) as tries_5,
+      count(*) filter (where completed = true and tries = 6) as tries_6,
+      count(*) filter (where completed = true and tries = 7) as tries_7,
+      count(*) filter (where completed = true and tries = 8) as tries_8,
+      count(*) filter (where completed = true and tries = 9) as tries_9,
+      count(*) filter (where completed = true and tries >= 10) as tries_10_plus
+    from puzzle_attempts
+    where puzzle_date = ${puzzle_date};
   `
 
   const row = result[0] as any
+  const totalUsers = Number(row.total_users)
+  const totalAttempts = Number(row.total_puzzles)
   return {
-    totalUsers: Number(row.total_users),
-    totalPuzzles: Number(row.total_puzzles),
+    puzzle_date,
+    totalAttempts,
+    totalUsers,
     avgTries: Number(row.avg_tries),
     successRate: Number(row.success_rate),
-    dailyActiveUsers: Number(row.daily_active_users),
+    failedAttempts: Number(row.failed_puzzles),
     completionRate: Number(row.completion_rate),
     triesDistribution: {
       1: Number(row.tries_1),
@@ -190,73 +89,22 @@ export async function getHistoryAggregates(puzzleId?: string): Promise<{
 }
 
 /**
- * Streams history records in chunks for processing complex statistics.
- */
-export async function* streamHistoryChunks(chunkSize: number = 1000): AsyncGenerator<Array<{
-  device_id: string
-  progress: any
-  updated_at?: Date
-}>, void, unknown> {
-  let offset = 0
-
-  while (true) {
-    const result = await sql`
-      SELECT
-        device_id,
-        progress,
-        updated_at
-      FROM history
-      ORDER BY device_id
-      LIMIT ${chunkSize}
-      OFFSET ${offset};
-    `
-
-    if (result.length === 0) break
-
-    yield result.map(row => ({
-      ...row,
-      progress: JSON.parse(row.progress),
-    })) as Array<{
-      device_id: string
-      progress: any
-      updated_at?: Date
-    }>
-
-    offset += chunkSize
-  }
-}
-
-/**
  * Records a puzzle attempt for a specific date, incrementing tries.
  * Creates the history record if it doesn't exist.
+ * If the puzzle was already completed, does nothing.
  */
-export async function recordPuzzleAttempt(device_id: string, date: string, completed?: boolean): Promise<History> {
-  // First, get current history
-  const currentHistory = await getHistory(device_id)
+export async function recordPuzzleAttempt(device_id: string, puzzle_date: string, completed?: boolean): Promise<{ tries: number }> {
+  const result = await sql`
+    insert into puzzle_attempts (device_id, puzzle_date, tries, completed)
+    values (${device_id}, ${puzzle_date}, 1, ${completed || false})
+    on conflict (device_id, puzzle_date)
+    do update set
+      tries = puzzle_attempts.tries + 1,
+      completed = excluded.completed,
+      timestamp = now()
+    where puzzle_attempts.completed = false
+    returning tries;
+  `
 
-  const puzzles = currentHistory?.progress.puzzles || {}
-  const puzzleKey = date
-
-  // Get current tries for this date, default to 0
-  const currentTries = puzzles[puzzleKey]?.tries || 0
-  const newTries = currentTries + 1
-
-  // completed means they found the answer (regardless of tries)
-  // tries should always reflect the actual number of attempts made
-  const finalTries = newTries
-
-  // Update the puzzles object
-  puzzles[puzzleKey] = {
-    tries: finalTries,
-    timestamp: new Date().toISOString(),
-    completed: completed || false,
-  }
-
-  // Upsert the history
-  const historyData: CreateHistoryData = {
-    device_id,
-    progress: { puzzles },
-  }
-
-  return await upsertHistory(historyData)
+  return { tries: result[0].tries }
 }

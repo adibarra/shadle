@@ -1,9 +1,9 @@
-create table history (
+create table puzzle_stats (
     -- unique identifiers
-    device_id       text primary key,
+    date            date primary key,
 
     -- data
-    progress        jsonb not null,
+    stats           jsonb not null,
 
     -- audit
     created_at      timestamptz not null default now(),
@@ -11,4 +11,4 @@ create table history (
 );
 
 -- triggers
-select create_updated_at_trigger ('history');
+select create_updated_at_trigger ('puzzle_stats');
