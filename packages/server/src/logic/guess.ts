@@ -6,8 +6,8 @@ import { VALID_COLORS } from '@shadle/types'
  * For now, uses a simple algorithm based on date
  */
 export function getDailyAnswer(puzzleDate: string): string {
-  const puzzleDateObj = new Date(puzzleDate)
-  const seed = puzzleDateObj.getFullYear() * 10000 + (puzzleDateObj.getMonth() + 1) * 100 + puzzleDateObj.getDate()
+  const puzzleDateObj = new Date(`${puzzleDate}T00:00:00.000Z`) // Parse as UTC
+  const seed = puzzleDateObj.getUTCFullYear() * 10000 + (puzzleDateObj.getUTCMonth() + 1) * 100 + puzzleDateObj.getUTCDate()
   const colors = VALID_COLORS
 
   let answer = ''

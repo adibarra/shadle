@@ -52,6 +52,8 @@ export async function startTasks(): Promise<void> {
         } catch (error) {
           logger.error(`Task ${task.name} failed: ${error instanceof Error ? error.message : String(error)}`)
         }
+      }, {
+        timezone: 'UTC',
       })
 
       logger.debug(`Scheduled task: ${task.name} (${task.schedule})`)

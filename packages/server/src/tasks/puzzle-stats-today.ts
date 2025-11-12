@@ -5,10 +5,11 @@ const logger = getLogger('TASKS')
 
 /**
  * Generate puzzle statistics for the current day.
+ * Runs every 30 minutes.
  */
 export default {
   name: 'puzzle-stats-today',
-  schedule: '0 * * * *', // every hour
+  schedule: '*/30 * * * *', // every 30 minutes
   enabled: true,
   run: async () => {
     try {
@@ -16,9 +17,6 @@ export default {
       const finalStats = await getPuzzleAttemptAggregates(today)
 
       await upsertPuzzleStats(finalStats)
-
-      logger.info(`Statistics: totalAttempts=${finalStats.totalAttempts}, totalUsers=${finalStats.totalUsers}, avgTries=${finalStats.avgTries.toFixed(2)}, successRate=${(finalStats.successRate * 100).toFixed(1)}%, completionRate=${(finalStats.completionRate * 100).toFixed(1)}%`)
-      logger.info(`Distribution: ${JSON.stringify(finalStats.triesDistribution)}`)
     } catch (error) {
       logger.error(`Failed to generate statistics: ${error instanceof Error ? error.message : String(error)}`)
     }
