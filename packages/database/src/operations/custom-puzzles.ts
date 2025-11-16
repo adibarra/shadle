@@ -45,3 +45,17 @@ export async function getAllCustomPuzzles(): Promise<CustomPuzzle[]> {
     answer: row.answer,
   })) as CustomPuzzle[]
 }
+
+/**
+ * Deletes a custom puzzle by its ID.
+ * Returns true if the puzzle was deleted, false if it didn't exist.
+ */
+export async function deleteCustomPuzzle(id: string): Promise<boolean> {
+  const result = await sql`
+    delete from custom_puzzles
+    where id = ${id}
+    returning id;
+  `
+
+  return result.length > 0
+}
