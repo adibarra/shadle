@@ -21,7 +21,7 @@
     "preview": "pnpm --parallel --color run preview",
     "start": "pnpm --filter @shadle/server run start",
     "taze": "taze -r -I",
-    "test": "pnpm --parallel --color run test",
+    "test": "NODE_ENV=test pnpm --parallel --color run test",
     "check": "pnpm --parallel run check"
   },
   "devDependencies": {

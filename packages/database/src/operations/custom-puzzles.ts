@@ -1,11 +1,12 @@
 import type { CustomPuzzle } from '../types'
-import { sql } from '../initializer'
+import { getSql } from '../initializer'
 
 /**
  * Creates a new custom puzzle with the given ID and answer.
  * Returns the created puzzle.
  */
 export async function createCustomPuzzle(id: string, answer: string): Promise<CustomPuzzle> {
+  const sql = await getSql()
   const result = await sql`
     insert into custom_puzzles (id, answer)
     values (${id}, ${answer})
@@ -20,6 +21,7 @@ export async function createCustomPuzzle(id: string, answer: string): Promise<Cu
  * Returns null if the puzzle doesn't exist.
  */
 export async function getCustomPuzzle(id: string): Promise<CustomPuzzle | null> {
+  const sql = await getSql()
   const result = await sql`
     select id, answer
     from custom_puzzles
@@ -34,6 +36,7 @@ export async function getCustomPuzzle(id: string): Promise<CustomPuzzle | null> 
  * Returns an array of custom puzzles.
  */
 export async function getAllCustomPuzzles(): Promise<CustomPuzzle[]> {
+  const sql = await getSql()
   const result = await sql`
     select id, answer
     from custom_puzzles
@@ -51,6 +54,7 @@ export async function getAllCustomPuzzles(): Promise<CustomPuzzle[]> {
  * Returns true if the puzzle was deleted, false if it didn't exist.
  */
 export async function deleteCustomPuzzle(id: string): Promise<boolean> {
+  const sql = await getSql()
   const result = await sql`
     delete from custom_puzzles
     where id = ${id}

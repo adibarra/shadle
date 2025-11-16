@@ -3,11 +3,12 @@ import { readdirSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { getLogger } from '@shadle/logger'
 
-import { sql } from './initializer'
+import { getSql } from './initializer'
 
 const logger = getLogger('DATABASE')
 
 async function getCurrentMigration(): Promise<{ id: number } | null> {
+  const sql = await getSql()
   const result = await sql`
     select migration_id as id from migrations
     order by migration_id desc
@@ -17,6 +18,7 @@ async function getCurrentMigration(): Promise<{ id: number } | null> {
 }
 
 async function ensureMigrationsTable(): Promise<void> {
+  const sql = await getSql()
   try {
     await sql`select 'migrations'::regclass`
   } catch {
@@ -76,6 +78,7 @@ export async function runMigrations(): Promise<void> {
 
   const needed = migrations.filter(m => m.migration_id > (current ? current.id : -1))
 
+  const sql = await getSql()
   await sql.begin(async (sql) => {
     for (const migration of needed) {
       logger.info(`Running migration ${migration.migration_id}: ${migration.name}`)

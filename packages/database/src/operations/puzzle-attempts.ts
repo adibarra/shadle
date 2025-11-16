@@ -1,11 +1,12 @@
 import type { PuzzleAttempt, PuzzleStats } from '../types'
-import { sql } from '../initializer'
+import { getSql } from '../initializer'
 
 /**
  * Gets puzzle attempts by device_id.
  * If puzzle_id is provided, filters attempts for that specific puzzle.
  */
 export async function getPuzzleAttempts(device_id: string, puzzle_id?: string): Promise<PuzzleAttempt[]> {
+  const sql = await getSql()
   const result = await sql`
     select
       device_id,
@@ -23,7 +24,7 @@ export async function getPuzzleAttempts(device_id: string, puzzle_id?: string): 
     puzzle_id: row.puzzle_id,
     tries: Number(row.tries),
     timestamp: row.timestamp.toISOString(),
-    completed: Boolean(row.completed),
+    solved: Boolean(row.completed),
   })) as PuzzleAttempt[]
 }
 
@@ -32,9 +33,10 @@ export async function getPuzzleAttempts(device_id: string, puzzle_id?: string): 
  * Returns stats for the specific puzzle id provided.
  */
 export async function getPuzzleAttemptAggregates(puzzle_id: string): Promise<PuzzleStats> {
+  const sql = await getSql()
   const result = await sql`
     select
-      count(distinct device_id) as total_users,
+      count(distinct device_id) as total_devices,
       count(*) as total_puzzles,
       coalesce(avg(tries) filter (where completed = true), 0) as avg_tries,
       case
@@ -63,27 +65,27 @@ export async function getPuzzleAttemptAggregates(puzzle_id: string): Promise<Puz
   `
 
   const row = result[0] as any
-  const totalUsers = Number(row.total_users)
-  const totalAttempts = Number(row.total_puzzles)
+  const totalDevices = Number(row?.total_devices ?? 0)
+  const totalAttempts = Number(row?.total_puzzles ?? 0)
   return {
     puzzle_id,
     totalAttempts,
-    totalUsers,
-    avgTries: Number(row.avg_tries),
-    successRate: Number(row.success_rate),
-    failedAttempts: Number(row.failed_puzzles),
-    completionRate: Number(row.completion_rate),
+    totalDevices,
+    avgTries: Number(row?.avg_tries ?? 0),
+    successRate: Number(row?.success_rate ?? 0),
+    failedAttempts: Number(row?.failed_puzzles ?? 0),
+    completionRate: Number(row?.completion_rate ?? 0),
     triesDistribution: {
-      1: Number(row.tries_1),
-      2: Number(row.tries_2),
-      3: Number(row.tries_3),
-      4: Number(row.tries_4),
-      5: Number(row.tries_5),
-      6: Number(row.tries_6),
-      7: Number(row.tries_7),
-      8: Number(row.tries_8),
-      9: Number(row.tries_9),
-      10: Number(row.tries_10_plus),
+      1: Number(row?.tries_1 ?? 0),
+      2: Number(row?.tries_2 ?? 0),
+      3: Number(row?.tries_3 ?? 0),
+      4: Number(row?.tries_4 ?? 0),
+      5: Number(row?.tries_5 ?? 0),
+      6: Number(row?.tries_6 ?? 0),
+      7: Number(row?.tries_7 ?? 0),
+      8: Number(row?.tries_8 ?? 0),
+      9: Number(row?.tries_9 ?? 0),
+      10: Number(row?.tries_10_plus ?? 0),
     },
   }
 }
@@ -93,18 +95,58 @@ export async function getPuzzleAttemptAggregates(puzzle_id: string): Promise<Puz
  * Creates the history record if it doesn't exist.
  * If the puzzle was already completed, does nothing.
  */
-export async function recordPuzzleAttempt(device_id: string, puzzle_id: string, completed?: boolean): Promise<{ tries: number }> {
+export async function recordPuzzleAttempt(device_id: string, puzzle_id: string, completed?: boolean): Promise<PuzzleAttempt> {
+  const sql = await getSql()
   const result = await sql`
-    insert into puzzle_attempts (device_id, puzzle_id, tries, completed)
-    values (${device_id}, ${puzzle_id}, 1, ${completed || false})
-    on conflict (device_id, puzzle_id)
-    do update set
-      tries = puzzle_attempts.tries + 1,
-      completed = excluded.completed,
-      timestamp = now()
-    where puzzle_attempts.completed = false
-    returning tries;
+    with current as (
+      select
+        device_id,
+        puzzle_id,
+        tries,
+        timestamp,
+        completed
+      from puzzle_attempts
+      where device_id = ${device_id} and puzzle_id = ${puzzle_id}
+    ), updated as (
+      insert into puzzle_attempts (device_id, puzzle_id, tries, completed)
+      values (${device_id}, ${puzzle_id}, 1, ${completed || false})
+      on conflict (device_id, puzzle_id)
+      do update set
+        tries = puzzle_attempts.tries + 1,
+        completed = excluded.completed,
+        timestamp = now()
+      where puzzle_attempts.completed = false
+      returning
+        device_id,
+        puzzle_id,
+        tries,
+        timestamp,
+        completed
+    )
+    select
+      device_id,
+      puzzle_id,
+      tries,
+      timestamp,
+      completed
+    from updated
+    union all
+    select
+      device_id,
+      puzzle_id,
+      tries,
+      timestamp,
+      completed
+    from current
+    where not exists (select 1 from updated);
   `
 
-  return { tries: result[0].tries }
+  const row = result[0]
+  return {
+    device_id: row.device_id,
+    puzzle_id: row.puzzle_id,
+    tries: Number(row.tries),
+    timestamp: row.timestamp.toISOString(),
+    solved: Boolean(row.completed),
+  }
 }

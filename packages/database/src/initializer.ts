@@ -1,3 +1,5 @@
+import type { Sql } from 'postgres'
+
 import { exit } from 'node:process'
 import config from '@shadle/config'
 import { getLogger } from '@shadle/logger'
@@ -6,8 +8,7 @@ import { runMigrations } from './migrations'
 
 const logger = getLogger('DATABASE')
 
-const sql = await connect()
-await prepare()
+let sql: Sql | undefined
 
 /**
  * Establishes a connection to the PostgreSQL database using the configured URI.
@@ -15,15 +16,17 @@ await prepare()
  * @returns The connected postgres client instance.
  * @throws Exits the process if connection fails.
  */
-async function connect() {
-  let sql
+async function connect(): Promise<Sql> {
+  const dbUrl = config.IS_TEST ? config.POSTGRES_TEST_URL : config.POSTGRES_URL
+
+  let sqlInstance: Sql
   try {
     logger.debug('Connecting to database...')
-    sql = postgres(config.POSTGRES_URL, {
+    sqlInstance = postgres(dbUrl, {
       onnotice: notice => logger.trace(`Notice: ${notice.message}`),
     })
-    await sql`SELECT 1;`
-    return sql
+    await sqlInstance`SELECT 1;`
+    return sqlInstance
   } catch (err) {
     logger.fatal('Database connection failed.')
     logger.fatal(err)
@@ -36,7 +39,7 @@ async function connect() {
  *
  * @throws Exits the process if preparation fails.
  */
-async function prepare() {
+async function prepare(): Promise<void> {
   try {
     logger.debug('Connected. Running migrations...')
 
@@ -52,4 +55,18 @@ async function prepare() {
   }
 }
 
-export { sql }
+async function init(): Promise<void> {
+  if (!sql) {
+    sql = await connect()
+    await prepare()
+  }
+}
+
+export async function getSql(): Promise<Sql> {
+  await init()
+  return sql!
+}
+
+export async function closeDb(): Promise<void> {
+  if (sql) await sql.end()
+}

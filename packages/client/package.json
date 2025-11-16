@@ -10,7 +10,7 @@
     "dev": "vite dev --port 3333 --clearScreen false",
     "prebuild": "node scripts/prebuild.js",
     "preview": "vite preview --port 3000",
-    "test": "vitest run"
+    "test": "NODE_ENV=test vitest run"
   },
   "dependencies": {
     "@iconify-json/carbon": "^1.2.14",
