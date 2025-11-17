@@ -1,8 +1,8 @@
 import type { ApiError, GuessRequest, GuessResponse } from '@shadle/types'
-import config from '@shadle/config'
 import { expect, testSuite } from 'manten'
 import { getPuzzleAnswer, validateGuess } from '../src/logic/guess.js'
 import { validateDeviceId, validateGuessFormat, validatePuzzleId } from '../src/utils/validation.js'
+import { skipIfCI } from './utils'
 
 // mock the database operation for testing
 function mockRecordPuzzleAttempt(_deviceId: string, _puzzleId: string, _completed: boolean) {
@@ -142,10 +142,8 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle non-existent puzzle', async () => {
-      if (config.IS_CI) {
-        console.warn('Skipping (database test in CI environment)')
-        return
-      }
+      const skip = skipIfCI()
+      if (skip) return skip
 
       // test that getPuzzleAnswer returns null for invalid puzzle IDs
       const invalidDailyPuzzle = await getPuzzleAnswer('invalid-puzzle-id')
@@ -222,10 +220,8 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle custom puzzle guesses with real database integration', async () => {
-      if (config.IS_CI) {
-        console.warn('Skipping (database test in CI environment)')
-        return
-      }
+      const skip = skipIfCI()
+      if (skip) return skip
 
       const { createCustomPuzzle, getCustomPuzzle } = await import('@shadle/database')
       const { getPuzzleAnswer } = await import('../src/logic/guess.js')

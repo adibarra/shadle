@@ -193,8 +193,8 @@ importers:
         specifier: ^3.0.11
         version: 3.0.11
       manten:
-        specifier: ^1.5.0
-        version: 1.5.0
+        specifier: github:adibarra/manten
+        version: https://codeload.github.com/adibarra/manten/tar.gz/b6acbcf36735cdfc0cfc20eb242cbf8450242e44
 
   packages/types: {}
 
@@ -3301,8 +3301,9 @@ packages:
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
-  manten@1.5.0:
-    resolution: {integrity: sha512-Cdw/Sd3vbq8Y8qUT+YaxTzYMDZQn1kjOUfqD6NwzXTdLWJtIjEoXr0DuaHyb9YkU+567V/TIvj5il5/P5pV9zA==}
+  manten@https://codeload.github.com/adibarra/manten/tar.gz/b6acbcf36735cdfc0cfc20eb242cbf8450242e44:
+    resolution: {tarball: https://codeload.github.com/adibarra/manten/tar.gz/b6acbcf36735cdfc0cfc20eb242cbf8450242e44}
+    version: 0.0.0-semantic-release
 
   markdown-table@3.0.4:
     resolution: {integrity: sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw==}
@@ -8122,7 +8123,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  manten@1.5.0:
+  manten@https://codeload.github.com/adibarra/manten/tar.gz/b6acbcf36735cdfc0cfc20eb242cbf8450242e44:
     dependencies:
       expect: 29.7.0
 
