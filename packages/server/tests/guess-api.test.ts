@@ -1,4 +1,5 @@
 import type { ApiError, GuessRequest, GuessResponse } from '@shadle/types'
+import { GuessStatus } from '@shadle/types'
 import { expect, testSuite } from 'manten'
 import { getPuzzleAnswer, validateGuess } from '../src/logic/guess.js'
 import { validateDeviceId, validateGuessFormat, validatePuzzleId } from '../src/utils/validation.js'
@@ -39,7 +40,7 @@ export default testSuite(({ describe }) => {
 
       // validate guess
       const feedback = validateGuess(request.guess.toUpperCase(), answer!)
-      expect(feedback.every(f => f.status === 'correct')).toBe(true)
+      expect(feedback.every(f => f.status === GuessStatus.CORRECT)).toBe(true)
 
       // record attempt
       const attemptResult = await mockRecordPuzzleAttempt(request.deviceId, request.puzzleId, true)
@@ -67,8 +68,8 @@ export default testSuite(({ describe }) => {
       const answer = await getPuzzleAnswer(request.puzzleId)
       const feedback = validateGuess(request.guess.toUpperCase(), answer!)
 
-      expect(feedback.every(f => f.status === 'correct')).toBe(false)
-      expect(feedback.some(f => f.status !== 'correct')).toBe(true)
+      expect(feedback.every(f => f.status === GuessStatus.CORRECT)).toBe(false)
+      expect(feedback.some(f => f.status !== GuessStatus.CORRECT)).toBe(true)
 
       const attemptResult = await mockRecordPuzzleAttempt(request.deviceId, request.puzzleId, false)
 
@@ -194,7 +195,7 @@ export default testSuite(({ describe }) => {
       const answer = await getPuzzleAnswer(request.puzzleId)
       const feedback = validateGuess(request.guess.toUpperCase(), answer!)
 
-      expect(feedback.every(f => f.status === 'correct')).toBe(true)
+      expect(feedback.every(f => f.status === GuessStatus.CORRECT)).toBe(true)
     })
 
     test('should provide correct feedback for partial matches', async () => {
@@ -208,15 +209,15 @@ export default testSuite(({ describe }) => {
       const feedback = validateGuess(request.guess.toUpperCase(), answer!)
 
       // P is in correct position
-      expect(feedback[0].status).toBe('correct')
+      expect(feedback[0].status).toBe(GuessStatus.CORRECT)
       // B exists but wrong position
-      expect(feedback[1].status).toBe('present')
+      expect(feedback[1].status).toBe(GuessStatus.PRESENT)
       // R exists but wrong position
-      expect(feedback[2].status).toBe('present')
+      expect(feedback[2].status).toBe(GuessStatus.PRESENT)
       // Y is in correct position
-      expect(feedback[3].status).toBe('correct')
+      expect(feedback[3].status).toBe(GuessStatus.CORRECT)
       // O exists but wrong position
-      expect(feedback[4].status).toBe('present')
+      expect(feedback[4].status).toBe(GuessStatus.PRESENT)
     })
 
     test('should handle custom puzzle guesses with real database integration', async () => {
@@ -246,7 +247,7 @@ export default testSuite(({ describe }) => {
       const feedback = validateGuess(guess, retrievedAnswer!)
 
       // all letters should be correct
-      expect(feedback.every(f => f.status === 'correct')).toBe(true)
+      expect(feedback.every(f => f.status === GuessStatus.CORRECT)).toBe(true)
 
       // test partial match
       const partialGuess = 'SHADO'
@@ -254,11 +255,11 @@ export default testSuite(({ describe }) => {
 
       // SHALE vs SHADO
       // S=correct, H=correct, A=correct, D=absent (D not in SHALE), O=absent (O not in SHALE)
-      expect(partialFeedback[0].status).toBe('correct') // S
-      expect(partialFeedback[1].status).toBe('correct') // H
-      expect(partialFeedback[2].status).toBe('correct') // A
-      expect(partialFeedback[3].status).toBe('absent') // D (D not in SHALE)
-      expect(partialFeedback[4].status).toBe('absent') // O (O not in SHALE)
+      expect(partialFeedback[0].status).toBe(GuessStatus.CORRECT) // S
+      expect(partialFeedback[1].status).toBe(GuessStatus.CORRECT) // H
+      expect(partialFeedback[2].status).toBe(GuessStatus.CORRECT) // A
+      expect(partialFeedback[3].status).toBe(GuessStatus.ABSENT) // D (D not in SHALE)
+      expect(partialFeedback[4].status).toBe(GuessStatus.ABSENT) // O (O not in SHALE)
 
       // verify the puzzle still exists in database
       const retrieved = await getCustomPuzzle(puzzleId)

@@ -1,3 +1,4 @@
+import { GuessStatus } from '@shadle/types'
 import { expect, testSuite } from 'manten'
 import { getPuzzleAnswer, validateGuess } from '../src/logic/guess.js'
 import { skipIfCI } from './utils'
@@ -7,132 +8,132 @@ export default testSuite(({ describe }) => {
     test('should return all correct for perfect match', () => {
       const result = validateGuess('RGBYP', 'RGBYP')
       expect(result).toEqual([
-        { letter: 'R', status: 'correct' },
-        { letter: 'G', status: 'correct' },
-        { letter: 'B', status: 'correct' },
-        { letter: 'Y', status: 'correct' },
-        { letter: 'P', status: 'correct' },
+        { letter: 'R', status: GuessStatus.CORRECT },
+        { letter: 'G', status: GuessStatus.CORRECT },
+        { letter: 'B', status: GuessStatus.CORRECT },
+        { letter: 'Y', status: GuessStatus.CORRECT },
+        { letter: 'P', status: GuessStatus.CORRECT },
       ])
     })
 
     test('should return all absent for no matches', () => {
       const result = validateGuess('RGBYP', 'OWKRO')
       expect(result).toEqual([
-        { letter: 'R', status: 'present' }, // R exists in answer
-        { letter: 'G', status: 'absent' }, // G not in answer
-        { letter: 'B', status: 'absent' }, // B not in answer
-        { letter: 'Y', status: 'absent' }, // Y not in answer
-        { letter: 'P', status: 'absent' }, // P not in answer
+        { letter: 'R', status: GuessStatus.PRESENT }, // R exists in answer
+        { letter: 'G', status: GuessStatus.ABSENT }, // G not in answer
+        { letter: 'B', status: GuessStatus.ABSENT }, // B not in answer
+        { letter: 'Y', status: GuessStatus.ABSENT }, // Y not in answer
+        { letter: 'P', status: GuessStatus.ABSENT }, // P not in answer
       ])
     })
 
     test('should handle present letters correctly', () => {
       const result = validateGuess('RGBYP', 'YBRGP')
       expect(result).toEqual([
-        { letter: 'R', status: 'present' },
-        { letter: 'G', status: 'present' },
-        { letter: 'B', status: 'present' },
-        { letter: 'Y', status: 'present' },
-        { letter: 'P', status: 'correct' }, // P is in correct position
+        { letter: 'R', status: GuessStatus.PRESENT },
+        { letter: 'G', status: GuessStatus.PRESENT },
+        { letter: 'B', status: GuessStatus.PRESENT },
+        { letter: 'Y', status: GuessStatus.PRESENT },
+        { letter: 'P', status: GuessStatus.CORRECT }, // P is in correct position
       ])
     })
 
     test('should handle mixed correct, present, and absent', () => {
       const result = validateGuess('RGBYP', 'RBYPO')
       expect(result).toEqual([
-        { letter: 'R', status: 'correct' }, // R is in correct position
-        { letter: 'G', status: 'absent' }, // G not in answer
-        { letter: 'B', status: 'present' }, // B exists but wrong position
-        { letter: 'Y', status: 'present' }, // Y exists but wrong position
-        { letter: 'P', status: 'present' }, // P exists but wrong position
+        { letter: 'R', status: GuessStatus.CORRECT }, // R is in correct position
+        { letter: 'G', status: GuessStatus.ABSENT }, // G not in answer
+        { letter: 'B', status: GuessStatus.PRESENT }, // B exists but wrong position
+        { letter: 'Y', status: GuessStatus.PRESENT }, // Y exists but wrong position
+        { letter: 'P', status: GuessStatus.PRESENT }, // P exists but wrong position
       ])
     })
 
     test('should handle duplicate letters correctly - only mark first occurrence as correct/present', () => {
       const result = validateGuess('RRRRR', 'RGBYR')
       expect(result).toEqual([
-        { letter: 'R', status: 'correct' }, // first R matches position
-        { letter: 'R', status: 'absent' }, // no more R's available
-        { letter: 'R', status: 'absent' }, // no more R's available
-        { letter: 'R', status: 'absent' }, // no more R's available
-        { letter: 'R', status: 'correct' }, // fifth R matches position 4
+        { letter: 'R', status: GuessStatus.CORRECT }, // first R matches position
+        { letter: 'R', status: GuessStatus.ABSENT }, // no more R's available
+        { letter: 'R', status: GuessStatus.ABSENT }, // no more R's available
+        { letter: 'R', status: GuessStatus.ABSENT }, // no more R's available
+        { letter: 'R', status: GuessStatus.CORRECT }, // fifth R matches position 4
       ])
     })
 
     test('should handle duplicate letters with correct and present', () => {
       const result = validateGuess('RBRBR', 'BRBRB')
       expect(result).toEqual([
-        { letter: 'R', status: 'present' }, // R exists but wrong position
-        { letter: 'B', status: 'present' }, // B exists but wrong position
-        { letter: 'R', status: 'present' }, // R exists but wrong position
-        { letter: 'B', status: 'present' }, // B exists but wrong position
-        { letter: 'R', status: 'absent' }, // no more R's available
+        { letter: 'R', status: GuessStatus.PRESENT }, // R exists but wrong position
+        { letter: 'B', status: GuessStatus.PRESENT }, // B exists but wrong position
+        { letter: 'R', status: GuessStatus.PRESENT }, // R exists but wrong position
+        { letter: 'B', status: GuessStatus.PRESENT }, // B exists but wrong position
+        { letter: 'R', status: GuessStatus.ABSENT }, // no more R's available
       ])
     })
 
     test('should handle case insensitive input', () => {
       const result = validateGuess('rgbyp', 'RGBYP')
       expect(result).toEqual([
-        { letter: 'r', status: 'absent' }, // case sensitive comparison
-        { letter: 'g', status: 'absent' },
-        { letter: 'b', status: 'absent' },
-        { letter: 'y', status: 'absent' },
-        { letter: 'p', status: 'absent' },
+        { letter: 'r', status: GuessStatus.ABSENT }, // case sensitive comparison
+        { letter: 'g', status: GuessStatus.ABSENT },
+        { letter: 'b', status: GuessStatus.ABSENT },
+        { letter: 'y', status: GuessStatus.ABSENT },
+        { letter: 'p', status: GuessStatus.ABSENT },
       ])
     })
 
     test('should preserve original guess letter case', () => {
       const result = validateGuess('Rgbyp', 'RGBYP')
       expect(result).toEqual([
-        { letter: 'R', status: 'correct' },
-        { letter: 'g', status: 'absent' }, // lowercase g doesn't match uppercase G
-        { letter: 'b', status: 'absent' },
-        { letter: 'y', status: 'absent' },
-        { letter: 'p', status: 'absent' },
+        { letter: 'R', status: GuessStatus.CORRECT },
+        { letter: 'g', status: GuessStatus.ABSENT }, // lowercase g doesn't match uppercase G
+        { letter: 'b', status: GuessStatus.ABSENT },
+        { letter: 'y', status: GuessStatus.ABSENT },
+        { letter: 'p', status: GuessStatus.ABSENT },
       ])
     })
 
     test('should handle all letters present but wrong positions', () => {
       const result = validateGuess('RGBYP', 'PGBYR')
       expect(result).toEqual([
-        { letter: 'R', status: 'present' }, // R exists in answer
-        { letter: 'G', status: 'correct' }, // G in correct position
-        { letter: 'B', status: 'correct' }, // B in correct position
-        { letter: 'Y', status: 'correct' }, // Y in correct position
-        { letter: 'P', status: 'present' }, // P exists in answer
+        { letter: 'R', status: GuessStatus.PRESENT }, // R exists in answer
+        { letter: 'G', status: GuessStatus.CORRECT }, // G in correct position
+        { letter: 'B', status: GuessStatus.CORRECT }, // B in correct position
+        { letter: 'Y', status: GuessStatus.CORRECT }, // Y in correct position
+        { letter: 'P', status: GuessStatus.PRESENT }, // P exists in answer
       ])
     })
 
     test('should handle single letter matches', () => {
       const result = validateGuess('RRRRR', 'RBBBB')
       expect(result).toEqual([
-        { letter: 'R', status: 'correct' }, // first R matches
-        { letter: 'R', status: 'absent' }, // no more R's
-        { letter: 'R', status: 'absent' }, // no more R's
-        { letter: 'R', status: 'absent' }, // no more R's
-        { letter: 'R', status: 'absent' }, // no more R's
+        { letter: 'R', status: GuessStatus.CORRECT }, // first R matches
+        { letter: 'R', status: GuessStatus.ABSENT }, // no more R's
+        { letter: 'R', status: GuessStatus.ABSENT }, // no more R's
+        { letter: 'R', status: GuessStatus.ABSENT }, // no more R's
+        { letter: 'R', status: GuessStatus.ABSENT }, // no more R's
       ])
     })
 
     test('should handle edge case with repeated letters in answer', () => {
       const result = validateGuess('BBBBB', 'BRBRB')
       expect(result).toEqual([
-        { letter: 'B', status: 'correct' }, // B in correct position
-        { letter: 'B', status: 'absent' }, // no more B's available
-        { letter: 'B', status: 'correct' }, // B in correct position
-        { letter: 'B', status: 'absent' }, // no more B's available
-        { letter: 'B', status: 'correct' }, // B in correct position
+        { letter: 'B', status: GuessStatus.CORRECT }, // B in correct position
+        { letter: 'B', status: GuessStatus.ABSENT }, // no more B's available
+        { letter: 'B', status: GuessStatus.CORRECT }, // B in correct position
+        { letter: 'B', status: GuessStatus.ABSENT }, // no more B's available
+        { letter: 'B', status: GuessStatus.CORRECT }, // B in correct position
       ])
     })
 
     test('should handle guess with no letters matching answer', () => {
       const result = validateGuess('OWKOW', 'RGBYP')
       expect(result).toEqual([
-        { letter: 'O', status: 'absent' }, // O not in answer
-        { letter: 'W', status: 'absent' }, // W not in answer
-        { letter: 'K', status: 'absent' }, // K not in answer
-        { letter: 'O', status: 'absent' }, // O not in answer
-        { letter: 'W', status: 'absent' }, // W not in answer
+        { letter: 'O', status: GuessStatus.ABSENT }, // O not in answer
+        { letter: 'W', status: GuessStatus.ABSENT }, // W not in answer
+        { letter: 'K', status: GuessStatus.ABSENT }, // K not in answer
+        { letter: 'O', status: GuessStatus.ABSENT }, // O not in answer
+        { letter: 'W', status: GuessStatus.ABSENT }, // W not in answer
       ])
     })
   })

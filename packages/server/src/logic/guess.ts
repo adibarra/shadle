@@ -1,6 +1,6 @@
 import type { GuessResponse } from '@shadle/types'
 import { getCustomPuzzle } from '@shadle/database'
-import { VALID_COLORS } from '@shadle/types'
+import { GuessStatus, VALID_COLORS } from '@shadle/types'
 
 /**
  * Get the correct answer for a given puzzle id
@@ -35,7 +35,7 @@ export async function getPuzzleAnswer(puzzleId: string): Promise<string | null> 
  * Validate a guess against the correct answer and return feedback
  */
 export function validateGuess(guess: string, answer: string): GuessResponse['feedback'] {
-  const feedback: GuessResponse['feedback'] = []
+  const feedback: GuessResponse['feedback'] = Array.from({ length: 5 })
   const answerLetters = answer.split('')
   const guessLetters = guess.split('')
 
@@ -44,7 +44,7 @@ export function validateGuess(guess: string, answer: string): GuessResponse['fee
 
   for (let i = 0; i < 5; i++) {
     if (guessLetters[i] === answerLetters[i]) {
-      feedback[i] = { letter: guessLetters[i], status: 'correct' }
+      feedback[i] = { letter: guessLetters[i], status: GuessStatus.CORRECT }
       usedAnswerPositions.add(i)
       usedGuessPositions.add(i)
     }
@@ -55,14 +55,14 @@ export function validateGuess(guess: string, answer: string): GuessResponse['fee
       let found = false
       for (let j = 0; j < 5; j++) {
         if (!usedAnswerPositions.has(j) && guessLetters[i] === answerLetters[j]) {
-          feedback[i] = { letter: guessLetters[i], status: 'present' }
+          feedback[i] = { letter: guessLetters[i], status: GuessStatus.PRESENT }
           usedAnswerPositions.add(j)
           found = true
           break
         }
       }
       if (!found) {
-        feedback[i] = { letter: guessLetters[i], status: 'absent' }
+        feedback[i] = { letter: guessLetters[i], status: GuessStatus.ABSENT }
       }
     }
   }

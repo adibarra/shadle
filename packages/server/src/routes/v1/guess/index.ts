@@ -1,6 +1,7 @@
 import type { ApiError, GuessRequest, GuessResponse } from '@shadle/types'
 import type { FastifyPluginAsync } from 'fastify'
 import { recordPuzzleAttempt } from '@shadle/database'
+import { GuessStatus } from '@shadle/types'
 import { getPuzzleAnswer, validateGuess } from '../../../logic/guess'
 import { validateDeviceId, validateGuessFormat, validatePuzzleId } from '../../../utils/validation'
 
@@ -33,7 +34,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
 
       const feedback = validateGuess(guess.toUpperCase(), answer)
-      const correct = feedback.every((item: { letter: string, status: string }) => item.status === 'correct')
+      const correct = feedback.every((item: { letter: string, status: GuessStatus }) => item.status === GuessStatus.CORRECT)
       const { tries } = await recordPuzzleAttempt(deviceId, puzzleId, correct)
 
       return reply.code(200).send({

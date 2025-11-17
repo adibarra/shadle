@@ -72,6 +72,12 @@ export interface HealthResponse {
 // GUESS API TYPES
 // =============================================================================
 
+export enum GuessStatus {
+  CORRECT = 0,
+  PRESENT = 1,
+  ABSENT = 2,
+}
+
 export interface GuessRequest {
   deviceId: string
   puzzleId: string
@@ -83,7 +89,7 @@ export interface GuessResponse {
   correct: boolean
   feedback: Array<{
     letter: string
-    status: 'correct' | 'present' | 'absent'
+    status: GuessStatus
   }>
 }
 
