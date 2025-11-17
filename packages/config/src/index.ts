@@ -43,10 +43,10 @@ function getConfig(): DotEnvSchema {
     console.warn('Using default values. This may not be suitable for production.')
   }
 
-  const IS_TEST = env.NODE_ENV?.includes('test') || false
-  const IS_PROD = env.NODE_ENV?.includes('prod') || false
-  const IS_DEV = env.NODE_ENV?.includes('dev') || (!IS_PROD && !IS_TEST)
-  const IS_CI = env.CI === 'true' || false
+  const IS_TEST = env.NODE_ENV?.toLowerCase().includes('test') || false
+  const IS_PROD = env.NODE_ENV?.toLowerCase().includes('prod') || false
+  const IS_DEV = env.NODE_ENV?.toLowerCase().includes('dev') || (!IS_PROD && !IS_TEST)
+  const IS_CI = !!env.CI && !['f', 'false', '0', 'no', 'off'].includes(env.CI.toLowerCase())
 
   const defaults = {
     API_HOST: '0.0.0.0',
