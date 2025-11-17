@@ -3,13 +3,16 @@ import { getPuzzleAttemptAggregates, getPuzzleAttempts, recordPuzzleAttempt } fr
 import { expect, testSuite } from 'manten'
 
 export default testSuite(({ describe }) => {
-  if (config.IS_CI) return // Skip DB tests in CI
-
   // use a unique namespace for test data to avoid conflicts
   const TEST_NAMESPACE = `test-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
 
   describe('puzzle attempt database operations', ({ test }) => {
     test('should record and retrieve puzzle attempts', async () => {
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const deviceId = `${TEST_NAMESPACE}-device-1`
       const puzzleId = `${TEST_NAMESPACE}-puzzle-1`
 
@@ -35,6 +38,11 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle multiple devices and puzzles', async () => {
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const device1 = `${TEST_NAMESPACE}-device-multi-1`
       const device2 = `${TEST_NAMESPACE}-device-multi-2`
       const puzzle1 = `${TEST_NAMESPACE}-puzzle-multi-1`
@@ -75,6 +83,11 @@ export default testSuite(({ describe }) => {
     })
 
     test('should not increment tries after completion', async () => {
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const deviceId = `${TEST_NAMESPACE}-device-complete`
       const puzzleId = `${TEST_NAMESPACE}-puzzle-complete`
 
@@ -93,6 +106,11 @@ export default testSuite(({ describe }) => {
     })
 
     test('should aggregate statistics correctly', async () => {
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const puzzleId = `${TEST_NAMESPACE}-puzzle-stats`
 
       // create multiple attempts with different outcomes
@@ -132,11 +150,21 @@ export default testSuite(({ describe }) => {
     })
 
     test('should return empty array for non-existent attempts', async () => {
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const attempts = await getPuzzleAttempts('non-existent-device')
       expect(attempts).toEqual([])
     })
 
     test('should return empty stats for puzzle with no attempts', async () => {
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const stats = await getPuzzleAttemptAggregates('empty-puzzle')
       expect(stats.totalAttempts).toBe(0)
       expect(stats.totalDevices).toBe(0)

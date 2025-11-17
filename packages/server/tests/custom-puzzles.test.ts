@@ -3,13 +3,16 @@ import { createCustomPuzzle, getAllCustomPuzzles, getCustomPuzzle } from '@shadl
 import { expect, testSuite } from 'manten'
 
 export default testSuite(({ describe }) => {
-  if (config.IS_CI) return // Skip DB tests in CI
-
   // use a unique namespace for test data to avoid conflicts
   const TEST_NAMESPACE = `test-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
 
   describe('custom puzzle database operations', ({ test }) => {
     test('should create and retrieve a custom puzzle', async () => {
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const puzzleId = `${TEST_NAMESPACE}-puzzle-1`
       const answer = 'RGBYP'
 
@@ -26,11 +29,21 @@ export default testSuite(({ describe }) => {
     })
 
     test('should return null for non-existent puzzle', async () => {
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const result = await getCustomPuzzle(`${TEST_NAMESPACE}-non-existent`)
       expect(result).toBeNull()
     })
 
     test('should create multiple puzzles and retrieve all', async () => {
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const puzzles = [
         { id: `${TEST_NAMESPACE}-multi-1`, answer: 'RGBYP' },
         { id: `${TEST_NAMESPACE}-multi-2`, answer: 'POWKG' },
@@ -58,6 +71,11 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle duplicate puzzle IDs (should work due to unique constraint)', async () => {
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const puzzleId = `${TEST_NAMESPACE}-duplicate`
       const answer1 = 'RGBYP'
       const answer2 = 'POWKG'
@@ -81,6 +99,11 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle various answer formats', async () => {
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const testCases = [
         { id: `${TEST_NAMESPACE}-upper`, answer: 'RGBYP' },
         { id: `${TEST_NAMESPACE}-lower`, answer: 'rgbyp' },
@@ -95,6 +118,11 @@ export default testSuite(({ describe }) => {
     })
 
     test('should return puzzles ordered by creation date (newest first)', async () => {
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       // create puzzles with a delay to ensure different timestamps
       const puzzle1 = { id: `${TEST_NAMESPACE}-order-1`, answer: 'RGBYP' }
       const puzzle2 = { id: `${TEST_NAMESPACE}-order-2`, answer: 'POWKG' }

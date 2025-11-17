@@ -61,7 +61,10 @@ async function prepare(): Promise<void> {
  * **See warning in {@linkcode getSql}.**
  */
 async function init(): Promise<void> {
-  if (config.IS_CI) return
+  if (config.IS_CI) {
+    logger.warn('Skipping database initialization in CI environment')
+    return
+  }
   if (!sql) {
     sql = await connect()
     await prepare()

@@ -158,7 +158,11 @@ export default testSuite(({ describe }) => {
     })
 
     test('should return null for invalid daily puzzle format', async () => {
-      if (config.IS_CI) return
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const result = await getPuzzleAnswer('§invalid-date')
       expect(result).toBeNull()
     })
@@ -170,7 +174,11 @@ export default testSuite(({ describe }) => {
     })
 
     test('should return null for custom puzzle when database returns null', async () => {
-      if (config.IS_CI) return
+      if (config.IS_CI) {
+        console.warn('Skipping (database test in CI environment)')
+        return
+      }
+
       const result = await getPuzzleAnswer('TEST-custom-puzzle-123')
       expect(result).toBeNull()
     })
