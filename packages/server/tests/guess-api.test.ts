@@ -6,13 +6,13 @@ import { validateDeviceId, validateGuessFormat, validatePuzzleId } from '../src/
 import { skipIfCI } from './utils'
 
 // mock the database operation for testing
-function mockRecordPuzzleAttempt(_deviceId: string, _puzzleId: string, _completed: boolean) {
+function mockRecordPuzzleAttempt(_deviceId: string, _puzzleId: string, _solved: boolean) {
   return Promise.resolve({
     device_id: _deviceId,
     puzzle_id: _puzzleId,
     tries: 1,
     timestamp: new Date().toISOString(),
-    completed: _completed,
+    solved: _solved,
   })
 }
 

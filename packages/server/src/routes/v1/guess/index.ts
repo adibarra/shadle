@@ -34,7 +34,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
 
       const feedback = validateGuess(guess.toUpperCase(), answer)
-      const correct = feedback.every((item: { letter: string, status: GuessStatus }) => item.status === GuessStatus.CORRECT)
+      const correct = feedback.every(item => item.status === GuessStatus.CORRECT)
       const { tries } = await recordPuzzleAttempt(deviceId, puzzleId, correct)
 
       return reply.code(200).send({

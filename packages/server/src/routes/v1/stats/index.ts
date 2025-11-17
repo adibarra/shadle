@@ -24,7 +24,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
       return reply.code(200).send({
         puzzleId: puzzleStats.puzzle_id,
         totalAttempts: puzzleStats.totalAttempts,
-        totalUsers: puzzleStats.totalUsers,
+        totalDevices: puzzleStats.totalDevices,
         avgTries: puzzleStats.avgTries,
         successRate: puzzleStats.successRate,
         failedAttempts: puzzleStats.failedAttempts,
