@@ -11,7 +11,7 @@
   "scripts": {
     "build": "pnpm --parallel --color run build",
     "clean": "pnpm --parallel run clean",
-    "clean:all": "pnpm --parallel run clean:all && rm -rf node_modules/ .pnpm-store/ tsconfig.tsbuildinfo",
+    "clean:all": "pnpm --parallel run clean:all && git clean -fdX",
     "dev": "pnpm --parallel --color run dev",
     "dev:client": "pnpm --filter @shadle/client run dev",
     "dev:core": "SKIP_TASKS=true pnpm --parallel --color run dev",

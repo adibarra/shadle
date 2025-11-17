@@ -5,8 +5,8 @@
   "scripts": {
     "build": "pnpm run prebuild && vite build",
     "check": "tsc --noEmit",
-    "clean": "rm -rf dist/ src/auto-imports.d.ts src/components.d.ts vite.config.ts.timestamp-* public/apple-touch-icon-180x180.png public/favicon.ico public/maskable-icon-512x512.png public/pwa-64x64.png public/pwa-192x192.png public/pwa-512x512.png",
-    "clean:all": "pnpm run clean && rm -rf node_modules/ tsconfig.tsbuildinfo",
+    "clean": "rm -rf dist/ src/auto-imports.d.ts src/components.d.ts vite.config.ts.timestamp-*",
+    "clean:all": "pnpm run clean && git clean -fdX",
     "dev": "pnpm run prebuild && vite dev --port 3333 --clearScreen false",
     "prebuild": "tsx scripts/prebuild.ts",
     "preview": "vite preview --port 3000",

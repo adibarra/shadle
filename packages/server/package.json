@@ -6,7 +6,7 @@
   "types": "src/index.ts",
   "scripts": {
     "check": "tsc --noEmit",
-    "clean:all": "rm -rf node_modules/ tsconfig.tsbuildinfo",
+    "clean:all": "git clean -fdX",
     "dev": "tsx watch --clear-screen=false src/index.ts",
     "preview": "tsx watch --clear-screen=false src/index.ts",
     "start": "tsx src/index.ts",
