@@ -1,6 +1,20 @@
 import type { GuessResponse } from '@shadle/types'
+import config from '@shadle/config'
 import { getCustomPuzzle } from '@shadle/database'
 import { GuessStatus, VALID_COLORS } from '@shadle/types'
+
+/**
+ * Simple string hash function for salting the randomization
+ */
+function hashString(str: string): number {
+  let hash = 0
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i)
+    hash = ((hash << 5) - hash) + char
+    hash = hash & hash // convert to 32-bit integer
+  }
+  return Math.abs(hash)
+}
 
 /**
  * Get the correct answer for a given puzzle id
@@ -12,7 +26,8 @@ export async function getPuzzleAnswer(puzzleId: string): Promise<string | null> 
   const dailyMatch = puzzleId.match(/^§(\d{4})-(\d{2})-(\d{2})$/)
   if (dailyMatch) {
     const [, year, month, day] = dailyMatch
-    const seed = Number.parseInt(year) * 10000 + Number.parseInt(month) * 100 + Number.parseInt(day)
+    const dateSeed = Number.parseInt(year) * 10000 + Number.parseInt(month) * 100 + Number.parseInt(day)
+    const seed = dateSeed + hashString(config.PUZZLE_SALT)
 
     const colors = VALID_COLORS
     let answer = ''

@@ -22,7 +22,7 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device-1',
         puzzleId: '§2025-11-11',
-        guess: 'POBYR', // correct answer
+        guess: 'BYRGW', // correct answer
       }
 
       // validate inputs
@@ -36,7 +36,7 @@ export default testSuite(({ describe }) => {
 
       // get puzzle answer
       const answer = await getPuzzleAnswer(request.puzzleId)
-      expect(answer).toBe('POBYR')
+      expect(answer).toBe('BYRGW')
 
       // validate guess
       const feedback = validateGuess(request.guess.toUpperCase(), answer!)
@@ -189,7 +189,7 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: 'pobyr', // lowercase
+        guess: 'byrgw', // lowercase
       }
 
       const answer = await getPuzzleAnswer(request.puzzleId)
@@ -208,16 +208,16 @@ export default testSuite(({ describe }) => {
       const answer = await getPuzzleAnswer(request.puzzleId)
       const feedback = validateGuess(request.guess.toUpperCase(), answer!)
 
-      // P is in correct position
-      expect(feedback[0].status).toBe(GuessStatus.CORRECT)
+      // P not in answer
+      expect(feedback[0].status).toBe(GuessStatus.ABSENT)
       // B exists but wrong position
       expect(feedback[1].status).toBe(GuessStatus.PRESENT)
-      // R exists but wrong position
-      expect(feedback[2].status).toBe(GuessStatus.PRESENT)
-      // Y is in correct position
-      expect(feedback[3].status).toBe(GuessStatus.CORRECT)
-      // O exists but wrong position
-      expect(feedback[4].status).toBe(GuessStatus.PRESENT)
+      // R is in correct position
+      expect(feedback[2].status).toBe(GuessStatus.CORRECT)
+      // Y exists but wrong position
+      expect(feedback[3].status).toBe(GuessStatus.PRESENT)
+      // O not in answer
+      expect(feedback[4].status).toBe(GuessStatus.ABSENT)
     })
 
     test('should handle custom puzzle guesses with real database integration', async () => {
