@@ -4,13 +4,16 @@ import { createHead } from '@unhead/vue/client'
 export const install: UserModule = ({ app, router }) => {
   const head = createHead()
 
-  router.afterEach((_to: any) => {
+  router.beforeResolve(() => {
     if (typeof window !== 'undefined') {
-      const canonicalUrl = window.location.href.split('?')[0]
+      const canonicalUrl = window.location.origin + window.location.pathname
+
       head.push({
-        link: [
-          { rel: 'canonical', href: canonicalUrl, key: 'canonical' },
-        ],
+        link: [{
+          rel: 'canonical',
+          href: canonicalUrl,
+          key: 'canonical',
+        }],
       })
     }
   })
