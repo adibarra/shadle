@@ -5,10 +5,10 @@
   "scripts": {
     "build": "pnpm run prebuild && vite build",
     "check": "tsc --noEmit",
-    "clean": "rm -rf dist/ src/auto-imports.d.ts src/components.d.ts vite.config.ts.timestamp-*",
+    "clean": "rm -rf dist/ src/auto-imports.d.ts src/components.d.ts vite.config.ts.timestamp-* public/apple-touch-icon-180x180.png public/favicon.ico public/maskable-icon-512x512.png public/pwa-64x64.png public/pwa-192x192.png public/pwa-512x512.png",
     "clean:all": "pnpm run clean && rm -rf node_modules/ tsconfig.tsbuildinfo",
-    "dev": "vite dev --port 3333 --clearScreen false",
-    "prebuild": "node scripts/prebuild.js",
+    "dev": "pnpm run prebuild && vite dev --port 3333 --clearScreen false",
+    "prebuild": "tsx scripts/prebuild.ts",
     "preview": "vite preview --port 3000",
     "test": "NODE_ENV=test vitest run"
   },
@@ -35,6 +35,7 @@
     "caniuse-lite": "^1.0.30001754",
     "jsdom": "^27.1.0",
     "sharp": "^0.34.5",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "vitest": "^4.0.8"
   }
