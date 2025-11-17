@@ -51,7 +51,7 @@ function getConfig(): DotEnvSchema {
   const defaults = {
     API_HOST: '0.0.0.0',
     API_PORT: 80,
-    API_CORS_ORIGIN_REGEX: '.*',
+    API_CORS_ORIGIN_REGEX: '^https?://(?:127\.0\.0\.1|localhost)(?::\d{1,5})?$',
     POSTGRES_URL: 'postgresql://postgres:password@postgres:5432/shadle',
     POSTGRES_TEST_URL: 'postgresql://postgres:password@localhost:5432/shadle_test',
     LOG_LEVEL: {
