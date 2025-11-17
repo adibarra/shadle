@@ -67,12 +67,12 @@
   "cSpell.words": [
     "adibarra",
     "buildx",
-    "chakra",
     "citext",
     "esbuild",
     "eslintcache",
     "iconify",
     "manten",
+    "nprogress",
     "onnotice",
     "ossp",
     "plpgsql",
@@ -80,9 +80,12 @@
     "regclass",
     "shadle",
     "taze",
+    "unhead",
     "unocss",
+    "unplugin",
     "upserts",
     "vite",
+    "vueuse",
     "wordle"
   ]
 }

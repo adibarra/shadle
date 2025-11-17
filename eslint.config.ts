@@ -14,5 +14,5 @@ export default antfu({
   },
   typescript: true,
   unocss: true,
-  react: true,
+  vue: true,
 })

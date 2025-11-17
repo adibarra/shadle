@@ -3,8 +3,8 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.21.0",
-  "description": "A React-based Wordle-style game for colors with PWA and notifications.",
+  "packageManager": "pnpm@10.22.0",
+  "description": "A Wordle-style game for colors with PWA and notifications.",
   "contributors": [
     "adibarra <github@adibarra.com> (https://adibarra.com)"
   ],
@@ -26,12 +26,9 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.2.0",
-    "@eslint-react/eslint-plugin": "^2.3.1",
-    "@types/node": "^24.10.0",
+    "@types/node": "^24.10.1",
     "eslint": "^9.39.1",
     "eslint-plugin-format": "^1.0.2",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.24",
     "taze": "^19.9.0",
     "typescript": "^5.9.3"
   }
