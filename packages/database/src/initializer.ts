@@ -67,6 +67,6 @@ export async function getSql(): Promise<Sql> {
   return sql!
 }
 
-export async function closeDb(): Promise<void> {
-  if (sql) await sql.end()
+export async function cleanupDb(): Promise<void> {
+  if (sql) await sql.end({ timeout: 10 })
 }

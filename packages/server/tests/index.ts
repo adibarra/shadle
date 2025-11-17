@@ -1,6 +1,8 @@
 import process from 'node:process'
-import { closeDb } from '@shadle/database'
+import { cleanupDb, getSql } from '@shadle/database'
 import { describe } from 'manten'
+
+await getSql()
 
 await describe('server', async ({ runTestSuite }) => {
   runTestSuite(import('./basic.test'))
@@ -12,5 +14,5 @@ await describe('server', async ({ runTestSuite }) => {
   runTestSuite(import('./stats-utils.test'))
 })
 
-await closeDb()
+await cleanupDb()
 process.exit(0)

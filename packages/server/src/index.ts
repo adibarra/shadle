@@ -6,7 +6,7 @@ import cors from '@fastify/cors'
 import helmet from '@fastify/helmet'
 import ratelimit from '@fastify/rate-limit'
 import config from '@shadle/config'
-import { sql } from '@shadle/database'
+import { cleanupDb } from '@shadle/database'
 import { getLogger } from '@shadle/logger'
 import fastify from 'fastify'
 import prexit from 'prexit'
@@ -120,7 +120,7 @@ prexit(['SIGINT', 'SIGHUP', 'SIGTERM', 'SIGQUIT'], async () => {
 
     // close database connection
     logger.debug('Closing database connection...')
-    await sql.end({ timeout: 5 })
+    await cleanupDb()
     logger.debug('Database connection closed.')
 
     logger.info('Server shut down successfully.')

@@ -1,4 +1,4 @@
-import { getPuzzleAttemptAggregates, sql, upsertPuzzleStats } from '@shadle/database'
+import { getPuzzleAttemptAggregates, getSql, upsertPuzzleStats } from '@shadle/database'
 import { getLogger } from '@shadle/logger'
 
 const logger = getLogger('TASKS')
@@ -13,6 +13,7 @@ export default {
   enabled: true,
   run: async () => {
     try {
+      const sql = await getSql()
       const dateResult = await sql`
         select distinct puzzle_id
         from puzzle_attempts
