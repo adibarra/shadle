@@ -24,8 +24,8 @@ ENV CI=true
 
 COPY . .
 
-RUN pnpm --parallel run test
-RUN pnpm --filter @shadle/client run build
+RUN pnpm run test
+RUN pnpm run build
 
 FROM adibarra/nginx-static:latest AS client
 

@@ -55,18 +55,34 @@ async function prepare(): Promise<void> {
   }
 }
 
+/**
+ * Initializes the database connection and runs migrations if not already done.
+ *
+ * **See warning in {@linkcode getSql}.**
+ */
 async function init(): Promise<void> {
+  if (config.IS_CI) return
   if (!sql) {
     sql = await connect()
     await prepare()
   }
 }
 
+/**
+ * Gets the database connection instance, initializing it if necessary.
+ *
+ * **WARNING: Will crash the process if `sql` is used in CI.**
+ *
+ * @returns The PostgreSQL client instance.
+ */
 export async function getSql(): Promise<Sql> {
-  await init()
+  if (!sql) await init()
   return sql!
 }
 
+/**
+ * Cleans up the database connection by closing it.
+ */
 export async function cleanupDb(): Promise<void> {
   if (sql) await sql.end({ timeout: 10 })
 }
