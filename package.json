@@ -11,7 +11,7 @@
   "scripts": {
     "build": "pnpm --parallel --color run build",
     "clean": "pnpm --parallel run clean",
-    "clean:all": "pnpm --parallel run clean:all && git clean -fdX",
+    "clean:all": "[ -f .env ] && mv .env .env.backup; pnpm --parallel run clean:all && git clean -fdX; [ -f .env.backup ] && mv .env.backup .env",
     "dev": "pnpm --parallel --color run dev",
     "dev:client": "pnpm --filter @shadle/client run dev",
     "dev:core": "SKIP_TASKS=true pnpm --parallel --color run dev",
