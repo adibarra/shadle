@@ -1,16 +1,51 @@
 import type { UserModule } from '~/types'
+import { usePwaUpdate } from '~/composables/pwa'
 
-// https://github.com/antfu/vite-plugin-pwa#automatic-reload-when-new-content-available
+// https://github.com/vite-pwa/vite-plugin-pwa
 export const install: UserModule = ({ router }) => {
+  if (import.meta.env.DEV) {
+    console.warn('PWA: skipping registration in development')
+    return
+  }
+
+  if (!('serviceWorker' in navigator)) {
+    console.warn('PWA: service Worker not supported')
+    return
+  }
+
   router.isReady()
     .then(async () => {
       const { registerSW } = await import('virtual:pwa-register')
-      registerSW({ immediate: true })
+      const { setUpdateSW, notifyNeedRefresh, notifyOfflineReady } = usePwaUpdate()
 
-      // request notification permission
-      if ('Notification' in window && Notification.permission === 'default') {
-        Notification.requestPermission()
-      }
+      const updateSW = registerSW({
+        immediate: true,
+        onNeedRefresh() {
+          console.warn('PWA: update available')
+          notifyNeedRefresh()
+        },
+        onOfflineReady() {
+          console.warn('PWA: ready for offline use')
+          notifyOfflineReady()
+        },
+        onRegistered(registration) {
+          console.warn('PWA: service worker registered')
+
+          if (!registration) return
+
+          const intervalMS = 60 * 60 * 1000
+          setInterval(() => {
+            registration.update()
+          }, intervalMS)
+        },
+        onRegisterError(error) {
+          console.warn('PWA: service worker registration failed', error)
+        },
+      })
+
+      setUpdateSW(updateSW)
     })
-    .catch(() => {})
+    .catch((error) => {
+      console.warn('PWA: initialization failed', error)
+    })
 }
