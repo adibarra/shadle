@@ -18,8 +18,7 @@
   },
   "vueCompilerOptions": {
     "plugins": [
-      "@vue-macros/volar/define-model",
-      "@vue-macros/volar/define-slots"
+      "unplugin-vue-macros/volar"
     ]
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "tests/**/*.ts"],
