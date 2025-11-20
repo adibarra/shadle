@@ -9,7 +9,7 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-  <div class="grid grid-rows-5 gap-5">
+  <div class="grid grid-rows-5 mx-6 my-32 gap-5">
     <div
       v-for="(guess, guessIndex) in props.guesses"
       :key="guessIndex"
@@ -18,7 +18,7 @@ const props = defineProps<Props>()
       <div
         v-for="(color, colorIndex) in guess"
         :key="colorIndex"
-        :class="`w-6 h-6 rounded-full ${colorClasses[color]}`"
+        :class="`w-6 h-6 rounded-full mx-auto ${colorClasses[color]}`"
       />
     </div>
   </div>

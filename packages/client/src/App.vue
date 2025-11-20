@@ -12,24 +12,16 @@ useHead({
 
 <template>
   <div class="flex flex-col min-h-svh">
-    <RouterView />
+    <Header />
+    <div class="flex grow flex-col px-4">
+      <RouterView />
+    </div>
+    <Footer />
   </div>
 </template>
 
 <style>
 :root {
-  color-scheme: light dark;
-  --c-text: #1f2937;
-  --c-primary: #f9f9f9;
-  --c-secondary: #e3e3e3;
-  --c-tertiary: #cccccc;
-  --c-inverse: #121212;
-  --c-inverse-2: #4b4b4b;
-  --c-inverse-3: #7a7a7a;
-  --c-accent: #1da54f;
-}
-
-html.dark {
   --c-text: #e5e7eb;
   --c-primary: #121212;
   --c-secondary: #1f1f1f;

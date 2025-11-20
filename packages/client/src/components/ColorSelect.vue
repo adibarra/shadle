@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ValidColor } from '@shadle/types'
+import { VALID_COLORS } from '@shadle/types'
 
 interface Props {
   disabledColors?: ValidColor[]
@@ -13,9 +14,7 @@ const emit = defineEmits<{
   select: [color: ValidColor]
 }>()
 
-const colors: ValidColor[] = ['R', 'G', 'B', 'Y', 'P', 'C', 'W', 'K']
-
-const enabledColors = computed(() => colors.filter(c => !props.disabledColors.includes(c)))
+const enabledColors = computed(() => VALID_COLORS.filter(c => !props.disabledColors.includes(c)))
 
 const gridCols = computed(() => {
   const count = enabledColors.value.length
@@ -27,7 +26,7 @@ const gridCols = computed(() => {
 </script>
 
 <template>
-  <div :class="`grid gap-4 ${gridCols}`">
+  <div :class="`mb-24 grid gap-4 ${gridCols}`">
     <div
       v-for="color in enabledColors"
       :key="color"

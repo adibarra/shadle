@@ -19,6 +19,16 @@ export default defineConfig({
     ['text-xs', 'text-[0.75rem] line-height-[1rem]'],
     ['text-xxs', 'text-[0.70rem] line-height-[0.75rem]'],
   ],
+  safelist: [
+    'bg-red-500',
+    'bg-green-500',
+    'bg-blue-500',
+    'bg-yellow-500',
+    'bg-fuchsia-500',
+    'bg-cyan-500',
+    'bg-white',
+    'bg-black',
+  ],
   presets: [
     presetWind3(),
     presetIcons({

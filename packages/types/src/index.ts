@@ -5,9 +5,10 @@
 export type Platform = 'ios' | 'android' | 'web'
 
 /**
- * Valid color letters for puzzle guesses
+ * Valid color letters for puzzle guesses:
+ * R: Red, G: Green, B: Blue, Y: Yellow, F: Fuchsia, C: Cyan, W: White, K: Black
  */
-export const VALID_COLORS = ['R', 'G', 'B', 'Y', 'P', 'O', 'W', 'K'] as const
+export const VALID_COLORS = ['R', 'G', 'B', 'Y', 'F', 'C', 'W', 'K'] as const
 export type ValidColor = typeof VALID_COLORS[number]
 
 /**

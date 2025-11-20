@@ -159,7 +159,7 @@ export default testSuite(({ describe }) => {
       const request = {
         deviceId: 'test-device',
         puzzleId: 'non-existent-puzzle',
-        guess: 'RGBYP',
+        guess: 'RGBYF',
       }
 
       // get answer (should be null)
