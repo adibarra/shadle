@@ -80,9 +80,6 @@ importers:
       vite-plugin-pwa:
         specifier: ^1.1.0
         version: 1.1.0(@vite-pwa/assets-generator@1.0.2)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.44.1)(tsx@4.20.6)(yaml@2.8.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.3.0)
-      vite-plugin-vue-layouts:
-        specifier: ^0.11.0
-        version: 0.11.0(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.44.1)(tsx@4.20.6)(yaml@2.8.1))(vue-router@4.6.3(vue@3.5.24(typescript@5.9.3)))(vue@3.5.24(typescript@5.9.3))
       vite-plugin-webfont-dl:
         specifier: ^3.11.1
         version: 3.11.1(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.44.1)(tsx@4.20.6)(yaml@2.8.1))
@@ -5128,13 +5125,6 @@ packages:
     peerDependenciesMeta:
       '@vite-pwa/assets-generator':
         optional: true
-
-  vite-plugin-vue-layouts@0.11.0:
-    resolution: {integrity: sha512-uh6NW7lt+aOXujK4eHfiNbeo55K9OTuB7fnv+5RVc4OBn/cZull6ThXdYH03JzKanUfgt6QZ37NbbtJ0og59qw==}
-    peerDependencies:
-      vite: ^4.0.0 || ^5.0.0
-      vue: ^3.2.4
-      vue-router: ^4.0.11
 
   vite-plugin-webfont-dl@3.11.1:
     resolution: {integrity: sha512-5eQaMn3mJ0qNnL64R6wZouh0I4zkvK8aS+GsoCDLY4WYfWCYvNpf6TyauxEsMlbwwfznkKjXTd1DNBGs4fKAhQ==}
@@ -11341,16 +11331,6 @@ snapshots:
       workbox-window: 7.3.0
     optionalDependencies:
       '@vite-pwa/assets-generator': 1.0.2
-    transitivePeerDependencies:
-      - supports-color
-
-  vite-plugin-vue-layouts@0.11.0(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.44.1)(tsx@4.20.6)(yaml@2.8.1))(vue-router@4.6.3(vue@3.5.24(typescript@5.9.3)))(vue@3.5.24(typescript@5.9.3)):
-    dependencies:
-      debug: 4.4.3
-      fast-glob: 3.3.3
-      vite: 7.2.2(@types/node@24.10.1)(jiti@2.6.1)(terser@5.44.1)(tsx@4.20.6)(yaml@2.8.1)
-      vue: 3.5.24(typescript@5.9.3)
-      vue-router: 4.6.3(vue@3.5.24(typescript@5.9.3))
     transitivePeerDependencies:
       - supports-color
 

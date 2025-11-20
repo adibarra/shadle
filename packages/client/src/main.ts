@@ -1,7 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router'
 import type { UserModule } from '~/types'
 import { createHead } from '@unhead/vue/client'
-import { setupLayouts } from 'virtual:generated-layouts'
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { handleHotUpdate, routes } from 'vue-router/auto-routes'
@@ -15,7 +14,7 @@ const head = createHead()
 // create the router instance
 const router = createRouter({
   history: createWebHistory(),
-  routes: setupLayouts(routes as RouteRecordRaw[]),
+  routes: routes as RouteRecordRaw[],
 })
 
 // create the Vue app instance
@@ -29,13 +28,15 @@ Object.values(import.meta.glob<{ install: UserModule }>('./modules/*.ts', { eage
 app.use(router)
 app.use(head)
 
-// handle HMR with layouts
+// handle HMR for routes
 if (import.meta.hot) {
   handleHotUpdate(router, (newRoutes) => {
-    const withLayoutsRoutes = setupLayouts(newRoutes)
-    withLayoutsRoutes.forEach((route) => {
-      router.addRoute(route)
+    router.getRoutes().forEach((route) => {
+      if (route.name) {
+        router.removeRoute(route.name)
+      }
     })
+    newRoutes.forEach(route => router.addRoute(route))
   })
 }
 
