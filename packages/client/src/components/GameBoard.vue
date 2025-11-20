@@ -18,7 +18,7 @@ const props = defineProps<Props>()
       <div
         v-for="(color, colorIndex) in guess"
         :key="colorIndex"
-        :class="`w-6 h-6 rounded-full mx-auto ${colorClasses[color]}`"
+        :class="`w-6 h-6 rounded-full mx-auto ${bgColorClasses[color]}`"
       />
     </div>
   </div>

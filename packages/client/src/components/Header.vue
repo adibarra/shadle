@@ -1,10 +1,10 @@
 <template>
   <h1 class="m-6 text-center text-6xl">
-    <span class="text-red-500">S</span>
-    <span class="text-green-500">h</span>
-    <span class="text-blue-500">a</span>
-    <span class="text-yellow-500">d</span>
-    <span class="text-fuchsia-500">l</span>
-    <span class="text-cyan-500">e</span>
+    <span :class="textColorClasses.R">S</span>
+    <span :class="textColorClasses.G">h</span>
+    <span :class="textColorClasses.B">a</span>
+    <span :class="textColorClasses.Y">d</span>
+    <span :class="textColorClasses.M">l</span>
+    <span :class="textColorClasses.C">e</span>
   </h1>
 </template>

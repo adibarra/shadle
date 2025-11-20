@@ -1,3 +1,4 @@
+import { VALID_COLORS } from '@shadle/types'
 import { expect, testSuite } from 'manten'
 import { validateDeviceId, validateGuessFormat, validatePuzzleId } from '../src/utils/validation.js'
 
@@ -56,19 +57,19 @@ export default testSuite(({ describe }) => {
 
   describe('validateGuessFormat', ({ test }) => {
     test('should return valid for correct 5-letter guess with valid colors', () => {
-      const result = validateGuessFormat('RGBYF')
+      const result = validateGuessFormat('RGBYM')
       expect(result.isValid).toBe(true)
       expect(result.error).toBeUndefined()
     })
 
     test('should return valid for lowercase guess', () => {
-      const result = validateGuessFormat('rgbyf')
+      const result = validateGuessFormat('rgbym')
       expect(result.isValid).toBe(true)
       expect(result.error).toBeUndefined()
     })
 
     test('should return valid for mixed case guess', () => {
-      const result = validateGuessFormat('RgbYF')
+      const result = validateGuessFormat('RgbYM')
       expect(result.isValid).toBe(true)
       expect(result.error).toBeUndefined()
     })
@@ -112,29 +113,29 @@ export default testSuite(({ describe }) => {
     test('should return invalid for guess with invalid characters', () => {
       const result = validateGuessFormat('RGBYX')
       expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Guess must contain only valid color letters: R, G, B, Y, F, C, W, K')
+      expect(result.error).toBe(`Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}`)
     })
 
     test('should return invalid for guess with numbers', () => {
       const result = validateGuessFormat('RGBY1')
       expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Guess must contain only valid color letters: R, G, B, Y, F, C, W, K')
+      expect(result.error).toBe(`Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}`)
     })
 
     test('should return invalid for guess with special characters', () => {
       const result = validateGuessFormat('RGBY!')
       expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Guess must contain only valid color letters: R, G, B, Y, F, C, W, K')
+      expect(result.error).toBe(`Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}`)
     })
 
     test('should return invalid for guess with spaces', () => {
       const result = validateGuessFormat('RGBY ')
       expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Guess must contain only valid color letters: R, G, B, Y, F, C, W, K')
+      expect(result.error).toBe(`Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}`)
     })
 
     test('should accept all valid color letters', () => {
-      const validGuesses = ['RRRRR', 'GGGGG', 'BBBBB', 'YYYYY', 'FFFFF', 'CCCCC', 'WWWWW', 'KKKKK']
+      const validGuesses = VALID_COLORS.map(color => color.repeat(5))
       validGuesses.forEach((guess) => {
         const result = validateGuessFormat(guess)
         expect(result.isValid).toBe(true)
@@ -143,7 +144,7 @@ export default testSuite(({ describe }) => {
     })
 
     test('should accept mixed valid colors', () => {
-      const validGuesses = ['RGBYF', 'FCWKG', 'KYRGB', 'BCFWK', 'GYFCB']
+      const validGuesses = ['RGBYM', 'MCPGO', 'OYRGB', 'BCMPO', 'GYMCB']
       validGuesses.forEach((guess) => {
         const result = validateGuessFormat(guess)
         expect(result.isValid).toBe(true)

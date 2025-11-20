@@ -30,7 +30,7 @@ const gridCols = computed(() => {
     <div
       v-for="color in enabledColors"
       :key="color"
-      :class="`relative rounded p-4 cursor-pointer transition-opacity ${colorClasses[color]}`"
+      :class="`relative rounded p-4 cursor-pointer transition-opacity ${bgColorClasses[color]}`"
       @click="emit('select', color)"
     />
   </div>

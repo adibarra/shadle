@@ -18,15 +18,29 @@ export const isCompactViewport = computed<boolean>(() => {
 export const preferredDark = usePreferredDark()
 
 /**
+ * Raw hex color values for each ValidColor.
+ */
+export const colorHexes: Record<ValidColor, string> = {
+  R: '#dc2626', // Red
+  G: '#16a34a', // Green
+  B: '#2563eb', // Blue
+  Y: '#eab308', // Yellow
+  M: '#c026d3', // Magenta
+  C: '#0891b2', // Cyan
+  P: '#ec4899', // Pink
+  O: '#c2410c', // Orange
+}
+
+/**
  * Mapping of ValidColor to UnoCSS background classes.
  */
-export const colorClasses: Record<ValidColor, string> = {
-  R: 'bg-red-500',
-  G: 'bg-green-500',
-  B: 'bg-blue-500',
-  Y: 'bg-yellow-500',
-  F: 'bg-fuchsia-500',
-  C: 'bg-cyan-500',
-  W: 'bg-white',
-  K: 'bg-black',
-}
+export const bgColorClasses: Record<ValidColor, string> = Object.fromEntries(
+  Object.entries(colorHexes).map(([key, hex]) => [key, `bg-[${hex}]`]),
+) as Record<ValidColor, string>
+
+/**
+ * Mapping of ValidColor to UnoCSS text classes.
+ */
+export const textColorClasses: Record<ValidColor, string> = Object.fromEntries(
+  Object.entries(colorHexes).map(([key, hex]) => [key, `text-[${hex}]`]),
+) as Record<ValidColor, string>

@@ -22,7 +22,7 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device-1',
         puzzleId: '§2025-11-11',
-        guess: 'BYRGW', // correct answer
+        guess: 'BYRGP', // correct answer
       }
 
       // validate inputs
@@ -36,7 +36,7 @@ export default testSuite(({ describe }) => {
 
       // get puzzle answer
       const answer = await getPuzzleAnswer(request.puzzleId)
-      expect(answer).toBe('BYRGW')
+      expect(answer).toBe('BYRGP')
 
       // validate guess
       const feedback = validateGuess(request.guess.toUpperCase(), answer!)
@@ -62,7 +62,7 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device-2',
         puzzleId: '§2025-11-11',
-        guess: 'RGBYP', // incorrect
+        guess: 'RGBYM', // incorrect
       }
 
       const answer = await getPuzzleAnswer(request.puzzleId)
@@ -86,7 +86,7 @@ export default testSuite(({ describe }) => {
       const request = {
         deviceId: '',
         puzzleId: '§2025-11-11',
-        guess: 'RGBYP',
+        guess: 'RGBYM',
       }
 
       const validation = validateDeviceId(request.deviceId)
@@ -98,7 +98,7 @@ export default testSuite(({ describe }) => {
       const request = {
         deviceId: 'test-device',
         puzzleId: '',
-        guess: 'RGBYP',
+        guess: 'RGBYM',
       }
 
       const validation = validatePuzzleId(request.puzzleId)
@@ -159,7 +159,7 @@ export default testSuite(({ describe }) => {
       const request = {
         deviceId: 'test-device',
         puzzleId: 'non-existent-puzzle',
-        guess: 'RGBYF',
+        guess: 'RGBYM',
       }
 
       // get answer (should be null)
@@ -189,7 +189,7 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: 'byrgw', // lowercase
+        guess: 'byrgp', // lowercase
       }
 
       const answer = await getPuzzleAnswer(request.puzzleId)
@@ -202,14 +202,14 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: 'PBRYO', // P correct, B present, R present, Y correct, O present
+        guess: 'PBRYO', // P present, B present, R correct, Y present, O absent
       }
 
       const answer = await getPuzzleAnswer(request.puzzleId)
       const feedback = validateGuess(request.guess.toUpperCase(), answer!)
 
-      // P not in answer
-      expect(feedback[0].status).toBe(GuessStatus.ABSENT)
+      // P exists but wrong position
+      expect(feedback[0].status).toBe(GuessStatus.PRESENT)
       // B exists but wrong position
       expect(feedback[1].status).toBe(GuessStatus.PRESENT)
       // R is in correct position

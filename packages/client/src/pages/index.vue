@@ -2,9 +2,9 @@
 import type { ValidColor } from '@shadle/types'
 
 const guesses: ValidColor[][] = [
-  ['R', 'G', 'B', 'Y', 'F'],
-  ['G', 'G', 'B', 'Y', 'C'],
-  ['B', 'R', 'Y', 'Y', 'F'],
+  ['R', 'G', 'B', 'Y', 'M'],
+  ['G', 'O', 'B', 'Y', 'C'],
+  ['B', 'R', 'Y', 'P', 'M'],
 ]
 </script>
 
