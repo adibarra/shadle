@@ -1,9 +1,6 @@
 import type { UserModule } from '~/types'
-import { createHead } from '@unhead/vue/client'
 
-export const install: UserModule = ({ app, router }) => {
-  const head = createHead()
-
+export const install: UserModule = ({ router, head }) => {
   router.beforeResolve(() => {
     if (typeof window !== 'undefined') {
       const canonicalUrl = window.location.origin + window.location.pathname
@@ -17,6 +14,4 @@ export const install: UserModule = ({ app, router }) => {
       })
     }
   })
-
-  app.use(head)
 }

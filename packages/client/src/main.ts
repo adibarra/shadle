@@ -22,7 +22,7 @@ const app = createApp(App)
 
 // install all modules under `modules/`
 Object.values(import.meta.glob<{ install: UserModule }>('./modules/*.ts', { eager: true }))
-  .forEach(i => i.install?.({ app, router }))
+  .forEach(i => i.install?.({ app, router, head }))
 
 // mount the app
 app.use(router)

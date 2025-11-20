@@ -1,15 +1,3 @@
-<script setup lang="ts">
-useHead({
-  link: [
-    {
-      rel: 'icon',
-      type: 'image/svg+xml',
-      href: () => preferredDark.value ? '/favicon-dark.svg' : '/favicon.svg',
-    },
-  ],
-})
-</script>
-
 <template>
   <div class="flex flex-col min-h-svh">
     <Header />
