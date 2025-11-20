@@ -7,8 +7,13 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
+import { colorHexes } from './src/constants/colors'
 
 export default defineConfig({
+  safelist: [
+    ...Object.values(colorHexes).map(hex => `bg-[${hex}]`),
+    ...Object.values(colorHexes).map(hex => `text-[${hex}]`),
+  ],
   shortcuts: [
     [/^([^.\s]+)--c-([^)\]>\s]+)$/, ([, prefix, color]) => `${prefix}-[var(--c-${color})]`],
     ['custom-link', 'text--c-accent outline-none underline-1 hover:underline focus:underline'],

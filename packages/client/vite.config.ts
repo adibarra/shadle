@@ -44,7 +44,7 @@ export default defineConfig({
         VueRouterAutoImports,
       ],
       dts: 'src/auto-imports.d.ts',
-      dirs: ['src/composables'],
+      dirs: ['src/composables', 'src/constants'],
       vueTemplate: true,
     }),
 
