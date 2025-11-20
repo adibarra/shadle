@@ -1,7 +1,7 @@
+import config from '@shadle/config'
 import { GuessStatus } from '@shadle/types'
 import { expect, testSuite } from 'manten'
 import { getPuzzleAnswer, validateGuess } from '../src/logic/guess.js'
-import { skipIfCI } from './utils'
 
 export default testSuite(({ describe }) => {
   describe('validateGuess', ({ test }) => {
@@ -158,9 +158,10 @@ export default testSuite(({ describe }) => {
       expect(result1).toBe(result2)
     })
 
-    test('should return null for invalid daily puzzle format', async () => {
-      const skip = skipIfCI()
-      if (skip) return skip
+    test('should return null for invalid daily puzzle format', async ({ skip }) => {
+      if (config.IS_CI) {
+        skip('Skipping database tests in CI')
+      }
 
       const result = await getPuzzleAnswer('§invalid-date')
       expect(result).toBeNull()
@@ -172,9 +173,10 @@ export default testSuite(({ describe }) => {
       expect(typeof result).toBe('string')
     })
 
-    test('should return null for custom puzzle when database returns null', async () => {
-      const skip = skipIfCI()
-      if (skip) return skip
+    test('should return null for custom puzzle when database returns null', async ({ skip }) => {
+      if (config.IS_CI) {
+        skip('Skipping database tests in CI')
+      }
 
       const result = await getPuzzleAnswer('TEST-custom-puzzle-123')
       expect(result).toBeNull()

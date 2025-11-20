@@ -1,15 +1,16 @@
+import config from '@shadle/config'
 import { getPuzzleAttemptAggregates, getPuzzleAttempts, recordPuzzleAttempt } from '@shadle/database'
 import { expect, testSuite } from 'manten'
-import { skipIfCI } from './utils'
 
 export default testSuite(({ describe }) => {
   // use a unique namespace for test data to avoid conflicts
   const TEST_NAMESPACE = `test-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
 
   describe('puzzle attempt database operations', ({ test }) => {
-    test('should record and retrieve puzzle attempts', async () => {
-      const skip = skipIfCI()
-      if (skip) return skip
+    test('should record and retrieve puzzle attempts', async ({ skip }) => {
+      if (config.IS_CI) {
+        skip('Skipping database tests in CI')
+      }
 
       const deviceId = `${TEST_NAMESPACE}-device-1`
       const puzzleId = `${TEST_NAMESPACE}-puzzle-1`
@@ -35,9 +36,10 @@ export default testSuite(({ describe }) => {
       expect(attempts[0].solved).toBe(true)
     })
 
-    test('should handle multiple devices and puzzles', async () => {
-      const skip = skipIfCI()
-      if (skip) return skip
+    test('should handle multiple devices and puzzles', async ({ skip }) => {
+      if (config.IS_CI) {
+        skip('Skipping database tests in CI')
+      }
 
       const device1 = `${TEST_NAMESPACE}-device-multi-1`
       const device2 = `${TEST_NAMESPACE}-device-multi-2`
@@ -78,9 +80,10 @@ export default testSuite(({ describe }) => {
       expect(device1All.map(a => a.puzzle_id).sort()).toEqual([puzzle1, puzzle2].sort())
     })
 
-    test('should not increment tries after completion', async () => {
-      const skip = skipIfCI()
-      if (skip) return skip
+    test('should not increment tries after completion', async ({ skip }) => {
+      if (config.IS_CI) {
+        skip('Skipping database tests in CI')
+      }
 
       const deviceId = `${TEST_NAMESPACE}-device-complete`
       const puzzleId = `${TEST_NAMESPACE}-puzzle-complete`
@@ -99,9 +102,10 @@ export default testSuite(({ describe }) => {
       expect(attempts[0].solved).toBe(true)
     })
 
-    test('should aggregate statistics correctly', async () => {
-      const skip = skipIfCI()
-      if (skip) return skip
+    test('should aggregate statistics correctly', async ({ skip }) => {
+      if (config.IS_CI) {
+        skip('Skipping database tests in CI')
+      }
 
       const puzzleId = `${TEST_NAMESPACE}-puzzle-stats`
 
@@ -141,17 +145,19 @@ export default testSuite(({ describe }) => {
       expect(stats.triesDistribution[7]).toBe(1) // 1 device with 7 tries (failed)
     })
 
-    test('should return empty array for non-existent attempts', async () => {
-      const skip = skipIfCI()
-      if (skip) return skip
+    test('should return empty array for non-existent attempts', async ({ skip }) => {
+      if (config.IS_CI) {
+        skip('Skipping database tests in CI')
+      }
 
       const attempts = await getPuzzleAttempts('non-existent-device')
       expect(attempts).toEqual([])
     })
 
-    test('should return empty stats for puzzle with no attempts', async () => {
-      const skip = skipIfCI()
-      if (skip) return skip
+    test('should return empty stats for puzzle with no attempts', async ({ skip }) => {
+      if (config.IS_CI) {
+        skip('Skipping database tests in CI')
+      }
 
       const stats = await getPuzzleAttemptAggregates('empty-puzzle')
       expect(stats.totalAttempts).toBe(0)
