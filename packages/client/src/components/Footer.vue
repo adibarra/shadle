@@ -1,6 +1,6 @@
 <template>
   <footer class="m-2 text-center text-sm sm:text-base" role="contentinfo">
-    <span op-50>
+    <span class="op-50">
       Made with ❤️ by
     </span>
     <a
@@ -9,10 +9,10 @@
       rel="noopener noreferrer"
       title="Portfolio Website"
       aria-label="Visit adibarra's portfolio website"
-      class="custom-link font-600 op-80"
+      :class="`custom-link font-600 op-80 ${textColorClasses.G}`"
     >
       adibarra
     </a>
-    <div v-if="isCompactViewport" h-4 />
+    <div v-if="isCompactViewport" class="h-4" />
   </footer>
 </template>
