@@ -9,7 +9,7 @@
       rel="noopener noreferrer"
       title="Portfolio Website"
       aria-label="Visit adibarra's portfolio website"
-      :class="`custom-link font-600 op-80 ${textColorClasses.G}`"
+      :class="`outline-none underline-1 hover:underline focus:underline font-600 op-80 ${textColorClasses.G}`"
     >
       adibarra
     </a>

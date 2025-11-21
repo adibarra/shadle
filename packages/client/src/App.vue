@@ -9,25 +9,14 @@
 </template>
 
 <style>
-:root {
-  --c-text: #e5e7eb;
-  --c-primary: #121212;
-  --c-secondary: #1f1f1f;
-  --c-tertiary: #2d2d2d;
-  --c-inverse: #f9f9f9;
-  --c-inverse-2: #bdbdbd;
-  --c-inverse-3: #8c8c8c;
-  --c-accent: #4ade80;
-}
-
 html,
 body,
 #app {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: var(--c-primary);
-  color: var(--c-text);
+  background: #121212;
+  color: #e5e7eb;
 }
 
 html,
@@ -46,7 +35,7 @@ div::-webkit-scrollbar {
 }
 
 #nprogress .bar {
-  background: var(--c-accent);
+  background: #16a34a;
   opacity: 0.75;
   position: fixed;
   z-index: 1031;
