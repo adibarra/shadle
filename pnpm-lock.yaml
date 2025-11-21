@@ -205,8 +205,8 @@ importers:
         specifier: ^3.0.11
         version: 3.0.11
       manten:
-        specifier: github:adibarra/manten
-        version: https://codeload.github.com/adibarra/manten/tar.gz/5800326a10dd40a0a04416b16dd845b1b1b92629
+        specifier: ^1.9.0
+        version: 1.9.0
 
   packages/types: {}
 
@@ -3948,9 +3948,8 @@ packages:
   make-synchronized@0.2.10:
     resolution: {integrity: sha512-7NTbfv+5oJJdjHRPW4j4P/n7sYeu7mrBTZLVHD5ACSyFPRObPhsZAIoR/75SlVl20x/g7PIP75FBBHqSJ2FPuA==}
 
-  manten@https://codeload.github.com/adibarra/manten/tar.gz/5800326a10dd40a0a04416b16dd845b1b1b92629:
-    resolution: {tarball: https://codeload.github.com/adibarra/manten/tar.gz/5800326a10dd40a0a04416b16dd845b1b1b92629}
-    version: 0.0.0-semantic-release
+  manten@1.9.0:
+    resolution: {integrity: sha512-tGoiLslXFMW7FPzliV3qXlMOH5ecyz9l2HYtwlOr1Ih6iG8oss5B13DNpPTphg9qmbwAj73HoKjUmpG6YseMTw==}
 
   markdown-it-async@2.2.0:
     resolution: {integrity: sha512-sITME+kf799vMeO/ww/CjH6q+c05f6TLpn6VOmmWCGNqPJzSh+uFgZoMB9s0plNtW6afy63qglNAC3MhrhP/gg==}
@@ -9776,7 +9775,7 @@ snapshots:
 
   make-synchronized@0.2.10: {}
 
-  manten@https://codeload.github.com/adibarra/manten/tar.gz/5800326a10dd40a0a04416b16dd845b1b1b92629:
+  manten@1.9.0:
     dependencies:
       expect: 30.2.0
 
