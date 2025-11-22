@@ -17,7 +17,7 @@ let sql: Sql | undefined
  * @throws Exits the process if connection fails.
  */
 async function connect(): Promise<Sql> {
-  const dbUrl = config.IS_TEST ? config.POSTGRES_TEST_URL : config.POSTGRES_URL
+  const dbUrl = config.IS_PROD ? config.POSTGRES_URL : config.POSTGRES_DEV_URL
 
   let sqlInstance: Sql
   try {

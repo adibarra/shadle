@@ -83,7 +83,7 @@ Alternatively, if you prefer not to use corepack, install pnpm by following thes
 
    # Create test database
    sudo docker exec shadle-db \
-     psql -U postgres -c "CREATE DATABASE shadle_test;"
+     psql -U postgres -c "CREATE DATABASE shadle_dev;"
    ```
 
 ## Project Scripts

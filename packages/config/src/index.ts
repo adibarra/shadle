@@ -16,7 +16,7 @@ interface DotEnvSchema {
   API_PORT: number
   API_CORS_ORIGIN_REGEX: string
   POSTGRES_URL: string
-  POSTGRES_TEST_URL: string
+  POSTGRES_DEV_URL: string
   PUZZLE_SALT: string
   LOG_LEVEL: {
     CONSOLE: string
@@ -54,7 +54,7 @@ function getConfig(): DotEnvSchema {
     API_PORT: 80,
     API_CORS_ORIGIN_REGEX: '^https?://(?:127\.0\.0\.1|localhost)(?::\d{1,5})?$',
     POSTGRES_URL: 'postgresql://postgres:password@postgres:5432/shadle',
-    POSTGRES_TEST_URL: 'postgresql://postgres:password@localhost:5432/shadle_test',
+    POSTGRES_DEV_URL: 'postgresql://postgres:password@localhost:5432/shadle_dev',
     PUZZLE_SALT: 'default-salt',
     LOG_LEVEL: {
       CONSOLE: IS_PROD ? 'silent' : IS_DEV ? 'trace' : 'silent',
@@ -72,7 +72,7 @@ function getConfig(): DotEnvSchema {
     API_PORT: Number(parsed.API_PORT) || defaults.API_PORT,
     API_CORS_ORIGIN_REGEX: parsed.API_CORS_ORIGIN_REGEX || defaults.API_CORS_ORIGIN_REGEX,
     POSTGRES_URL: parsed.POSTGRES_URL || defaults.POSTGRES_URL,
-    POSTGRES_TEST_URL: parsed.POSTGRES_TEST_URL || defaults.POSTGRES_TEST_URL,
+    POSTGRES_DEV_URL: parsed.POSTGRES_DEV_URL || defaults.POSTGRES_DEV_URL,
     PUZZLE_SALT: IS_TEST ? defaults.PUZZLE_SALT : parsed.PUZZLE_SALT || defaults.PUZZLE_SALT,
     LOG_LEVEL: {
       CONSOLE: (parsed.LOG_LEVEL_CONSOLE || defaults.LOG_LEVEL.CONSOLE),
