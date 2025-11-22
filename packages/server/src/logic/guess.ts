@@ -1,4 +1,4 @@
-import type { GuessResponse } from '@shadle/types'
+import type { GuessResponse, ValidColor } from '@shadle/types'
 import config from '@shadle/config'
 import { getCustomPuzzle } from '@shadle/database'
 import { GuessStatus, VALID_COLORS } from '@shadle/types'
@@ -49,10 +49,10 @@ export async function getPuzzleAnswer(puzzleId: string): Promise<string | null> 
 /**
  * Validate a guess against the correct answer and return feedback
  */
-export function validateGuess(guess: string, answer: string): GuessResponse['feedback'] {
+export function validateGuess(guess: ValidColor[], answer: string): GuessResponse['feedback'] {
   const feedback: GuessResponse['feedback'] = Array.from({ length: 5 })
   const answerLetters = answer.split('')
-  const guessLetters = guess.split('')
+  const guessLetters = guess
 
   const usedAnswerPositions = new Set<number>()
   const usedGuessPositions = new Set<number>()

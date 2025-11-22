@@ -1,4 +1,4 @@
-import type { ApiError, GuessRequest, GuessResponse } from '@shadle/types'
+import type { ApiError, GuessRequest, GuessResponse, ValidColor } from '@shadle/types'
 import config from '@shadle/config'
 import { GuessStatus } from '@shadle/types'
 import { expect, testSuite } from 'manten'
@@ -22,7 +22,7 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device-1',
         puzzleId: '§2025-11-11',
-        guess: 'BYRGP', // correct answer
+        guess: ['B', 'Y', 'R', 'G', 'P'], // correct answer
       }
 
       // validate inputs
@@ -39,7 +39,7 @@ export default testSuite(({ describe }) => {
       expect(answer).toBe('BYRGP')
 
       // validate guess
-      const feedback = validateGuess(request.guess.toUpperCase(), answer!)
+      const feedback = validateGuess(request.guess.map(c => c.toUpperCase() as ValidColor), answer!)
       expect(feedback.every(f => f.status === GuessStatus.CORRECT)).toBe(true)
 
       // record attempt
@@ -62,11 +62,11 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device-2',
         puzzleId: '§2025-11-11',
-        guess: 'RGBYM', // incorrect
+        guess: ['R', 'G', 'B', 'Y', 'M'], // incorrect
       }
 
       const answer = await getPuzzleAnswer(request.puzzleId)
-      const feedback = validateGuess(request.guess.toUpperCase(), answer!)
+      const feedback = validateGuess(request.guess.map(c => c.toUpperCase() as ValidColor), answer!)
 
       expect(feedback.every(f => f.status === GuessStatus.CORRECT)).toBe(false)
       expect(feedback.some(f => f.status !== GuessStatus.CORRECT)).toBe(true)
@@ -86,7 +86,7 @@ export default testSuite(({ describe }) => {
       const request = {
         deviceId: '',
         puzzleId: '§2025-11-11',
-        guess: 'RGBYM',
+        guess: ['R', 'G', 'B', 'Y', 'M'],
       }
 
       const validation = validateDeviceId(request.deviceId)
@@ -98,7 +98,7 @@ export default testSuite(({ describe }) => {
       const request = {
         deviceId: 'test-device',
         puzzleId: '',
-        guess: 'RGBYM',
+        guess: ['R', 'G', 'B', 'Y', 'M'],
       }
 
       const validation = validatePuzzleId(request.puzzleId)
@@ -110,7 +110,7 @@ export default testSuite(({ describe }) => {
       const request = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: 'XYZ12', // 5 chars but invalid colors
+        guess: ['X', 'Y', 'Z', '1', '2'], // 5 chars but invalid colors
       }
 
       const validation = validateGuessFormat(request.guess)
@@ -122,24 +122,24 @@ export default testSuite(({ describe }) => {
       const request = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: 'RGB',
+        guess: ['R', 'G', 'B'],
       }
 
       const validation = validateGuessFormat(request.guess)
       expect(validation.isValid).toBe(false)
-      expect(validation.error).toContain('exactly 5 characters')
+      expect(validation.error).toContain('exactly 5 colors')
     })
 
     test('should reject guess that is too long', () => {
       const request = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: 'RGBYPO',
+        guess: ['R', 'G', 'B', 'Y', 'P', 'O'],
       }
 
       const validation = validateGuessFormat(request.guess)
       expect(validation.isValid).toBe(false)
-      expect(validation.error).toContain('exactly 5 characters')
+      expect(validation.error).toContain('exactly 5 colors')
     })
 
     test('should handle non-existent puzzle', async ({ skip }) => {
@@ -160,7 +160,7 @@ export default testSuite(({ describe }) => {
       const request = {
         deviceId: 'test-device',
         puzzleId: 'non-existent-puzzle',
-        guess: 'RGBYM',
+        guess: ['R', 'G', 'B', 'Y', 'M'],
       }
 
       // get answer (should be null)
@@ -190,11 +190,11 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: 'byrgp', // lowercase
+        guess: ['b', 'y', 'r', 'g', 'p'], // lowercase
       }
 
       const answer = await getPuzzleAnswer(request.puzzleId)
-      const feedback = validateGuess(request.guess.toUpperCase(), answer!)
+      const feedback = validateGuess(request.guess.map(c => c.toUpperCase() as ValidColor), answer!)
 
       expect(feedback.every(f => f.status === GuessStatus.CORRECT)).toBe(true)
     })
@@ -203,11 +203,11 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: 'PBRYO', // P present, B present, R correct, Y present, O absent
+        guess: ['P', 'B', 'R', 'Y', 'O'], // P present, B present, R correct, Y present, O absent
       }
 
       const answer = await getPuzzleAnswer(request.puzzleId)
-      const feedback = validateGuess(request.guess.toUpperCase(), answer!)
+      const feedback = validateGuess(request.guess.map(c => c.toUpperCase() as ValidColor), answer!)
 
       // P exists but wrong position
       expect(feedback[0].status).toBe(GuessStatus.PRESENT)
@@ -232,7 +232,7 @@ export default testSuite(({ describe }) => {
 
       // use a unique namespace for test data
       const TEST_NAMESPACE = `test-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-      const answer = 'SHALE'
+      const answer = 'RGBYM'
       const puzzleId = `${TEST_NAMESPACE}-custom-puzzle`
 
       // create a real custom puzzle in the database
@@ -245,23 +245,23 @@ export default testSuite(({ describe }) => {
       expect(retrievedAnswer).toBe(answer)
 
       // test guess validation against the real answer
-      const guess = 'SHALE' // perfect match
+      const guess: ValidColor[] = ['R', 'G', 'B', 'Y', 'M'] // perfect match
       const feedback = validateGuess(guess, retrievedAnswer!)
 
       // all letters should be correct
       expect(feedback.every(f => f.status === GuessStatus.CORRECT)).toBe(true)
 
       // test partial match
-      const partialGuess = 'SHADO'
+      const partialGuess: ValidColor[] = ['R', 'G', 'B', 'Y', 'C']
       const partialFeedback = validateGuess(partialGuess, retrievedAnswer!)
 
-      // SHALE vs SHADO
-      // S=correct, H=correct, A=correct, D=absent (D not in SHALE), O=absent (O not in SHALE)
-      expect(partialFeedback[0].status).toBe(GuessStatus.CORRECT) // S
-      expect(partialFeedback[1].status).toBe(GuessStatus.CORRECT) // H
-      expect(partialFeedback[2].status).toBe(GuessStatus.CORRECT) // A
-      expect(partialFeedback[3].status).toBe(GuessStatus.ABSENT) // D (D not in SHALE)
-      expect(partialFeedback[4].status).toBe(GuessStatus.ABSENT) // O (O not in SHALE)
+      // RGBYM vs RGBYC
+      // R=correct, G=correct, B=correct, Y=correct, C=absent (C not in RGBYM)
+      expect(partialFeedback[0].status).toBe(GuessStatus.CORRECT) // R
+      expect(partialFeedback[1].status).toBe(GuessStatus.CORRECT) // G
+      expect(partialFeedback[2].status).toBe(GuessStatus.CORRECT) // B
+      expect(partialFeedback[3].status).toBe(GuessStatus.CORRECT) // Y
+      expect(partialFeedback[4].status).toBe(GuessStatus.ABSENT) // C (C not in RGBYM)
 
       // verify the puzzle still exists in database
       const retrieved = await getCustomPuzzle(puzzleId)

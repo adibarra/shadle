@@ -29,7 +29,7 @@ export function validateDeviceId(deviceId: string | undefined): { isValid: boole
  * Validates that a guess array meets the required format
  */
 export function validateGuessFormat(guess: ValidColor[] | undefined): { isValid: boolean, error?: string } {
-  if (!Array.isArray(guess)) {
+  if (!Array.isArray(guess) || guess.length === 0) {
     return { isValid: false, error: 'Guess is required and must be an array' }
   }
 
@@ -37,7 +37,7 @@ export function validateGuessFormat(guess: ValidColor[] | undefined): { isValid:
     return { isValid: false, error: 'Guess must be exactly 5 colors' }
   }
 
-  if (!guess.every(c => VALID_COLORS.includes(c))) {
+  if (!guess.every(c => VALID_COLORS.includes(c.toUpperCase() as ValidColor))) {
     return { isValid: false, error: `Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}` }
   }
 

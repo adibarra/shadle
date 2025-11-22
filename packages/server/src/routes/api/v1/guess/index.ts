@@ -33,7 +33,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
         return reply.code(404).send({ error: 'Puzzle not found' })
       }
 
-      const feedback = validateGuess(guess.join(''), answer)
+      const feedback = validateGuess(guess, answer)
       const correct = feedback.every(item => item.status === GuessStatus.CORRECT)
       const { tries } = await recordPuzzleAttempt(deviceId, puzzleId, correct)
 

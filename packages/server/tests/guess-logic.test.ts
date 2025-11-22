@@ -1,12 +1,12 @@
 import config from '@shadle/config'
-import { GuessStatus } from '@shadle/types'
+import { GuessStatus, ValidColor } from '@shadle/types'
 import { expect, testSuite } from 'manten'
 import { getPuzzleAnswer, validateGuess } from '../src/logic/guess.js'
 
 export default testSuite(({ describe }) => {
   describe('validateGuess', ({ test }) => {
     test('should return all correct for perfect match', () => {
-      const result = validateGuess('RGBYP', 'RGBYP')
+      const result = validateGuess(['R', 'G', 'B', 'Y', 'P'], 'RGBYP')
       expect(result).toEqual([
         { letter: 'R', status: GuessStatus.CORRECT },
         { letter: 'G', status: GuessStatus.CORRECT },
@@ -17,7 +17,7 @@ export default testSuite(({ describe }) => {
     })
 
     test('should return all absent for no matches', () => {
-      const result = validateGuess('RGBYP', 'OWKRO')
+      const result = validateGuess(['R', 'G', 'B', 'Y', 'P'], 'OWKRO')
       expect(result).toEqual([
         { letter: 'R', status: GuessStatus.PRESENT }, // R exists in answer
         { letter: 'G', status: GuessStatus.ABSENT }, // G not in answer
@@ -28,7 +28,7 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle present letters correctly', () => {
-      const result = validateGuess('RGBYP', 'YBRGP')
+      const result = validateGuess(['R', 'G', 'B', 'Y', 'P'], 'YBRGP')
       expect(result).toEqual([
         { letter: 'R', status: GuessStatus.PRESENT },
         { letter: 'G', status: GuessStatus.PRESENT },
@@ -39,7 +39,7 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle mixed correct, present, and absent', () => {
-      const result = validateGuess('RGBYP', 'RBYPO')
+      const result = validateGuess(['R', 'G', 'B', 'Y', 'P'], 'RBYPO')
       expect(result).toEqual([
         { letter: 'R', status: GuessStatus.CORRECT }, // R is in correct position
         { letter: 'G', status: GuessStatus.ABSENT }, // G not in answer
@@ -50,7 +50,7 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle duplicate letters correctly - only mark first occurrence as correct/present', () => {
-      const result = validateGuess('RRRRR', 'RGBYR')
+      const result = validateGuess(['R', 'R', 'R', 'R', 'R'], 'RGBYR')
       expect(result).toEqual([
         { letter: 'R', status: GuessStatus.CORRECT }, // first R matches position
         { letter: 'R', status: GuessStatus.ABSENT }, // no more R's available
@@ -61,7 +61,7 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle duplicate letters with correct and present', () => {
-      const result = validateGuess('RBRBR', 'BRBRB')
+      const result = validateGuess(['R', 'B', 'R', 'B', 'R'], 'BRBRB')
       expect(result).toEqual([
         { letter: 'R', status: GuessStatus.PRESENT }, // R exists but wrong position
         { letter: 'B', status: GuessStatus.PRESENT }, // B exists but wrong position
@@ -72,7 +72,7 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle case insensitive input', () => {
-      const result = validateGuess('rgbyp', 'RGBYP')
+      const result = validateGuess(['r', 'g', 'b', 'y', 'p'], 'RGBYP')
       expect(result).toEqual([
         { letter: 'r', status: GuessStatus.ABSENT }, // case sensitive comparison
         { letter: 'g', status: GuessStatus.ABSENT },
@@ -83,7 +83,7 @@ export default testSuite(({ describe }) => {
     })
 
     test('should preserve original guess letter case', () => {
-      const result = validateGuess('Rgbyp', 'RGBYP')
+      const result = validateGuess(['R', 'g', 'b', 'y', 'p'], 'RGBYP')
       expect(result).toEqual([
         { letter: 'R', status: GuessStatus.CORRECT },
         { letter: 'g', status: GuessStatus.ABSENT }, // lowercase g doesn't match uppercase G
@@ -94,7 +94,7 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle all letters present but wrong positions', () => {
-      const result = validateGuess('RGBYP', 'PGBYR')
+      const result = validateGuess(['R', 'G', 'B', 'Y', 'P'], 'PGBYR')
       expect(result).toEqual([
         { letter: 'R', status: GuessStatus.PRESENT }, // R exists in answer
         { letter: 'G', status: GuessStatus.CORRECT }, // G in correct position
@@ -105,7 +105,7 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle single letter matches', () => {
-      const result = validateGuess('RRRRR', 'RBBBB')
+      const result = validateGuess(['R', 'R', 'R', 'R', 'R'], 'RBBBB')
       expect(result).toEqual([
         { letter: 'R', status: GuessStatus.CORRECT }, // first R matches
         { letter: 'R', status: GuessStatus.ABSENT }, // no more R's
@@ -116,7 +116,7 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle edge case with repeated letters in answer', () => {
-      const result = validateGuess('BBBBB', 'BRBRB')
+      const result = validateGuess(['B', 'B', 'B', 'B', 'B'], 'BRBRB')
       expect(result).toEqual([
         { letter: 'B', status: GuessStatus.CORRECT }, // B in correct position
         { letter: 'B', status: GuessStatus.ABSENT }, // no more B's available
@@ -127,7 +127,7 @@ export default testSuite(({ describe }) => {
     })
 
     test('should handle guess with no letters matching answer', () => {
-      const result = validateGuess('OWKOW', 'RGBYP')
+      const result = validateGuess(['O', 'W', 'K', 'O', 'W'], 'RGBYP')
       expect(result).toEqual([
         { letter: 'O', status: GuessStatus.ABSENT }, // O not in answer
         { letter: 'W', status: GuessStatus.ABSENT }, // W not in answer
