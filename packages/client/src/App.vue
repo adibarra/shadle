@@ -12,7 +12,8 @@
 :root {
   --color-bg: #121212;
   --color-text: #e5e7eb;
-  --color-outline: #374151;
+  --color-text-alt: #121212;
+  --color-outline: #555555;
   --color-accent: #16a34a;
 
   --color-r: #dc2626;
@@ -23,6 +24,17 @@
   --color-c: #0891b2;
   --color-p: #ec4899;
   --color-o: #c2410c;
+}
+
+:root.tol-muted {
+  --color-r: #332288;
+  --color-g: #117733;
+  --color-b: #44aa99;
+  --color-y: #88ccee;
+  --color-m: #ddcc77;
+  --color-c: #cc6677;
+  --color-p: #882255;
+  --color-o: #aa4499;
 }
 
 html,

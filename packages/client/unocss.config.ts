@@ -15,8 +15,7 @@ export default defineConfig({
     ...VALID_COLORS.map(key => `text-[var(--color-${key.toLowerCase()})]`),
     'bg-[var(--color-bg)]',
     'text-[var(--color-text)]',
-    'border-[var(--color-accent)]',
-    'border-[var(--color-r)]',
+    'text-[var(--color-text-alt)]',
   ],
   presets: [
     presetWind3(),
