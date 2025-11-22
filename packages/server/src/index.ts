@@ -82,7 +82,7 @@ app.setNotFoundHandler(async (request, reply) => {
     })
   }
   // serve index.html for SPA routes
-  return reply.sendFile('index.html', path.join(import.meta.dirname, 'public'))
+  return reply.sendFile('index.html', path.join(import.meta.dirname, '..', 'public'))
 })
 
 // handle errors
