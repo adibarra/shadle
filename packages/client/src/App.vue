@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { provide, ref } from 'vue'
-import InstructionsModal from './components/InstructionsModal.vue'
-
 const showInstructions = ref(false)
 
 provide('toggleInstructions', () => {
