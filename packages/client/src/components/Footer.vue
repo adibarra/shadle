@@ -4,6 +4,9 @@ const commitHash = import.meta.env.VITE_COMMIT_HASH
 
 <template>
   <footer class="relative m-2 text-center text-sm sm:text-base" role="contentinfo">
+    <span class="absolute left-1 text-xs op-02" aria-hidden="true">
+      {{ commitHash }}
+    </span>
     <span class="op-50">
       Made with ❤️ by
     </span>
@@ -17,15 +20,6 @@ const commitHash = import.meta.env.VITE_COMMIT_HASH
     >
       adibarra
     </a>
-    <div v-if="isCompactViewport" class="h-4" />
-    <span
-      class="absolute text-sm op-5"
-      :style="{
-        left: `calc(0.25rem + env(safe-area-inset-left))`,
-        bottom: `calc(0.125rem + env(safe-area-inset-bottom))`,
-      }"
-    >
-      {{ commitHash }}
-    </span>
+    <div v-if="isIos && isPwa" class="h-4" />
   </footer>
 </template>
