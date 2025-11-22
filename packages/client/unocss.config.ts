@@ -13,6 +13,7 @@ export default defineConfig({
   safelist: [
     ...VALID_COLORS.map(key => `bg-[var(--color-${key.toLowerCase()})]`),
     ...VALID_COLORS.map(key => `text-[var(--color-${key.toLowerCase()})]`),
+    ...VALID_COLORS.map(key => `border-[var(--color-${key.toLowerCase()})]`),
     'bg-[var(--color-bg)]',
     'text-[var(--color-text)]',
     'text-[var(--color-text-alt)]',

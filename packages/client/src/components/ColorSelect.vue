@@ -13,24 +13,17 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   select: [color: ValidColor]
 }>()
-
-const gridCols = computed(() => {
-  const count = VALID_COLORS.length
-  if (count <= 2) return 'grid-cols-1'
-  if (count <= 4) return 'grid-cols-2'
-  if (count <= 6) return 'grid-cols-3'
-  return 'grid-cols-4'
-})
 </script>
 
 <template>
-  <div :class="`mb-10 grid gap-4 ${gridCols}`">
+  <div class="grid grid-cols-4 mb-10 gap-4">
     <div
       v-for="color in VALID_COLORS"
       :key="color"
       :class="`relative rounded p-4 transition-opacity select-none ${
-        props.disabledColors.includes(color) ? 'bg-[hsl(0,0%,20%)] cursor-not-allowed pointer-events-none' : `${bgColorClasses[color]} cursor-pointer`
+        props.disabledColors.includes(color) ? `bg-[hsl(0,0%,20%)] cursor-not-allowed pointer-events-none` : `${bgColorClasses[color]} cursor-pointer`
       }`"
+      :style="props.disabledColors.includes(color) ? { boxShadow: `inset 0 0 0 1px var(--color-${color.toLowerCase()})` } : {}"
       @click="props.disabledColors.includes(color) || emit('select', color)"
     />
   </div>

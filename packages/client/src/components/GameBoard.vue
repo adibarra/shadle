@@ -33,14 +33,7 @@ const props = defineProps<Props>()
           }`"
         >
           <div
-            v-if="guessIndex < props.guesses.length && props.feedback?.[guessIndex]?.[colorIndex] === GuessStatus.CORRECT"
-            class="absolute left-1/2 top-1/2 z-20 text-center text-[var(--color-text-alt)] font-bold op-80 -translate-x-1/2"
-            style="line-height: 0; transform: translate(-50%, calc(-50% - 2px)); clip-path: inset(0 round 0.25rem)"
-          >
-            ✓
-          </div>
-          <div
-            v-else-if="guessIndex < props.guesses.length && props.feedback?.[guessIndex]?.[colorIndex] !== GuessStatus.CORRECT && props.feedback?.[guessIndex]?.[colorIndex] !== GuessStatus.ABSENT"
+            v-if="guessIndex < props.guesses.length && props.feedback?.[guessIndex]?.[colorIndex] !== GuessStatus.CORRECT && props.feedback?.[guessIndex]?.[colorIndex] !== GuessStatus.ABSENT"
             class="absolute inset-0 z-15"
             style="clip-path: inset(0 round 0.25rem)"
           >
