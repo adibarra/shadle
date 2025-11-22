@@ -3,8 +3,9 @@ import type { ValidColor } from '@shadle/types'
 import { GuessStatus } from '@shadle/types'
 
 interface Props {
-  guesses: ValidColor[][]
-  feedback?: GuessStatus[][]
+  guesses: readonly (readonly ValidColor[])[]
+  feedback?: readonly (readonly GuessStatus[])[]
+  currentGuess?: readonly ValidColor[]
 }
 
 const props = defineProps<Props>()
@@ -25,9 +26,9 @@ function getSymbol(status?: GuessStatus) {
 </script>
 
 <template>
-  <div class="grid grid-rows-5 mx-6 mb-20 gap-5">
+  <div class="grid grid-rows-6 mx-6 mb-8 gap-5">
     <div
-      v-for="(_, guessIndex) in Array(5).fill(null)"
+      v-for="(_, guessIndex) in Array(6).fill(null)"
       :key="guessIndex"
       class="grid grid-cols-5 gap-1"
     >
@@ -39,6 +40,10 @@ function getSymbol(status?: GuessStatus) {
         <div
           v-if="guessIndex < props.guesses.length"
           :class="`w-full h-full rounded relative z-10 ${bgColorClasses[props.guesses[guessIndex][colorIndex]]}`"
+        />
+        <div
+          v-else-if="guessIndex === props.guesses.length && props.currentGuess && colorIndex < props.currentGuess.length"
+          :class="`w-full h-full rounded relative z-10 ${bgColorClasses[props.currentGuess[colorIndex]]}`"
         />
         <div
           v-else

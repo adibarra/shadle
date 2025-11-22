@@ -25,6 +25,10 @@ div {
   scrollbar-width: none;
 }
 
+* {
+  touch-action: manipulation;
+}
+
 html::-webkit-scrollbar,
 div::-webkit-scrollbar {
   display: none;

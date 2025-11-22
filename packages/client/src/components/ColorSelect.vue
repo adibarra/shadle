@@ -26,7 +26,7 @@ const gridCols = computed(() => {
 </script>
 
 <template>
-  <div :class="`mb-20 grid gap-4 ${gridCols}`">
+  <div :class="`mb-10 grid gap-4 ${gridCols}`">
     <div
       v-for="color in enabledColors"
       :key="color"
