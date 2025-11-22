@@ -1,9 +1,48 @@
 <script setup lang="ts">
+import { generateDeviceId } from './utils'
+
 const showInstructions = ref(false)
+const showSidebar = ref(false)
+const showSettings = ref(false)
+const theme = ref('default')
+
+function setTheme(newTheme: string) {
+  theme.value = newTheme
+}
+
+function resetApp() {
+  localStorage.setItem('shadle-device-id', generateDeviceId())
+  localStorage.removeItem('shadle-game-state')
+
+  window.location.reload()
+}
+
+watch(theme, (newTheme) => {
+  if (newTheme === 'colorblind') {
+    document.documentElement.classList.add('tol-muted')
+  } else {
+    document.documentElement.classList.remove('tol-muted')
+  }
+})
+
+watchEffect(() => {
+  const anyModal = showInstructions.value || showSidebar.value || showSettings.value
+  document.body.classList.toggle('no-scroll', anyModal)
+})
 
 provide('toggleInstructions', () => {
   showInstructions.value = !showInstructions.value
 })
+provide('toggleSidebar', () => {
+  showSidebar.value = !showSidebar.value
+})
+provide('openSettings', () => {
+  showSidebar.value = false
+  showSettings.value = true
+})
+provide('setTheme', setTheme)
+provide('theme', theme)
+provide('resetApp', resetApp)
 </script>
 
 <template>
@@ -14,6 +53,8 @@ provide('toggleInstructions', () => {
     </div>
     <Footer />
     <InstructionsModal :show="showInstructions" :on-close="() => showInstructions = false" />
+    <Sidebar :show="showSidebar" :on-close="() => showSidebar = false" />
+    <SettingsModal :show="showSettings" :on-close="() => showSettings = false" />
   </div>
 </template>
 
@@ -69,6 +110,10 @@ div {
 html::-webkit-scrollbar,
 div::-webkit-scrollbar {
   display: none;
+}
+
+.no-scroll {
+  overflow: hidden;
 }
 
 #nprogress {

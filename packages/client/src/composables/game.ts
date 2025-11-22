@@ -2,6 +2,7 @@ import type { ValidColor } from '@shadle/types'
 import { GuessStatus } from '@shadle/types'
 import { computed, readonly, ref } from 'vue'
 import { submitGuess as submitGuessAPI } from './api'
+import { generateDeviceId } from '../utils'
 
 const STORAGE_KEY = 'shadle-game-state'
 
@@ -62,18 +63,6 @@ const disabledColors = computed(() => {
 function generatePuzzleId() {
   const today = new Date().toISOString().split('T')[0]
   return `§${today}`
-}
-
-function generateDeviceId() {
-  if (crypto && crypto.randomUUID) {
-    return crypto.randomUUID()
-  }
-  // Fallback for browsers without crypto.randomUUID
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = Math.random() * 16 | 0
-    const v = c === 'x' ? r : (r & 0x3 | 0x8)
-    return v.toString(16)
-  })
 }
 
 function _getDeviceId() {
