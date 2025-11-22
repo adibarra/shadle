@@ -71,8 +71,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: [],
       manifest: {
-        name: 'shadle',
-        short_name: 'shadle',
+        name: 'Shadle',
+        short_name: 'Shadle',
         description: 'A Wordle-style game with colors. Challenge your mind with daily color pattern puzzles.',
         theme_color: '#1da54f',
         icons: [
