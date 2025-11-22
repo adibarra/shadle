@@ -15,10 +15,10 @@ onMounted(() => {
   <Instructions />
   <GameBoard :guesses="gameState.guesses" :feedback="gameState.feedback" :current-guess="currentGuess" />
   <div class="grid grid-cols-2 mb-4 mt-4 gap-2">
-    <button :disabled="currentGuess.length === 0" class="w-full border rounded bg-transparent px-2 py-1 text-[var(--color-text)]" :class="[currentGuess.length === 0 ? 'border-[var(--color-r)] opacity-50' : 'border-[var(--color-r)] active:opacity-75']" @click="removeColor">
+    <button :disabled="currentGuess.length === 0" class="w-full border rounded bg-transparent px-2 py-1 text-[var(--color-text)]" :class="[currentGuess.length === 0 ? 'border-[var(--color-outline)] opacity-50' : 'border-[var(--color-outline)] active:opacity-75']" @click="removeColor">
       Backspace
     </button>
-    <button :disabled="!canSubmit" class="w-full border rounded bg-transparent px-2 py-1 text-[var(--color-text)]" :class="[!canSubmit ? 'border-[var(--color-accent)] opacity-50' : 'border-[var(--color-accent)] active:opacity-75']" @click="submitGuess">
+    <button :disabled="!canSubmit" class="w-full border rounded bg-transparent px-2 py-1 text-[var(--color-text)]" :class="[!canSubmit ? 'border-[var(--color-outline)] opacity-50' : 'border-[var(--color-outline)] active:opacity-75']" @click="submitGuess">
       Submit Guess
     </button>
   </div>
