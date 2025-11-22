@@ -1,45 +1,15 @@
 <script setup lang="ts">
-import { generateDeviceId } from './utils'
+import { useTheme } from './composables/theme'
+import { useResetApp } from './composables/useResetApp'
+import { useUiStore } from './stores/ui'
 
-const showInstructions = ref(false)
-const showSidebar = ref(false)
-const showSettings = ref(false)
-const theme = ref('default')
+const ui = useUiStore()
+const { theme, setTheme } = useTheme()
+const { resetApp } = useResetApp()
 
-function setTheme(newTheme: string) {
-  theme.value = newTheme
-}
-
-function resetApp() {
-  localStorage.setItem('shadle-device-id', generateDeviceId())
-  localStorage.removeItem('shadle-game-state')
-
-  window.location.reload()
-}
-
-watch(theme, (newTheme) => {
-  if (newTheme === 'colorblind') {
-    document.documentElement.classList.add('tol-muted')
-  } else {
-    document.documentElement.classList.remove('tol-muted')
-  }
-})
-
-watchEffect(() => {
-  const anyModal = showInstructions.value || showSidebar.value || showSettings.value
-  document.body.classList.toggle('no-scroll', anyModal)
-})
-
-provide('toggleInstructions', () => {
-  showInstructions.value = !showInstructions.value
-})
-provide('toggleSidebar', () => {
-  showSidebar.value = !showSidebar.value
-})
-provide('openSettings', () => {
-  showSidebar.value = false
-  showSettings.value = true
-})
+provide('toggleInstructions', ui.openInstructions)
+provide('toggleSidebar', ui.toggleSidebar)
+provide('openSettings', ui.openSettings)
 provide('setTheme', setTheme)
 provide('theme', theme)
 provide('resetApp', resetApp)
@@ -48,13 +18,14 @@ provide('resetApp', resetApp)
 <template>
   <div class="flex flex-col min-h-svh">
     <Header />
+    <PwaUpdateBanner />
     <div class="flex grow flex-col px-4">
       <RouterView />
     </div>
     <Footer />
-    <InstructionsModal :show="showInstructions" :on-close="() => showInstructions = false" />
-    <Sidebar :show="showSidebar" :on-close="() => showSidebar = false" />
-    <SettingsModal :show="showSettings" :on-close="() => showSettings = false" />
+    <InstructionsModal />
+    <Sidebar />
+    <SettingsModal />
   </div>
 </template>
 

@@ -15,7 +15,7 @@
     "dev": "pnpm --parallel --color run dev",
     "lint": "eslint . --cache; exit 0",
     "lint:fix": "eslint . --fix --cache; exit 0",
-    "preview": "pnpm --filter @shadle/client run build && pnpm --filter @shadle/server run preview",
+    "preview": "COMMIT_HASH=$(git rev-parse HEAD) pnpm --filter @shadle/client run build && pnpm --filter @shadle/server run preview",
     "start": "pnpm --filter @shadle/server run start",
     "taze": "taze -r -I",
     "test": "pnpm --parallel --color run test",

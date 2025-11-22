@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { inject } from 'vue'
-
 const toggleInstructions = inject<() => void>('toggleInstructions')!
 const toggleSidebar = inject<() => void>('toggleSidebar')!
 </script>

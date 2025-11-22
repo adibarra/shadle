@@ -1,14 +1,9 @@
 <script setup lang="ts">
-interface Props {
-  show: boolean
-  onClose: () => void
-}
-
-defineProps<Props>()
+const ui = useUiStore()
 </script>
 
 <template>
-  <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div v-if="ui.showInstructions" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
     <div class="mx-4 max-w-sm min-h-[300px] w-full flex flex-col justify-between rounded-lg bg-[var(--color-bg)] p-6 text-[var(--color-text)] shadow-lg">
       <div>
         <h2 class="mb-4 text-2xl font-bold">
@@ -44,7 +39,7 @@ defineProps<Props>()
         </p>
       </div>
       <div class="flex justify-end">
-        <button class="rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="onClose">
+        <button class="rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="ui.showInstructions = false">
           Close
         </button>
       </div>

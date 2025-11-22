@@ -1,23 +1,16 @@
 <script setup lang="ts">
-interface Props {
-  show: boolean
-  onClose: () => void
-}
-
-defineProps<Props>()
-
-const openSettings = inject<() => void>('openSettings')!
+const ui = useUiStore()
 </script>
 
 <template>
-  <Transition name="slide-left">
+  <Transition name="slide-bottom">
     <div
-      v-if="show"
+      v-if="ui.showSidebar"
       class="fixed inset-0 z-50"
-      @click="onClose"
+      @click="ui.showSidebar = false"
     >
       <div
-        class="fixed left-0 top-0 h-full w-32 border-r border-[var(--color-outline)] bg-[var(--color-bg)] shadow-lg"
+        class="fixed bottom-0 left-0 right-0 h-40 border-t border-[var(--color-outline)] rounded-t-lg bg-[var(--color-bg)] shadow-lg"
         @click.stop
       >
         <div class="p-4">
@@ -27,7 +20,7 @@ const openSettings = inject<() => void>('openSettings')!
             </h2>
             <button
               class="p-2 text-xl text-[var(--color-text)]"
-              @click="onClose"
+              @click="ui.showSidebar = false"
             >
               <div class="i-carbon:close" />
             </button>
@@ -35,7 +28,7 @@ const openSettings = inject<() => void>('openSettings')!
           <nav>
             <ul class="space-y-2">
               <li>
-                <button class="w-full rounded bg-[var(--color-outline)] p-2 text-left text-[var(--color-text)] hover:bg-[var(--color-outline)]" @click="openSettings">
+                <button class="w-full rounded bg-[var(--color-outline)] p-2 text-left text-[var(--color-text)] hover:bg-[var(--color-outline)]" @click="ui.openSettings">
                   Settings
                 </button>
               </li>
@@ -48,13 +41,13 @@ const openSettings = inject<() => void>('openSettings')!
 </template>
 
 <style scoped>
-.slide-left-enter-active,
-.slide-left-leave-active {
+.slide-bottom-enter-active,
+.slide-bottom-leave-active {
   transition: transform 0.5s;
 }
 
-.slide-left-enter-from,
-.slide-left-leave-to {
-  transform: translateX(-100%);
+.slide-bottom-enter-from,
+.slide-bottom-leave-to {
+  transform: translateY(100%);
 }
 </style>

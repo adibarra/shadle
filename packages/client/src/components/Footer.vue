@@ -1,5 +1,9 @@
+<script setup lang="ts">
+const commitHash = import.meta.env.VITE_COMMIT_HASH
+</script>
+
 <template>
-  <footer class="m-2 text-center text-sm sm:text-base" role="contentinfo">
+  <footer class="relative m-2 text-center text-sm sm:text-base" role="contentinfo">
     <span class="op-50">
       Made with ❤️ by
     </span>
@@ -14,5 +18,14 @@
       adibarra
     </a>
     <div v-if="isCompactViewport" class="h-4" />
+    <span
+      class="absolute text-sm op-5"
+      :style="{
+        left: `calc(0.25rem + env(safe-area-inset-left))`,
+        bottom: `calc(0.125rem + env(safe-area-inset-bottom))`,
+      }"
+    >
+      {{ commitHash }}
+    </span>
   </footer>
 </template>

@@ -7,7 +7,7 @@
     "check": "vue-tsc --noEmit",
     "clean": "rm -rf dist/ src/auto-imports.d.ts src/components.d.ts vite.config.ts.timestamp-*",
     "clean:all": "pnpm run clean && git clean -fdX",
-    "dev": "tsx scripts/prebuild.ts && NODE_ENV=dev vite dev --port 3333 --clearScreen false",
+    "dev": "tsx scripts/prebuild.ts && COMMIT_HASH=$(git rev-parse HEAD) NODE_ENV=dev vite dev --port 3333 --clearScreen false",
     "test": "NODE_ENV=test vitest run"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "@vue/test-utils": "^2.4.6",
     "@vueuse/core": "^14.0.0",
     "nprogress": "^0.2.0",
+    "pinia": "^3.0.4",
     "unocss": "^66.5.6",
     "unplugin-auto-import": "^20.2.0",
     "unplugin-vue-components": "^30.0.0",

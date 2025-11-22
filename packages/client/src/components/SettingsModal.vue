@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue'
-
-interface Props {
-  show: boolean
-  onClose: () => void
-}
-
-const props = defineProps<Props>()
+const ui = useUiStore()
 
 const setTheme = inject<(theme: string) => void>('setTheme')!
 const theme = inject<Ref<string>>('theme')!
@@ -40,13 +33,13 @@ function handleReset() {
   // eslint-disable-next-line no-alert
   if (confirm('Are you sure you want to reset? This will clear all game data and generate a new device ID.')) {
     resetApp()
-    props.onClose()
+    ui.showSettings = false
   }
 }
 </script>
 
 <template>
-  <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div v-if="ui.showSettings" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
     <div class="mx-4 max-w-sm w-full rounded-lg bg-[var(--color-bg)] p-6 text-[var(--color-text)] shadow-lg">
       <h2 class="mb-4 text-2xl font-bold">
         Settings
@@ -97,7 +90,7 @@ function handleReset() {
         </button>
       </div>
       <div class="flex justify-end">
-        <button class="btn rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="props.onClose">
+        <button class="btn rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="ui.closeSettings">
           Close
         </button>
       </div>
