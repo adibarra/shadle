@@ -1,14 +1,8 @@
 services:
-  client:
-    image: ghcr.io/adibarra/shadle/client:latest
+  app:
+    image: ghcr.io/adibarra/shadle/app:latest
     ports:
       - '3000:80'
-    restart: unless-stopped
-
-  server:
-    image: ghcr.io/adibarra/shadle/server:latest
-    ports:
-      - '3001:80'
     env_file:
       - .env
     volumes:
@@ -27,5 +21,8 @@ services:
     # ports:
     #   - '3002:5432'
     volumes:
-      - ./data/postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+
+volumes:
+  postgres_data:

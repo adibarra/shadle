@@ -5,6 +5,7 @@ import compress from '@fastify/compress'
 import cors from '@fastify/cors'
 import helmet from '@fastify/helmet'
 import ratelimit from '@fastify/rate-limit'
+import staticPlugin from '@fastify/static'
 import config from '@shadle/config'
 import { cleanupDb } from '@shadle/database'
 import { getLogger } from '@shadle/logger'
@@ -50,6 +51,22 @@ await app.register(ratelimit, {
 // configure compression
 await app.register(compress)
 
+// configure static file serving
+if (!config.IS_DEV) {
+  await app.register(staticPlugin, {
+    root: path.join(import.meta.dirname, '..', 'public'),
+    prefix: '/',
+    wildcard: true,
+    setHeaders: (res, path) => {
+      if (path.includes('/assets/') || path.includes('/workbox-')) {
+        res.setHeader('Cache-Control', 'public, max-age=31536000, s-maxage=31536000, immutable')
+      } else {
+        res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=0, must-revalidate')
+      }
+    },
+  })
+}
+
 // autoload api routes
 await app.register(autoload, {
   dir: path.join(import.meta.dirname, 'routes'),
@@ -57,11 +74,15 @@ await app.register(autoload, {
 
 // handle 404
 app.setNotFoundHandler(async (request, reply) => {
-  app.log.warn(`404: ${request.url}`)
-  return reply.code(404).send({
-    message: 'Not Found',
-    code: 404,
-  })
+  if (request.url.startsWith('/api')) {
+    app.log.warn(`404: ${request.url}`)
+    return reply.code(404).send({
+      message: 'Not Found',
+      code: 404,
+    })
+  }
+  // serve index.html for SPA routes
+  return reply.sendFile('index.html', path.join(import.meta.dirname, 'public'))
 })
 
 // handle errors
@@ -75,11 +96,12 @@ app.setErrorHandler(async (err, _, reply) => {
 })
 
 // start listening for http requests
+const port = config.IS_PROD ? 80 : config.IS_PREVIEW ? 3000 : 3332
 await app.listen({
-  host: config.API_HOST,
-  port: config.API_PORT,
+  host: config.APP_HOST,
+  port,
 })
-logger.info(`Server listening on ${config.API_HOST}:${config.API_PORT}.`)
+logger.info(`Server listening on ${config.APP_HOST}:${port}.`)
 
 // start background tasks (unless skipped)
 let tasksStarted = false

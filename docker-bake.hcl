@@ -10,24 +10,15 @@ variable "COMMIT_HASH" {
   default = "unknown"
 }
 
-target "client" {
+target "app" {
   context = "."
   dockerfile = "Dockerfile"
-  target = "client"
-  args = {
-    COMMIT_HASH = COMMIT_HASH
-  }
-}
-
-target "server" {
-  context = "."
-  dockerfile = "Dockerfile"
-  target = "server"
+  target = "app"
   args = {
     COMMIT_HASH = COMMIT_HASH
   }
 }
 
 group "all" {
-  targets = ["client", "server"]
+  targets = ["app"]
 }

@@ -8,7 +8,6 @@
     "check": "tsc --noEmit",
     "clean:all": "git clean -fdX",
     "dev": "tsx watch --clear-screen=false src/index.ts",
-    "preview": "tsx watch --clear-screen=false src/index.ts",
     "start": "tsx src/index.ts",
     "test": "NODE_ENV=test tsx tests/index.ts"
   },
@@ -18,6 +17,7 @@
     "@fastify/cors": "^11.1.0",
     "@fastify/helmet": "^13.0.2",
     "@fastify/rate-limit": "^10.3.0",
+    "@fastify/static": "^8.0.0",
     "@shadle/config": "workspace:*",
     "@shadle/database": "workspace:*",
     "@shadle/logger": "workspace:*",

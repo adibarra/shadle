@@ -18,7 +18,7 @@
     "dev:server": "pnpm --filter @shadle/server run dev",
     "lint": "eslint . --cache; exit 0",
     "lint:fix": "eslint . --fix --cache; exit 0",
-    "preview": "pnpm --parallel --color run preview",
+    "preview": "pnpm run build && ./scripts/prepare-preview.sh && NODE_ENV=PREVIEW pnpm --filter @shadle/server run start",
     "start": "pnpm --filter @shadle/server run start",
     "taze": "taze -r -I",
     "test": "NODE_ENV=test pnpm --parallel --color run test",

@@ -11,3 +11,5 @@ node_modules/
 .eslintcache
 .pnp.*
 tsconfig.tsbuildinfo
+
+packages/server/public/

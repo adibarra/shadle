@@ -9,7 +9,6 @@
     "clean:all": "pnpm run clean && git clean -fdX",
     "dev": "pnpm run prebuild && vite dev --port 3333 --clearScreen false",
     "prebuild": "tsx scripts/prebuild.ts",
-    "preview": "vite preview --port 3000",
     "test": "NODE_ENV=test vitest run"
   },
   "dependencies": {
