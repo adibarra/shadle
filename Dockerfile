@@ -30,6 +30,6 @@ RUN pnpm run build
 FROM base AS app
 
 COPY --from=builder --exclude=packages/client/dist /app /app
-COPY --from=builder /app/packages/client/dist /app/public
+COPY --from=builder /app/packages/client/dist /app/packages/server/public
 EXPOSE 80
 CMD ["pnpm", "run", "start"]
