@@ -38,11 +38,9 @@ jobs:
           SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-8)
           echo "bake_set<<EOF" >> $GITHUB_ENV
           echo "*.args.COMMIT_HASH=${{ github.sha }}" >> $GITHUB_ENV
-          echo "client.tags=ghcr.io/${{ github.repository }}/client:$SHORT_SHA" >> $GITHUB_ENV
-          echo "server.tags=ghcr.io/${{ github.repository }}/server:$SHORT_SHA" >> $GITHUB_ENV
+          echo "app.tags=ghcr.io/${{ github.repository }}/app:$SHORT_SHA" >> $GITHUB_ENV
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            echo "client.tags=ghcr.io/${{ github.repository }}/client:latest" >> $GITHUB_ENV
-            echo "server.tags=ghcr.io/${{ github.repository }}/server:latest" >> $GITHUB_ENV
+            echo "app.tags=ghcr.io/${{ github.repository }}/app:latest" >> $GITHUB_ENV
           fi
           echo "EOF" >> $GITHUB_ENV
 
