@@ -9,19 +9,16 @@
     "adibarra <github@adibarra.com> (https://adibarra.com)"
   ],
   "scripts": {
-    "build": "pnpm --parallel --color run build",
+    "build": "pnpm --filter @shadle/client run build",
     "clean": "pnpm --parallel run clean",
     "clean:all": "[ -f .env ] && mv .env .env.backup; pnpm --parallel run clean:all && git clean -fdX; [ -f .env.backup ] && mv .env.backup .env",
     "dev": "pnpm --parallel --color run dev",
-    "dev:client": "pnpm --filter @shadle/client run dev",
-    "dev:core": "SKIP_TASKS=true pnpm --parallel --color run dev",
-    "dev:server": "pnpm --filter @shadle/server run dev",
     "lint": "eslint . --cache; exit 0",
     "lint:fix": "eslint . --fix --cache; exit 0",
-    "preview": "pnpm run build && ./scripts/prepare-preview.sh && NODE_ENV=PREVIEW pnpm --filter @shadle/server run start",
+    "preview": "pnpm --filter @shadle/client run build && pnpm --filter @shadle/server run preview",
     "start": "pnpm --filter @shadle/server run start",
     "taze": "taze -r -I",
-    "test": "NODE_ENV=test pnpm --parallel --color run test",
+    "test": "pnpm --parallel --color run test",
     "check": "pnpm --parallel run check"
   },
   "devDependencies": {

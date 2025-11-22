@@ -7,8 +7,9 @@
   "scripts": {
     "check": "tsc --noEmit",
     "clean:all": "git clean -fdX",
-    "dev": "tsx watch --clear-screen=false src/index.ts",
-    "start": "tsx src/index.ts",
+    "dev": "NODE_ENV=dev tsx watch --clear-screen=false src/index.ts",
+    "preview": "NODE_ENV=preview tsx src/index.ts",
+    "start": "NODE_ENV=prod tsx src/index.ts",
     "test": "NODE_ENV=test tsx tests/index.ts"
   },
   "dependencies": {

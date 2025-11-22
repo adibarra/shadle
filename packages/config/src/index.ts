@@ -57,9 +57,9 @@ function getConfig(): Config {
     POSTGRES_DEV_URL: 'postgresql://postgres:password@localhost:5432/shadle_dev',
     PUZZLE_SALT: 'default-salt',
     LOG_LEVEL: {
-      CONSOLE: IS_PROD ? 'silent' : IS_DEV ? 'trace' : 'silent',
-      FILE: IS_PROD ? 'info' : IS_DEV ? 'silent' : 'silent',
-      MIN: IS_PROD ? 'info' : IS_DEV ? 'trace' : 'silent',
+      CONSOLE: IS_PROD ? 'silent' : IS_DEV ? 'trace' : IS_PREVIEW ? 'info' : 'silent',
+      FILE: IS_PROD ? 'info' : IS_DEV ? 'silent' : IS_PREVIEW ? 'silent' : 'silent',
+      MIN: IS_PROD ? 'info' : IS_DEV ? 'trace' : IS_PREVIEW ? 'info' : 'silent',
     },
   }
 
