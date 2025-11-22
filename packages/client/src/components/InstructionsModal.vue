@@ -12,7 +12,7 @@ defineProps<Props>()
     <div class="mx-4 max-w-sm min-h-[300px] w-full flex flex-col justify-between rounded-lg bg-[var(--color-bg)] p-6 text-[var(--color-text)] shadow-lg">
       <div>
         <h2 class="mb-4 text-2xl font-bold">
-          How to Play Shadle
+          How to Play <ShadleTitle />
         </h2>
         <p class="mb-2">
           Guess the 5-color combo in 6 tries.
@@ -44,7 +44,7 @@ defineProps<Props>()
         </p>
       </div>
       <div class="flex justify-end">
-        <button class="btn rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="onClose">
+        <button class="rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="onClose">
           Close
         </button>
       </div>

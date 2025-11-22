@@ -22,7 +22,7 @@ const props = defineProps<Props>()
         </p>
       </div>
       <div class="flex justify-end">
-        <button class="btn rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="props.onClose">
+        <button class="rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="props.onClose">
           Play Again
         </button>
       </div>
