@@ -51,7 +51,7 @@ function getSymbol(status?: GuessStatus) {
         />
         <span
           v-if="guessIndex < props.guesses.length && props.feedback?.[guessIndex]?.[colorIndex] != null"
-          class="absolute left-1/2 top-1/2 z-20 text-center text-white font-bold op-80 -translate-x-1/2"
+          class="absolute left-1/2 top-1/2 z-20 text-center text-[var(--color-text)] font-bold op-80 -translate-x-1/2"
           style="line-height: 0; transform: translate(-50%, calc(-50% - 2px));"
         >
           {{ getSymbol(props.feedback[guessIndex][colorIndex]) }}

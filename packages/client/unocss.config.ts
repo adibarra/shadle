@@ -1,3 +1,4 @@
+import { VALID_COLORS } from '@shadle/types'
 import {
   defineConfig,
   presetIcons,
@@ -7,12 +8,15 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import { colorHexes } from './src/constants/colors'
 
 export default defineConfig({
   safelist: [
-    ...Object.values(colorHexes).map(hex => `bg-[${hex}]`),
-    ...Object.values(colorHexes).map(hex => `text-[${hex}]`),
+    ...VALID_COLORS.map(key => `bg-[var(--color-${key.toLowerCase()})]`),
+    ...VALID_COLORS.map(key => `text-[var(--color-${key.toLowerCase()})]`),
+    'bg-[var(--color-bg)]',
+    'text-[var(--color-text)]',
+    'border-[var(--color-accent)]',
+    'border-[var(--color-r)]',
   ],
   presets: [
     presetWind3(),

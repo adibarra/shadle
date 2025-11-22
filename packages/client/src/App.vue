@@ -9,14 +9,30 @@
 </template>
 
 <style>
+:root {
+  --color-bg: #121212;
+  --color-text: #e5e7eb;
+  --color-outline: #374151;
+  --color-accent: #16a34a;
+
+  --color-r: #dc2626;
+  --color-g: #16a34a;
+  --color-b: #2563eb;
+  --color-y: #eab308;
+  --color-m: #c026d3;
+  --color-c: #0891b2;
+  --color-p: #ec4899;
+  --color-o: #c2410c;
+}
+
 html,
 body,
 #app {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: #121212;
-  color: #e5e7eb;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 html,
@@ -39,7 +55,7 @@ div::-webkit-scrollbar {
 }
 
 #nprogress .bar {
-  background: #16a34a;
+  background: var(--color-accent);
   opacity: 0.75;
   position: fixed;
   z-index: 1031;
