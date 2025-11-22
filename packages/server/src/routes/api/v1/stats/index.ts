@@ -32,7 +32,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
         completionRate: puzzleStats.completionRate,
       })
     } catch {
-      return reply.code(500).send({ error: 'Failed to fetch puzzle stats' })
+      return reply.code(500).send({ error: 'Failed to fetch puzzle stats.' })
     }
   })
 }

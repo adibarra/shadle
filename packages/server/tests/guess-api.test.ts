@@ -36,7 +36,7 @@ export default testSuite(({ describe }) => {
 
       // get puzzle answer
       const answer = await getPuzzleAnswer(request.puzzleId)
-      expect(answer).toBe('BYRGP')
+      expect(answer).toEqual(['B', 'Y', 'R', 'G', 'P'])
 
       // validate guess
       const feedback = validateGuess(request.guess.map(c => c.toUpperCase() as ValidColor), answer!)
@@ -110,8 +110,8 @@ export default testSuite(({ describe }) => {
       const request = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: ['X', 'Y', 'Z', '1', '2'], // 5 chars but invalid colors
-      }
+        guess: ['X', 'Y', 'Z', '1', '2'] as ValidColor[], // 5 chars but invalid colors
+      } as GuessRequest
 
       const validation = validateGuessFormat(request.guess)
       expect(validation.isValid).toBe(false)
@@ -123,7 +123,7 @@ export default testSuite(({ describe }) => {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
         guess: ['R', 'G', 'B'],
-      }
+      } as GuessRequest
 
       const validation = validateGuessFormat(request.guess)
       expect(validation.isValid).toBe(false)
@@ -135,7 +135,7 @@ export default testSuite(({ describe }) => {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
         guess: ['R', 'G', 'B', 'Y', 'P', 'O'],
-      }
+      } as GuessRequest
 
       const validation = validateGuessFormat(request.guess)
       expect(validation.isValid).toBe(false)
@@ -161,7 +161,7 @@ export default testSuite(({ describe }) => {
         deviceId: 'test-device',
         puzzleId: 'non-existent-puzzle',
         guess: ['R', 'G', 'B', 'Y', 'M'],
-      }
+      } as GuessRequest
 
       // get answer (should be null)
       const answer = await getPuzzleAnswer(request.puzzleId)
@@ -180,9 +180,9 @@ export default testSuite(({ describe }) => {
       // this simulates the route handler logic: if answer is null, return 404
       if (answer === null) {
         const errorResponse: ApiError = {
-          error: 'Puzzle not found',
+          error: 'Puzzle not found.',
         }
-        expect(errorResponse.error).toBe('Puzzle not found')
+        expect(errorResponse.error).toBe('Puzzle not found.')
       }
     })
 
@@ -190,7 +190,7 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: ['b', 'y', 'r', 'g', 'p'], // lowercase
+        guess: ['b', 'y', 'r', 'g', 'p'] as unknown as ValidColor[], // lowercase
       }
 
       const answer = await getPuzzleAnswer(request.puzzleId)
@@ -232,17 +232,17 @@ export default testSuite(({ describe }) => {
 
       // use a unique namespace for test data
       const TEST_NAMESPACE = `test-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-      const answer = 'RGBYM'
+      const answer: ValidColor[] = ['R', 'G', 'B', 'Y', 'M']
       const puzzleId = `${TEST_NAMESPACE}-custom-puzzle`
 
       // create a real custom puzzle in the database
       const created = await createCustomPuzzle(puzzleId, answer)
       expect(created.id).toBe(puzzleId)
-      expect(created.answer).toBe(answer)
+      expect(created.answer).toEqual(answer)
 
       // retrieve the puzzle answer using the real database
       const retrievedAnswer = await getPuzzleAnswer(puzzleId)
-      expect(retrievedAnswer).toBe(answer)
+      expect(retrievedAnswer).toEqual(['R', 'G', 'B', 'Y', 'M'])
 
       // test guess validation against the real answer
       const guess: ValidColor[] = ['R', 'G', 'B', 'Y', 'M'] // perfect match
@@ -266,7 +266,7 @@ export default testSuite(({ describe }) => {
       // verify the puzzle still exists in database
       const retrieved = await getCustomPuzzle(puzzleId)
       expect(retrieved).not.toBeNull()
-      expect(retrieved!.answer).toBe(answer)
+      expect(retrieved!.answer).toEqual(answer)
     })
   })
 })

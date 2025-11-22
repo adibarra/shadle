@@ -1,3 +1,4 @@
+import type { ValidColor } from '@shadle/types'
 import config from '@shadle/config'
 import { createCustomPuzzle, getAllCustomPuzzles, getCustomPuzzle } from '@shadle/database'
 import { expect, testSuite } from 'manten'
@@ -13,18 +14,18 @@ export default testSuite(({ describe }) => {
       }
 
       const puzzleId = `${TEST_NAMESPACE}-puzzle-1`
-      const answer = 'RGBYP'
+      const answer: ValidColor[] = ['R', 'G', 'B', 'Y', 'P']
 
       // create the puzzle
       const created = await createCustomPuzzle(puzzleId, answer)
       expect(created.id).toBe(puzzleId)
-      expect(created.answer).toBe(answer)
+      expect(created.answer).toEqual(answer)
 
       // retrieve the puzzle
       const retrieved = await getCustomPuzzle(puzzleId)
       expect(retrieved).not.toBeNull()
       expect(retrieved!.id).toBe(puzzleId)
-      expect(retrieved!.answer).toBe(answer)
+      expect(retrieved!.answer).toEqual(answer)
     })
 
     test('should return null for non-existent puzzle', async ({ skip }) => {
@@ -42,9 +43,9 @@ export default testSuite(({ describe }) => {
       }
 
       const puzzles = [
-        { id: `${TEST_NAMESPACE}-multi-1`, answer: 'RGBYP' },
-        { id: `${TEST_NAMESPACE}-multi-2`, answer: 'POWKG' },
-        { id: `${TEST_NAMESPACE}-multi-3`, answer: 'KYRGB' },
+        { id: `${TEST_NAMESPACE}-multi-1`, answer: ['R', 'G', 'B', 'Y', 'P'] as ValidColor[] },
+        { id: `${TEST_NAMESPACE}-multi-2`, answer: ['P', 'O', 'M', 'C', 'G'] as ValidColor[] },
+        { id: `${TEST_NAMESPACE}-multi-3`, answer: ['C', 'Y', 'R', 'G', 'B'] as ValidColor[] },
       ]
 
       // create all puzzles
@@ -63,7 +64,7 @@ export default testSuite(({ describe }) => {
       for (const puzzle of puzzles) {
         const found = ourPuzzles.find(p => p.id === puzzle.id)
         expect(found).toBeDefined()
-        expect(found!.answer).toBe(puzzle.answer)
+        expect(found!.answer).toEqual(puzzle.answer)
       }
     })
 
@@ -73,8 +74,8 @@ export default testSuite(({ describe }) => {
       }
 
       const puzzleId = `${TEST_NAMESPACE}-duplicate`
-      const answer1 = 'RGBYP'
-      const answer2 = 'POWKG'
+      const answer1: ValidColor[] = ['R', 'G', 'B', 'Y', 'P']
+      const answer2: ValidColor[] = ['P', 'O', 'M', 'C', 'G']
 
       // create first puzzle
       await createCustomPuzzle(puzzleId, answer1)
@@ -91,7 +92,7 @@ export default testSuite(({ describe }) => {
       // original puzzle should still exist
       const retrieved = await getCustomPuzzle(puzzleId)
       expect(retrieved).not.toBeNull()
-      expect(retrieved!.answer).toBe(answer1)
+      expect(retrieved!.answer).toEqual(answer1)
     })
 
     test('should handle various answer formats', async ({ skip }) => {
@@ -100,15 +101,15 @@ export default testSuite(({ describe }) => {
       }
 
       const testCases = [
-        { id: `${TEST_NAMESPACE}-upper`, answer: 'RGBYP' },
-        { id: `${TEST_NAMESPACE}-lower`, answer: 'rgbyp' },
-        { id: `${TEST_NAMESPACE}-mixed`, answer: 'RgbYP' },
+        { id: `${TEST_NAMESPACE}-array-1`, answer: ['R', 'G', 'B', 'Y', 'P'] as ValidColor[] },
+        { id: `${TEST_NAMESPACE}-array-2`, answer: ['P', 'O', 'M', 'C', 'G'] as ValidColor[] },
+        { id: `${TEST_NAMESPACE}-array-3`, answer: ['C', 'Y', 'R', 'G', 'B'] as ValidColor[] },
       ]
 
       for (const testCase of testCases) {
         await createCustomPuzzle(testCase.id, testCase.answer)
         const retrieved = await getCustomPuzzle(testCase.id)
-        expect(retrieved!.answer).toBe(testCase.answer)
+        expect(retrieved!.answer).toEqual(testCase.answer)
       }
     })
 
@@ -118,9 +119,9 @@ export default testSuite(({ describe }) => {
       }
 
       // create puzzles with a delay to ensure different timestamps
-      const puzzle1 = { id: `${TEST_NAMESPACE}-order-1`, answer: 'RGBYP' }
-      const puzzle2 = { id: `${TEST_NAMESPACE}-order-2`, answer: 'POWKG' }
-      const puzzle3 = { id: `${TEST_NAMESPACE}-order-3`, answer: 'KYRGB' }
+      const puzzle1 = { id: `${TEST_NAMESPACE}-order-1`, answer: ['R', 'G', 'B', 'Y', 'P'] as ValidColor[] }
+      const puzzle2 = { id: `${TEST_NAMESPACE}-order-2`, answer: ['P', 'O', 'M', 'C', 'G'] as ValidColor[] }
+      const puzzle3 = { id: `${TEST_NAMESPACE}-order-3`, answer: ['C', 'Y', 'R', 'G', 'B'] as ValidColor[] }
 
       await createCustomPuzzle(puzzle1.id, puzzle1.answer)
       await new Promise(resolve => setTimeout(resolve, 10)) // small delay

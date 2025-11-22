@@ -22,7 +22,7 @@ function hashString(str: string): number {
  * - PUZZLE_ID format: custom puzzles (checks database)
  * - Returns null if puzzle id format is invalid or not found
  */
-export async function getPuzzleAnswer(puzzleId: string): Promise<string | null> {
+export async function getPuzzleAnswer(puzzleId: string): Promise<ValidColor[] | null> {
   const dailyMatch = puzzleId.match(/^§(\d{4})-(\d{2})-(\d{2})$/)
   if (dailyMatch) {
     const [, year, month, day] = dailyMatch
@@ -30,13 +30,13 @@ export async function getPuzzleAnswer(puzzleId: string): Promise<string | null> 
     const seed = dateSeed + hashString(config.PUZZLE_SALT)
 
     const colors = VALID_COLORS
-    let answer = ''
+    const answer: ValidColor[] = []
     let tempSeed = seed
 
     for (let i = 0; i < 5; i++) {
       tempSeed = (tempSeed * 9301 + 49297) % 233280 // simple lcg
       const index = tempSeed % colors.length
-      answer += colors[index]
+      answer.push(colors[index])
     }
 
     return answer
@@ -49,38 +49,35 @@ export async function getPuzzleAnswer(puzzleId: string): Promise<string | null> 
 /**
  * Validate a guess against the correct answer and return feedback
  */
-export function validateGuess(guess: ValidColor[], answer: string): GuessResponse['feedback'] {
-  const feedback: GuessResponse['feedback'] = Array.from({ length: 5 })
-  const answerLetters = answer.split('')
-  const guessLetters = guess
-
-  const usedAnswerPositions = new Set<number>()
-  const usedGuessPositions = new Set<number>()
-
-  for (let i = 0; i < 5; i++) {
-    if (guessLetters[i] === answerLetters[i]) {
-      feedback[i] = { letter: guessLetters[i], status: GuessStatus.CORRECT }
-      usedAnswerPositions.add(i)
-      usedGuessPositions.add(i)
+export function validateGuess(guess: ValidColor[], answer: ValidColor[]): GuessResponse['feedback'] {
+  const { feedback: initialFeedback, usedAnswerPositions } = guess.reduce<{
+    feedback: GuessResponse['feedback']
+    usedAnswerPositions: Set<number>
+  }>((acc, letter, index) => {
+    if (letter === answer[index]) {
+      acc.feedback[index] = { letter, status: GuessStatus.CORRECT }
+      acc.usedAnswerPositions.add(index)
     }
-  }
+    return acc
+  }, {
+    feedback: Array.from({ length: 5 }),
+    usedAnswerPositions: new Set<number>(),
+  })
 
-  for (let i = 0; i < 5; i++) {
-    if (!usedGuessPositions.has(i)) {
-      let found = false
-      for (let j = 0; j < 5; j++) {
-        if (!usedAnswerPositions.has(j) && guessLetters[i] === answerLetters[j]) {
-          feedback[i] = { letter: guessLetters[i], status: GuessStatus.PRESENT }
-          usedAnswerPositions.add(j)
-          found = true
-          break
-        }
-      }
-      if (!found) {
-        feedback[i] = { letter: guessLetters[i], status: GuessStatus.ABSENT }
-      }
+  return guess.map((letter, index) => {
+    if (initialFeedback[index]) {
+      return initialFeedback[index]
     }
-  }
 
-  return feedback
+    const unusedAnswerIndex = answer.findIndex((answerLetter, answerIndex) =>
+      !usedAnswerPositions.has(answerIndex) && answerLetter === letter,
+    )
+
+    if (unusedAnswerIndex !== -1) {
+      usedAnswerPositions.add(unusedAnswerIndex)
+      return { letter, status: GuessStatus.PRESENT }
+    }
+
+    return { letter, status: GuessStatus.ABSENT }
+  })
 }

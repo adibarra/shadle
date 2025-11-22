@@ -1,4 +1,4 @@
-import type { Platform } from '@shadle/types'
+import type { Platform, ValidColor } from '@shadle/types'
 
 export interface Migration {
   path: string
@@ -33,5 +33,5 @@ export interface PuzzleStats {
 
 export interface CustomPuzzle {
   id: string
-  answer: string
+  answer: ValidColor[]
 }

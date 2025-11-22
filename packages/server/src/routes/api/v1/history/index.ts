@@ -20,7 +20,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
       return reply.code(200).send({ attempts: history as PuzzleAttemptResponse[] })
     } catch (error) {
       fastify.log.error(`Failed to get puzzle history: ${error}`)
-      return reply.code(500).send({ error: 'Failed to get puzzle history' })
+      return reply.code(500).send({ error: 'Failed to get puzzle history.' })
     }
   })
 }

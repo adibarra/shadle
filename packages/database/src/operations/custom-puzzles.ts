@@ -1,3 +1,4 @@
+import type { ValidColor } from '@shadle/types'
 import type { CustomPuzzle } from '../types'
 import { getSql } from '../initializer'
 
@@ -5,15 +6,18 @@ import { getSql } from '../initializer'
  * Creates a new custom puzzle with the given ID and answer.
  * Returns the created puzzle.
  */
-export async function createCustomPuzzle(id: string, answer: string): Promise<CustomPuzzle> {
+export async function createCustomPuzzle(id: string, answer: ValidColor[]): Promise<CustomPuzzle> {
   const sql = await getSql()
   const result = await sql`
     insert into custom_puzzles (id, answer)
-    values (${id}, ${answer})
+    values (${id}, ${JSON.stringify(answer)})
     returning id, answer;
   `
 
-  return result[0] as CustomPuzzle
+  return {
+    id: result[0].id,
+    answer: JSON.parse(result[0].answer),
+  } as CustomPuzzle
 }
 
 /**
@@ -28,7 +32,12 @@ export async function getCustomPuzzle(id: string): Promise<CustomPuzzle | null> 
     where id = ${id};
   `
 
-  return result.length > 0 ? (result[0] as CustomPuzzle) : null
+  return result.length > 0
+    ? {
+        id: result[0].id,
+        answer: JSON.parse(result[0].answer),
+      }
+    : null
 }
 
 /**
@@ -45,8 +54,8 @@ export async function getAllCustomPuzzles(): Promise<CustomPuzzle[]> {
 
   return result.map(row => ({
     id: row.id,
-    answer: row.answer,
-  })) as CustomPuzzle[]
+    answer: JSON.parse(row.answer),
+  }))
 }
 
 /**

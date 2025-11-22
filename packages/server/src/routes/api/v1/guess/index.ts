@@ -1,4 +1,4 @@
-import type { ApiError, GuessRequest, GuessResponse } from '@shadle/types'
+import type { ApiError, GuessRequest, GuessResponse, ValidColor } from '@shadle/types'
 import type { FastifyPluginAsync } from 'fastify'
 import { recordPuzzleAttempt } from '@shadle/database'
 import { GuessStatus } from '@shadle/types'
@@ -12,6 +12,8 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.post('/', async (request, reply): Promise<GuessResponse | ApiError> => {
     const { deviceId, puzzleId, guess } = request.body as GuessRequest
 
+    const normalizedGuess = guess.map(color => color.toUpperCase() as ValidColor)
+
     const deviceValidation = validateDeviceId(deviceId)
     if (!deviceValidation.isValid) {
       return reply.code(400).send({ error: deviceValidation.error })
@@ -22,7 +24,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
       return reply.code(400).send({ error: idValidation.error })
     }
 
-    const guessValidation = validateGuessFormat(guess)
+    const guessValidation = validateGuessFormat(normalizedGuess)
     if (!guessValidation.isValid) {
       return reply.code(400).send({ error: guessValidation.error })
     }
@@ -30,10 +32,10 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
     try {
       const answer = await getPuzzleAnswer(puzzleId)
       if (!answer) {
-        return reply.code(404).send({ error: 'Puzzle not found' })
+        return reply.code(404).send({ error: 'Puzzle not found.' })
       }
 
-      const feedback = validateGuess(guess, answer)
+      const feedback = validateGuess(normalizedGuess, answer)
       const correct = feedback.every(item => item.status === GuessStatus.CORRECT)
       const { tries } = await recordPuzzleAttempt(deviceId, puzzleId, correct)
 
@@ -44,7 +46,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
       })
     } catch (error) {
       fastify.log.error(`Failed to process guess: ${error}`)
-      return reply.code(500).send({ error: 'Failed to process guess' })
+      return reply.code(500).send({ error: 'Failed to process guess.' })
     }
   })
 }

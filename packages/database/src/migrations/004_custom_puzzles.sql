@@ -3,7 +3,7 @@ create table custom_puzzles (
     id              text primary key,
 
     -- data
-    answer          text not null,
+    answer          json not null,
 
     -- audit
     created_at      timestamptz not null default now(),
