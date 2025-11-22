@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import { provide, ref } from 'vue'
+import InstructionsModal from './components/InstructionsModal.vue'
+
+const showInstructions = ref(false)
+
+provide('toggleInstructions', () => {
+  showInstructions.value = !showInstructions.value
+})
+</script>
+
 <template>
   <div class="flex flex-col min-h-svh">
     <Header />
@@ -5,6 +16,7 @@
       <RouterView />
     </div>
     <Footer />
+    <InstructionsModal :show="showInstructions" :on-close="() => showInstructions = false" />
   </div>
 </template>
 
@@ -14,7 +26,7 @@
   --color-text: #e5e7eb;
   --color-text-alt: #121212;
   --color-outline: #555555;
-  --color-accent: #16a34a;
+  --color-accent: #2563eb;
 
   --color-r: #dc2626;
   --color-g: #16a34a;
