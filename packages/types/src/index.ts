@@ -82,7 +82,7 @@ export enum GuessStatus {
 export interface GuessRequest {
   deviceId: string
   puzzleId: string
-  guess: string
+  guess: ValidColor[]
 }
 
 export interface GuessResponse {

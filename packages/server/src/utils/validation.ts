@@ -2,7 +2,8 @@
  * Validation utilities for common input validation patterns
  */
 
-import { VALID_COLORS, VALID_COLORS_REGEX } from '@shadle/types'
+import type { ValidColor } from '@shadle/types'
+import { VALID_COLORS } from '@shadle/types'
 
 /**
  * Validates that a puzzle ID is present and non-empty
@@ -25,18 +26,18 @@ export function validateDeviceId(deviceId: string | undefined): { isValid: boole
 }
 
 /**
- * Validates that a guess string meets the required format
+ * Validates that a guess array meets the required format
  */
-export function validateGuessFormat(guess: string | undefined): { isValid: boolean, error?: string } {
-  if (!guess || typeof guess !== 'string') {
-    return { isValid: false, error: 'Guess is required and must be a string' }
+export function validateGuessFormat(guess: ValidColor[] | undefined): { isValid: boolean, error?: string } {
+  if (!Array.isArray(guess)) {
+    return { isValid: false, error: 'Guess is required and must be an array' }
   }
 
   if (guess.length !== 5) {
-    return { isValid: false, error: 'Guess must be exactly 5 characters' }
+    return { isValid: false, error: 'Guess must be exactly 5 colors' }
   }
 
-  if (!VALID_COLORS_REGEX.test(guess.toUpperCase())) {
+  if (!guess.every(c => VALID_COLORS.includes(c))) {
     return { isValid: false, error: `Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}` }
   }
 
