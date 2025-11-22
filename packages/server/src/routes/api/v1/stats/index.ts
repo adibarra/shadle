@@ -1,7 +1,7 @@
 import type { ApiError, StatsRequest, StatsResponse } from '@shadle/types'
 import type { FastifyPluginAsync } from 'fastify'
 import { getPuzzleStats } from '@shadle/database'
-import { validatePuzzleId } from '../../../utils/validation'
+import { validatePuzzleId } from '../../../../utils/validation'
 
 /**
  * Fastify route for puzzle stats by puzzle ID.

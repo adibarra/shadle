@@ -1,7 +1,7 @@
 import type { ApiError, HistoryRequest, HistoryResponse, PuzzleAttemptResponse } from '@shadle/types'
 import type { FastifyPluginAsync } from 'fastify'
 import { getPuzzleAttempts } from '@shadle/database'
-import { validateDeviceId } from '../../../utils/validation'
+import { validateDeviceId } from '../../../../utils/validation'
 
 /**
  * Fastify route for puzzle history operations.

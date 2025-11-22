@@ -2,8 +2,8 @@ import type { ApiError, GuessRequest, GuessResponse } from '@shadle/types'
 import type { FastifyPluginAsync } from 'fastify'
 import { recordPuzzleAttempt } from '@shadle/database'
 import { GuessStatus } from '@shadle/types'
-import { getPuzzleAnswer, validateGuess } from '../../../logic/guess'
-import { validateDeviceId, validateGuessFormat, validatePuzzleId } from '../../../utils/validation'
+import { getPuzzleAnswer, validateGuess } from '../../../../logic/guess'
+import { validateDeviceId, validateGuessFormat, validatePuzzleId } from '../../../../utils/validation'
 
 /**
  * Fastify route for puzzle guess operations.
@@ -33,7 +33,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
         return reply.code(404).send({ error: 'Puzzle not found' })
       }
 
-      const feedback = validateGuess(guess.toUpperCase(), answer)
+      const feedback = validateGuess(guess.join(''), answer)
       const correct = feedback.every(item => item.status === GuessStatus.CORRECT)
       const { tries } = await recordPuzzleAttempt(deviceId, puzzleId, correct)
 
