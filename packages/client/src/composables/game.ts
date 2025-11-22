@@ -31,6 +31,34 @@ const isGuessComplete = computed(() => currentGuess.value.length === 5)
 
 const canSubmit = computed(() => isGuessComplete.value && !gameState.value.won && !gameState.value.lost)
 
+const disabledColors = computed(() => {
+  const absentColors = new Set<ValidColor>()
+  const presentOrCorrectColors = new Set<ValidColor>()
+
+  for (let guessIndex = 0; guessIndex < gameState.value.feedback.length; guessIndex++) {
+    const feedback = gameState.value.feedback[guessIndex]
+    const guess = gameState.value.guesses[guessIndex]
+    for (let i = 0; i < feedback.length; i++) {
+      const color = guess[i]
+      if (feedback[i] === GuessStatus.ABSENT) {
+        absentColors.add(color)
+      } else if (feedback[i] === GuessStatus.PRESENT || feedback[i] === GuessStatus.CORRECT) {
+        presentOrCorrectColors.add(color)
+      }
+    }
+  }
+
+  // Only disable colors that are absent and have never been present or correct
+  const eliminated = new Set<ValidColor>()
+  for (const color of absentColors) {
+    if (!presentOrCorrectColors.has(color)) {
+      eliminated.add(color)
+    }
+  }
+
+  return Array.from(eliminated)
+})
+
 function generatePuzzleId() {
   const today = new Date().toISOString().split('T')[0]
   return `§${today}`
@@ -149,6 +177,7 @@ export function useGame() {
     currentGuess: readonly(currentGuess),
     isGuessComplete,
     canSubmit,
+    disabledColors,
     addColor,
     removeColor,
     submitGuess,

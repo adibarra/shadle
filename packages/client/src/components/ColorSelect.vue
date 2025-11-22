@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ValidColor } from '@shadle/types'
 import { VALID_COLORS } from '@shadle/types'
+import { bgColorClasses } from '~/constants/colors'
 
 interface Props {
   disabledColors?: ValidColor[]
@@ -14,10 +15,8 @@ const emit = defineEmits<{
   select: [color: ValidColor]
 }>()
 
-const enabledColors = computed(() => VALID_COLORS.filter(c => !props.disabledColors.includes(c)))
-
 const gridCols = computed(() => {
-  const count = enabledColors.value.length
+  const count = VALID_COLORS.length
   if (count <= 2) return 'grid-cols-1'
   if (count <= 4) return 'grid-cols-2'
   if (count <= 6) return 'grid-cols-3'
@@ -28,10 +27,12 @@ const gridCols = computed(() => {
 <template>
   <div :class="`mb-10 grid gap-4 ${gridCols}`">
     <div
-      v-for="color in enabledColors"
+      v-for="color in VALID_COLORS"
       :key="color"
-      :class="`relative rounded p-4 cursor-pointer transition-opacity select-none ${bgColorClasses[color]}`"
-      @click="emit('select', color)"
+      :class="`relative rounded p-4 transition-opacity select-none ${
+        props.disabledColors.includes(color) ? 'bg-[hsl(0,0%,20%)] cursor-not-allowed pointer-events-none' : `${bgColorClasses[color]} cursor-pointer`
+      }`"
+      @click="props.disabledColors.includes(color) || emit('select', color)"
     />
   </div>
 </template>

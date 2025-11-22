@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 
-const { gameState, currentGuess, addColor, submitGuess, canSubmit, resetGame, removeColor, loadState } = useGame()
+const { gameState, currentGuess, addColor, submitGuess, canSubmit, resetGame, removeColor, loadState, disabledColors } = useGame()
 
 onMounted(() => {
   loadState()
@@ -22,7 +22,7 @@ onMounted(() => {
       Submit Guess
     </button>
   </div>
-  <ColorSelect @select="addColor" />
+  <ColorSelect :disabled-colors="disabledColors" @select="addColor" />
 
   <WinModal
     v-if="gameState.won || gameState.lost"

@@ -3,6 +3,6 @@
     <p class="mb-1">
       Guess the 5-color combo in 6 tries.
     </p>
-    <p>✓ correct, ~ wrong spot, ✗ not in combo.</p>
+    <p>Not sure how this works? Click the ? button.</p>
   </div>
 </template>

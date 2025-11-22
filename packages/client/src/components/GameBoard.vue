@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ValidColor } from '@shadle/types'
 import { GuessStatus } from '@shadle/types'
+import { bgColorClasses } from '~/constants/colors'
 
 interface Props {
   guesses: readonly (readonly ValidColor[])[]
@@ -9,20 +10,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
-function getSymbol(status?: GuessStatus) {
-  if (status == null) return ''
-  switch (status as number) {
-    case GuessStatus.CORRECT as number:
-      return '✓'
-    case GuessStatus.PRESENT as number:
-      return '~'
-    case GuessStatus.ABSENT as number:
-      return '✗'
-    default:
-      return ''
-  }
-}
 </script>
 
 <template>
@@ -38,24 +25,34 @@ function getSymbol(status?: GuessStatus) {
         class="relative mx-auto h-6 w-12 flex items-center justify-center"
       >
         <div
-          v-if="guessIndex < props.guesses.length"
-          :class="`w-full h-full rounded relative z-10 ${bgColorClasses[props.guesses[guessIndex][colorIndex]]}`"
-        />
-        <div
-          v-else-if="guessIndex === props.guesses.length && props.currentGuess && colorIndex < props.currentGuess.length"
-          :class="`w-full h-full rounded relative z-10 ${bgColorClasses[props.currentGuess[colorIndex]]}`"
-        />
-        <div
-          v-else
-          class="h-full w-full rounded bg-gray-400 opacity-20"
-        />
-        <span
-          v-if="guessIndex < props.guesses.length && props.feedback?.[guessIndex]?.[colorIndex] != null"
-          class="absolute left-1/2 top-1/2 z-20 text-center text-[var(--color-text-alt)] font-bold op-80 -translate-x-1/2"
-          style="line-height: 0; transform: translate(-50%, calc(-50% - 2px));"
+          :class="`w-full h-full rounded relative overflow-hidden ${
+            guessIndex < props.guesses.length
+              ? bgColorClasses[props.guesses[guessIndex][colorIndex]]
+              : guessIndex === props.guesses.length && props.currentGuess && colorIndex < props.currentGuess.length
+                ? bgColorClasses[props.currentGuess[colorIndex]]
+                : 'bg-[hsl(0,0%,13%)]'
+          }`"
         >
-          {{ getSymbol(props.feedback[guessIndex][colorIndex]) }}
-        </span>
+          <div
+            v-if="guessIndex < props.guesses.length && props.feedback?.[guessIndex]?.[colorIndex] === GuessStatus.CORRECT"
+            class="absolute left-1/2 top-1/2 z-20 text-center text-[var(--color-text-alt)] font-bold op-80 -translate-x-1/2"
+            style="line-height: 0; transform: translate(-50%, calc(-50% - 2px)); clip-path: inset(0 round 0.25rem)"
+          >
+            ✓
+          </div>
+          <div
+            v-else-if="guessIndex < props.guesses.length && props.feedback?.[guessIndex]?.[colorIndex] !== GuessStatus.CORRECT && props.feedback?.[guessIndex]?.[colorIndex] !== GuessStatus.ABSENT"
+            class="absolute inset-0 z-15"
+            style="clip-path: inset(0 round 0.25rem)"
+          >
+            <div class="absolute inset-0 bg-[hsl(0,0%,20%)]" style="clip-path: polygon(0 100%, 100% 0, 100% 100%)" />
+          </div>
+          <div
+            v-else-if="guessIndex < props.guesses.length && props.feedback?.[guessIndex]?.[colorIndex] === GuessStatus.ABSENT"
+            class="absolute inset-0 z-15 bg-[hsl(0,0%,20%)]"
+            style="clip-path: inset(0 round 0.25rem)"
+          />
+        </div>
       </div>
     </div>
   </div>
