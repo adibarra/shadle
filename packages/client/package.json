@@ -7,7 +7,7 @@
     "check": "vue-tsc --noEmit",
     "clean": "rm -rf dist/ src/auto-imports.d.ts src/components.d.ts vite.config.ts.timestamp-*",
     "clean:all": "pnpm run clean && git clean -fdX",
-    "dev": "tsx scripts/prebuild.ts && COMMIT_HASH=$(git rev-parse HEAD) NODE_ENV=dev vite dev --port 3333 --clearScreen false",
+    "dev": "tsx scripts/prebuild.ts && COMMIT_HASH=$(git rev-parse HEAD) NODE_ENV=dev vite dev --port 3333 --host --clearScreen false",
     "test": "NODE_ENV=test vitest run"
   },
   "dependencies": {
