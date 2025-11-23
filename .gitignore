@@ -2,7 +2,7 @@
 .npm/
 .pnpm-store/
 .yarn/
-data/
+logs/
 node_modules/
 
 *:Zone.Identifier

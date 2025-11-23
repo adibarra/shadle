@@ -18,7 +18,7 @@
 *:Zone.Identifier
 auto-imports.d.ts
 components.d.ts
-data/
+logs/
 deploy.sh
 dist/
 node_modules/
