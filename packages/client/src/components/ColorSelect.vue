@@ -17,7 +17,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="grid grid-cols-4 mb-10 gap-4">
+  <div class="grid grid-cols-4 mb-6 gap-4">
     <div
       v-for="color in VALID_COLORS"
       :key="color"
