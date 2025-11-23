@@ -52,20 +52,20 @@ const menuOptions = [
 
 <template>
   <div v-if="ui.showSidebar" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="mx-4 max-w-md w-full rounded-lg bg-[var(--color-bg)] p-6 text-[var(--color-text)] shadow-lg">
-      <div class="mb-6 flex items-center justify-between">
-        <h2 class="text-2xl font-bold">
+    <div class="mx-4 max-w-md w-full rounded-lg bg-[var(--color-bg)] p-6 shadow-lg">
+      <div class="mb-8 flex flex-row items-center justify-between">
+        <h2 class="text-3xl font-bold">
           Menu
         </h2>
         <button
-          class="p-2 text-xl text-[var(--color-text)] hover:text-[var(--color-text-alt)]"
+          class="p-2 text-3xl"
           @click="ui.showSidebar = false"
         >
           <div class="i-carbon:close" />
         </button>
       </div>
 
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 mb-8 gap-4">
         <button
           v-for="option in menuOptions"
           :key="option.id"
