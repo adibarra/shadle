@@ -58,16 +58,16 @@ This is a one-time setup. If you have already done this, you can skip to the nex
 
 3. Run the following commands:
 
-```bash
-  # Enable corepack to manage package managers
-  $ corepack enable
-  # Install the required package manager (pnpm) via corepack
-  $ corepack install
-  # Copy the example environment file to create a local .env file
-  $ cp --no-clobber .env.example .env
-```
+   ```bash
+    # Enable corepack to manage package managers
+    $ corepack enable
+    # Install the required package manager (pnpm) via corepack
+    $ corepack install
+    # Copy the example environment file to create a local .env file
+    $ cp --no-clobber .env.example .env
+   ```
 
-Alternatively, if you prefer not to use corepack, install pnpm by following these instructions: [https://pnpm.io/installation](https://pnpm.io/installation).
+   Alternatively, if you prefer not to use corepack, install pnpm by following these instructions: [https://pnpm.io/installation](https://pnpm.io/installation).
 
 4. Make sure to fill out the `.env` file with the appropriate values.
 5. **Set up PostgreSQL database** (for dev/testing only; production uses docker compose)
