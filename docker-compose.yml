@@ -1,8 +1,12 @@
 services:
-  app:
-    image: ghcr.io/adibarra/shadle/app:latest
+  client:
+    image: ghcr.io/adibarra/shadle/client:latest
     ports:
       - '3000:80'
+    restart: unless-stopped
+
+  server:
+    image: ghcr.io/adibarra/shadle/server:latest
     env_file:
       - .env
     volumes:

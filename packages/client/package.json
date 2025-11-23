@@ -3,11 +3,12 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "tsx scripts/prebuild.ts && vite build && tsx scripts/postbuild.ts",
+    "build": "tsx scripts/prebuild.ts && NODE_ENV=prod vite build",
     "check": "vue-tsc --noEmit",
     "clean": "rm -rf dist/ src/auto-imports.d.ts src/components.d.ts vite.config.ts.timestamp-*",
     "clean:all": "pnpm run clean && git clean -fdX",
     "dev": "tsx scripts/prebuild.ts && COMMIT_HASH=$(git rev-parse HEAD) NODE_ENV=dev vite dev --port 3333 --host --clearScreen false",
+    "preview": "COMMIT_HASH=$(git rev-parse HEAD) pnpm run build && vite preview --port 3000 --host",
     "test": "NODE_ENV=test vitest run"
   },
   "dependencies": {

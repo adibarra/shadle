@@ -27,7 +27,13 @@ COPY . .
 RUN pnpm run test
 RUN pnpm run build
 
-FROM base AS app
+FROM adibarra/nginx-static:latest AS client
+
+COPY nginx.conf /usr/local/nginx/conf/nginx.conf
+COPY --from=builder /app/packages/client/dist /srv
+CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
+
+FROM base AS server
 
 COPY --from=builder --exclude=packages/client/dist /app /app
 EXPOSE 80
