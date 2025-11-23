@@ -1,6 +1,11 @@
 import { useStorage } from '@vueuse/core'
 import { watch } from 'vue'
 
+const themes = {
+  default: '',
+  colorblind: 'tol-muted',
+} as const
+
 export function useTheme() {
   const theme = useStorage('shadle/theme', 'default')
 
@@ -9,12 +14,13 @@ export function useTheme() {
   }
 
   watch(theme, (newTheme) => {
-    if (newTheme === 'colorblind') {
-      document.documentElement.classList.add('tol-muted')
-    } else {
-      document.documentElement.classList.remove('tol-muted')
-    }
-  })
+    Object.values(themes).forEach((cls) => {
+      if (cls) document.documentElement.classList.remove(cls)
+    })
+
+    const cls = themes[newTheme as keyof typeof themes]
+    if (cls) document.documentElement.classList.add(cls)
+  }, { immediate: true })
 
   return { theme, setTheme }
 }

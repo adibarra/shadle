@@ -1,16 +1,11 @@
 <script setup lang="ts">
 const ui = useUiStore()
-
-const setTheme = inject<(theme: string) => void>('setTheme')!
-const theme = inject<Ref<string>>('theme')!
+const { theme, setTheme } = useTheme()
 const resetApp = inject<() => void>('resetApp')!
-
-const selectedTheme = ref(theme.value)
 
 function handleThemeChange(event: Event) {
   const target = event.target as HTMLSelectElement
   const newTheme = target.value
-  selectedTheme.value = newTheme
   setTheme(newTheme)
 }
 
@@ -45,7 +40,7 @@ function handleReset() {
         </p>
         <select
           id="theme-select"
-          :value="selectedTheme"
+          :value="theme"
           class="w-full border border-[var(--color-outline)] rounded bg-[var(--color-bg)] p-2 text-sm text-[var(--color-text)]"
           @change="handleThemeChange"
         >
