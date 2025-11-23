@@ -26,6 +26,8 @@ onMounted(() => {
     v-if="gameState.won || gameState.lost"
     :won="gameState.won"
     :attempts="gameState.attempts"
+    :guesses="gameState.guesses"
+    :feedback="gameState.feedback"
     :on-close="resetGame"
   />
 </template>
