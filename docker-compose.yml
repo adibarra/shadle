@@ -4,6 +4,8 @@ services:
     ports:
       - '3000:80'
     restart: unless-stopped
+    depends_on:
+      - server
 
   server:
     image: ghcr.io/adibarra/shadle/server:latest
