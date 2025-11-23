@@ -1,8 +1,12 @@
+<script setup lang="ts">
+const { t } = useI18n()
+</script>
+
 <template>
   <div class="mb-8 text-center text-sm">
     <p class="mb-1">
-      Guess the 5-color combo in 6 tries.
+      {{ t('instructions.guessPrompt') }}
     </p>
-    <p>Not sure how this works? Click the ? button.</p>
+    <p>{{ t('instructions.helpPrompt') }}</p>
   </div>
 </template>

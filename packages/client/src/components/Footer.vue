@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const commitHash = import.meta.env.VITE_COMMIT_HASH
+const { t } = useI18n()
 </script>
 
 <template>
@@ -8,7 +9,7 @@ const commitHash = import.meta.env.VITE_COMMIT_HASH
       {{ commitHash }}
     </span>
     <span class="op-50">
-      Made with ❤️ by
+      {{ t('footer.madeWith') }}
     </span>
     <a
       href="https://adibarra.com"

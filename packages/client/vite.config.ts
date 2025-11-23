@@ -49,6 +49,7 @@ export default defineConfig({
       imports: [
         'vue',
         '@vueuse/core',
+        'vue-i18n',
         unheadVueComposablesImports,
         VueRouterAutoImports,
       ],

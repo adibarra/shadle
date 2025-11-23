@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const ui = useUiStore()
 const game = useGame()
+const { t } = useI18n()
 
 // Check if we're on today's puzzle
 const isTodayPuzzle = computed(() => {
@@ -9,10 +10,10 @@ const isTodayPuzzle = computed(() => {
 })
 
 // Menu options
-const menuOptions = [
+const menuOptions = computed(() => [
   {
     id: 'daily',
-    title: 'Daily Puzzle',
+    title: t('menu.dailyPuzzle'),
     icon: 'i-carbon:time',
     action: () => {
       // TODO: Navigate to daily puzzle or reset to today
@@ -22,7 +23,7 @@ const menuOptions = [
   },
   {
     id: 'archive',
-    title: 'Past Puzzles',
+    title: t('menu.pastPuzzles'),
     icon: 'i-carbon:calendar',
     action: () => {
       // TODO: Implement archive/past puzzles
@@ -32,14 +33,14 @@ const menuOptions = [
   },
   {
     id: 'settings',
-    title: 'Settings',
+    title: t('menu.settings'),
     icon: 'i-carbon:settings',
     action: () => ui.openSettings(),
     disabled: false,
   },
   {
     id: 'stats',
-    title: 'Statistics',
+    title: t('menu.statistics'),
     icon: 'i-carbon:chart-bar',
     action: () => {
       // TODO: Implement stats modal
@@ -47,7 +48,7 @@ const menuOptions = [
     },
     disabled: false,
   },
-]
+])
 </script>
 
 <template>
@@ -55,7 +56,7 @@ const menuOptions = [
     <div class="mx-4 max-w-md w-full rounded-lg bg-[var(--color-bg)] p-6 shadow-lg">
       <div class="mb-8 flex flex-row items-center justify-between">
         <h2 class="text-3xl font-bold">
-          Menu
+          {{ t('menu.title') }}
         </h2>
         <button
           class="p-2 text-3xl"
@@ -78,7 +79,7 @@ const menuOptions = [
         >
           <div :class="option.icon" class="mb-2 text-3xl" />
           <span class="text-center text-sm font-medium">{{ option.title }}</span>
-          <span v-if="option.disabled" class="text-center text-xs opacity-75">Active</span>
+          <span v-if="option.disabled" class="text-center text-xs opacity-75">{{ t('menu.active') }}</span>
         </button>
       </div>
     </div>
