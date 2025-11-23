@@ -6,7 +6,7 @@ import cors from '@fastify/cors'
 import helmet from '@fastify/helmet'
 import ratelimit from '@fastify/rate-limit'
 import config from '@shadle/config'
-import { cleanupDb } from '@shadle/database'
+import { cleanupDb, getSql } from '@shadle/database'
 import { getLogger } from '@shadle/logger'
 import fastify from 'fastify'
 import prexit from 'prexit'
@@ -81,6 +81,9 @@ await app.listen({
   port,
 })
 logger.info(`Server listening on ${config.API_HOST}:${port}.`)
+
+// init db and run migrations
+await getSql()
 
 // start background tasks (unless skipped)
 let tasksStarted = false
