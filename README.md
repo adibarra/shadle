@@ -77,11 +77,15 @@ This is a one-time setup. If you have already done this, you can skip to the nex
    sudo docker run -d --name shadle-db \
      -e POSTGRES_USER=postgres \
      -e POSTGRES_PASSWORD=password \
-     -e POSTGRES_DB=shadle \
+     -e POSTGRES_DB=postgres \
      -p 5432:5432 \
      postgres:alpine
 
-   # Create test database
+   # Create database
+   sudo docker exec shadle-db \
+     psql -U postgres -c "CREATE DATABASE shadle;"
+
+   # Create dev database
    sudo docker exec shadle-db \
      psql -U postgres -c "CREATE DATABASE shadle_dev;"
    ```
