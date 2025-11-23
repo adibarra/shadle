@@ -4,7 +4,6 @@ import autoload from '@fastify/autoload'
 import compress from '@fastify/compress'
 import cors from '@fastify/cors'
 import helmet from '@fastify/helmet'
-import ratelimit from '@fastify/rate-limit'
 import config from '@shadle/config'
 import { cleanupDb, getSql } from '@shadle/database'
 import { getLogger } from '@shadle/logger'
@@ -19,8 +18,8 @@ const startTime = performance.now()
 const app = fastify({
   loggerInstance: getLogger('API'),
   disableRequestLogging: true,
-  // cloudflare
-  trustProxy: 1,
+  // cloudflare + nginx
+  trustProxy: 2,
 })
 
 // configure CORS
@@ -38,12 +37,6 @@ await app.register(helmet, {
     maxAge: 15552000,
     includeSubDomains: true,
   },
-})
-
-// configure rate limiting
-await app.register(ratelimit, {
-  timeWindow: 60 * 1000,
-  max: 500,
 })
 
 // configure compression
