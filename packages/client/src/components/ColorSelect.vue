@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ValidColor } from '@shadle/types'
 import { VALID_COLORS } from '@shadle/types'
+import { bgColorClasses } from '../constants'
 
 interface Props {
   disabledColors?: ValidColor[]

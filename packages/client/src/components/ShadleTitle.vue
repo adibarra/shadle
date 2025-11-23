@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { textColorClasses } from '../constants'
+</script>
+
 <template>
   <span>
     <span :class="textColorClasses.R">S</span>
