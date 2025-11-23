@@ -69,6 +69,7 @@ export default defineConfig({
     // https://github.com/vite-pwa/vite-plugin-pwa
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: false,
       includeAssets: [],
       manifest: {
         name: 'Shadle',

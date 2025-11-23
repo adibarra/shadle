@@ -1,5 +1,4 @@
 import type { UserModule } from '~/types'
-import { usePwaUpdate } from '~/composables/pwa'
 
 // https://github.com/vite-pwa/vite-plugin-pwa
 export const install: UserModule = ({ router }) => {
@@ -16,17 +15,15 @@ export const install: UserModule = ({ router }) => {
   router.isReady()
     .then(async () => {
       const { registerSW } = await import('virtual:pwa-register')
-      const { setUpdateSW, notifyNeedRefresh, notifyOfflineReady } = usePwaUpdate()
 
-      const updateSW = registerSW({
+      registerSW({
         immediate: true,
         onNeedRefresh() {
           console.warn('PWA: update available')
-          notifyNeedRefresh()
+          location.reload()
         },
         onOfflineReady() {
           console.warn('PWA: ready for offline use')
-          notifyOfflineReady()
         },
         onRegistered(registration) {
           console.warn('PWA: service worker registered')
@@ -42,8 +39,6 @@ export const install: UserModule = ({ router }) => {
           console.warn('PWA: service worker registration failed', error)
         },
       })
-
-      setUpdateSW(updateSW)
     })
     .catch((error) => {
       console.warn('PWA: initialization failed', error)

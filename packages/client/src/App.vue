@@ -18,7 +18,6 @@ provide('resetApp', resetApp)
 <template>
   <div class="flex flex-col min-h-svh">
     <Header />
-    <PwaUpdateBanner />
     <div class="flex grow flex-col px-4">
       <RouterView />
     </div>
