@@ -13,7 +13,6 @@ import prexit from 'prexit'
 import { startTasks, stopTasks } from './task-runner'
 
 const logger = getLogger('SERVER')
-const _skipTasks = process.env.SKIP_TASKS === 'true'
 const startTime = performance.now()
 
 // set up fastify
@@ -85,14 +84,8 @@ logger.info(`Server listening on ${config.API_HOST}:${port}.`)
 // init db and run migrations
 await getSql()
 
-// start background tasks (unless skipped)
-let tasksStarted = false
-if (!_skipTasks) {
-  await startTasks()
-  tasksStarted = true
-} else {
-  logger.info('Background tasks skipped (SKIP_TASKS=true).')
-}
+// start background tasks
+await startTasks()
 
 logger.info(`Server ready in ${(performance.now() - startTime).toFixed(2)}ms.`)
 
@@ -107,12 +100,10 @@ prexit(['SIGINT', 'SIGHUP', 'SIGTERM', 'SIGQUIT'], async () => {
   }, 30_000)
 
   try {
-    // cancel all scheduled tasks (if running)
-    if (tasksStarted) {
-      logger.debug('Stopping background tasks...')
-      stopTasks()
-      logger.debug('Background tasks stopped.')
-    }
+    // cancel all scheduled tasks
+    logger.debug('Stopping background tasks...')
+    stopTasks()
+    logger.debug('Background tasks stopped.')
 
     // close api server
     logger.debug('Closing API server...')
