@@ -41,13 +41,13 @@ function handleReset() {
 <template>
   <div v-if="ui.showSettings" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
     <div class="mx-4 max-w-sm w-full rounded-lg bg-[var(--color-bg)] p-6 text-[var(--color-text)] shadow-lg">
-      <h2 class="mb-4 text-2xl font-bold">
+      <h2 class="mb-8 text-3xl font-bold">
         Settings
       </h2>
-      <div class="mb-4">
-        <label for="theme-select" class="mb-2 block text-sm font-medium">Theme</label>
-        <p class="mb-2 text-xs text-gray-600">
-          Choose your preferred color scheme for the game.
+      <div class="mb-8">
+        <label for="theme-select" class="mb-2 block text-xl font-medium">Theme</label>
+        <p class="mb-2 text-sm op-50">
+          Choose your preferred color scheme.
         </p>
         <select
           id="theme-select"
@@ -63,30 +63,13 @@ function handleReset() {
           </option>
         </select>
       </div>
-      <div class="mb-4">
-        <label class="mb-2 block text-sm font-medium">Device ID</label>
-        <p class="mb-2 text-xs text-gray-600">
-          Your unique identifier used for game statistics.
-        </p>
-        <div class="flex space-x-2">
-          <input
-            type="text"
-            :value="deviceId"
-            readonly
-            class="flex-1 border border-[var(--color-outline)] rounded bg-[var(--color-bg)] p-2 text-white/50"
-          >
-          <button class="rounded bg-[var(--color-accent)] px-3 py-2 text-[var(--color-text)]" @click="copyDeviceId">
-            Copy
-          </button>
-        </div>
-      </div>
-      <div class="mb-4">
-        <label class="mb-1 block text-sm text-red-500 font-medium">Reset Memory</label>
-        <p class="mb-2 text-xs text-gray-600">
-          Clear all saved game data and generate a new device ID. You won't be able to see your old game history.
+      <div class="mb-8">
+        <label class="mb-1 block text-xl text-red-500 font-medium">Reset Memory</label>
+        <p class="mb-2 text-sm op-50">
+          Clear all saved game data. You won't be able to see your old game history.
         </p>
         <button class="rounded bg-red-500 px-2 py-1 text-white" @click="handleReset">
-          Reset Memory
+          Reset
         </button>
       </div>
       <div class="flex justify-end">

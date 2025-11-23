@@ -23,7 +23,7 @@ provide('resetApp', resetApp)
     </div>
     <Footer />
     <InstructionsModal />
-    <Sidebar />
+    <MenuModal />
     <SettingsModal />
   </div>
 </template>
