@@ -3,7 +3,7 @@ const ui = useUiStore()
 </script>
 
 <template>
-  <div v-if="ui.showInstructions" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div v-if="ui.showInstructions" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click.self="ui.showInstructions = false">
     <div class="mx-4 max-w-sm w-full rounded-lg bg-[var(--color-bg)] p-6 shadow-lg">
       <div class="mb-8 flex flex-row items-center justify-between">
         <h2 class="text-3xl font-bold">
@@ -22,7 +22,9 @@ const ui = useUiStore()
       </div>
 
       <div class="mb-8">
-        <p class="mb-2">After each guess, you'll get feedback on each color:</p>
+        <p class="mb-2">
+          After each guess, you'll get feedback on each color:
+        </p>
         <ul class="list-disc list-inside space-y-2">
           <li class="flex items-center">
             <div class="mr-4 h-8 w-4 flex-shrink-0 rounded bg-[var(--color-b)]" />

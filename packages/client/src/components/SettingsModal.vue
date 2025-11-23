@@ -19,7 +19,7 @@ function handleReset() {
 </script>
 
 <template>
-  <div v-if="ui.showSettings" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div v-if="ui.showSettings" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click.self="ui.showSettings = false">
     <div class="mx-4 max-w-sm w-full rounded-lg bg-[var(--color-bg)] p-6 shadow-lg">
       <div class="mb-8 flex flex-row items-center justify-between">
         <h2 class="text-3xl font-bold">
