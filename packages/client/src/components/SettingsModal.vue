@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-import { useLocales } from '~/composables/useLocales'
-
 const ui = useUiStore()
 const { theme, setTheme } = useTheme()
-const resetApp = inject<() => void>('resetApp')!
+const { resetApp } = useResetApp()
 const { t } = useI18n()
 const { availableLocales, currentLocale, localeNames } = useLocales()
 

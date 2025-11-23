@@ -1,20 +1,3 @@
-<script setup lang="ts">
-import { useTheme } from './composables/theme'
-import { useResetApp } from './composables/useResetApp'
-import { useUiStore } from './stores/ui'
-
-const ui = useUiStore()
-const { theme, setTheme } = useTheme()
-const { resetApp } = useResetApp()
-
-provide('toggleInstructions', ui.openInstructions)
-provide('toggleSidebar', ui.toggleSidebar)
-provide('openSettings', ui.openSettings)
-provide('setTheme', setTheme)
-provide('theme', theme)
-provide('resetApp', resetApp)
-</script>
-
 <template>
   <div class="flex flex-col min-h-svh">
     <Header />
