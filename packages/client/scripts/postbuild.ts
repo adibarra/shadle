@@ -5,7 +5,7 @@ import { resolve } from 'node:path'
 const clientDist = resolve(import.meta.dirname, '../dist')
 const serverPublic = resolve(import.meta.dirname, '../../server/public')
 
-console.log(`[${new Date().toISOString().slice(0, 19)}] INFO: [PREVIEW] Preparing preview build...`)
+console.log(`[${new Date().toISOString().slice(0, 19)}] INFO: [POSTBUILD] Preparing to copy build.`)
 
 if (existsSync(serverPublic)) {
   rmSync(serverPublic, { recursive: true, force: true })
@@ -13,4 +13,4 @@ if (existsSync(serverPublic)) {
 mkdirSync(serverPublic, { recursive: true })
 cpSync(clientDist, serverPublic, { recursive: true, force: true })
 
-console.log(`[${new Date().toISOString().slice(0, 19)}] INFO: [PREVIEW] Preview build prepared successfully.`)
+console.log(`[${new Date().toISOString().slice(0, 19)}] INFO: [POSTBUILD] copied build to server/public.`)

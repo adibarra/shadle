@@ -69,13 +69,12 @@ export default defineConfig({
     // https://github.com/vite-pwa/vite-plugin-pwa
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: false,
       includeAssets: [],
       manifest: {
         name: 'Shadle',
         short_name: 'Shadle',
         description: 'A Wordle-style game with colors. Challenge your mind with daily color pattern puzzles.',
-        theme_color: '#1da54f',
+        theme_color: '#121212',
         icons: [
           {
             src: 'pwa-64x64.png',
@@ -112,6 +111,10 @@ export default defineConfig({
         )]
       : []),
   ],
+
+  ssr: {
+    noExternal: ['workbox-window'],
+  },
 
   define: {
     'import.meta.env.VITE_COMMIT_HASH': JSON.stringify(commitHash.slice(0, 7)),
