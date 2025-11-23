@@ -21,6 +21,5 @@ const { t } = useI18n()
     >
       adibarra
     </a>
-    <div v-if="isIos && isPwa" class="h-4" />
   </footer>
 </template>

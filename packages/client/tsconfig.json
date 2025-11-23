@@ -11,7 +11,6 @@
       "@vueuse/core",
       "vitest",
       "vite/client",
-      "vite-plugin-pwa/client",
       "unplugin-vue-macros/macros-global",
       "unplugin-vue-router/client"
     ]

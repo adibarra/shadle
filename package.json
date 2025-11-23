@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@10.22.0",
-  "description": "A Wordle-style game for colors with PWA and notifications.",
+  "description": "A Wordle-style game for colors.",
   "contributors": [
     "adibarra <github@adibarra.com> (https://adibarra.com)"
   ],
