@@ -1,8 +1,8 @@
 import type { ValidColor } from '@shadle/types'
 import { GuessStatus } from '@shadle/types'
 import { computed, readonly, ref } from 'vue'
-import { submitGuess as submitGuessAPI } from './api'
 import { generateDeviceId } from '../utils'
+import { submitGuess as submitGuessAPI } from './api'
 
 const STORAGE_KEY = 'shadle-game-state'
 
@@ -61,8 +61,13 @@ const disabledColors = computed(() => {
 })
 
 function generatePuzzleId() {
-  const today = new Date().toISOString().split('T')[0]
-  return `§${today}`
+  // const today = new Date().toISOString().split('T')[0]
+  // return `§${today}`
+  // TODO: remove later
+  const randomDays = Math.floor(Math.random() * 365)
+  const randomDate = new Date()
+  randomDate.setDate(randomDate.getDate() - randomDays)
+  return `§${randomDate.toISOString().split('T')[0]}`
 }
 
 function _getDeviceId() {
