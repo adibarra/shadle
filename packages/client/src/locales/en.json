@@ -40,14 +40,14 @@
     "title": "How to Play",
     "description": "Guess the 5-color combo in 6 tries. The colors in the combination can repeat.",
     "feedback": {
-      "intro": "After each guess, you'll get feedback on each color:",
-      "correct": "If the full color is shown, the guess was correct.",
-      "present": "If half of the color is shown, it is present but in the wrong position.",
-      "absent": "If it is fully greyed out, then it is not present in the combo."
+      "intro": "After submitting, you'll get feedback on each color:",
+      "correct": "If the full color is shown, it's in the correct position.",
+      "present": "If half the color is shown, it's in the combo but wrong position.",
+      "absent": "If fully grayed out, it's not in the combo."
     },
     "howTo": {
-      "selectColors": "Use the color buttons below the board to select colors for your guess.",
-      "submit": "Click \"Submit Guess\" when ready."
+      "selectColors": "Use the color buttons below the board to select colors for your guess. Click \"Submit Guess\" when ready.",
+      "submit": ""
     }
   },
   "menu": {
