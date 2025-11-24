@@ -2,65 +2,41 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref, watchEffect } from 'vue'
 
 export const useUiStore = defineStore('ui', () => {
-  const showMenu = ref(false)
-  const showSettings = ref(false)
-  const showInstructions = ref(false)
-  const showStatistics = ref(false)
+  type ModalType = 'menu' | 'settings' | 'instructions' | 'statistics' | 'pastPuzzles' | 'alreadyPlayed' | 'win'
+
+  const activeModal = ref<ModalType | null>(null)
 
   watchEffect(() => {
-    const anyModal = showInstructions.value || showMenu.value || showSettings.value || showStatistics.value
-    document.body.classList.toggle('no-scroll', anyModal)
+    document.body.classList.toggle('no-scroll', activeModal.value !== null)
   })
 
-  const openMenu = () => {
-    showMenu.value = !showMenu.value
-  }
-
-  const openSettings = () => {
-    showSettings.value = true
-    showMenu.value = false
-  }
-
-  const closeSettings = () => {
-    showSettings.value = false
-  }
-
-  const openStatistics = () => {
-    showStatistics.value = true
-    showMenu.value = false
-  }
-
-  const closeStatistics = () => {
-    showStatistics.value = false
-  }
-
-  const openInstructions = () => {
-    showInstructions.value = true
-  }
-
-  const closeInstructions = () => {
-    showInstructions.value = false
-  }
-
   const closeAllModals = () => {
-    showMenu.value = false
-    showSettings.value = false
-    showInstructions.value = false
-    showStatistics.value = false
+    activeModal.value = null
+  }
+
+  const isOpen = (modal: ModalType) => activeModal.value === modal
+
+  const open = (modal: ModalType) => {
+    closeAllModals()
+    activeModal.value = modal
+  }
+
+  const close = (modal: ModalType) => {
+    if (activeModal.value === modal) {
+      activeModal.value = null
+      // Reset game when win modal is closed
+      if (modal === 'winModal') {
+        const game = useGameStore()
+        game.resetGame()
+      }
+    }
   }
 
   return {
-    showMenu,
-    showSettings,
-    showInstructions,
-    showStatistics,
-    openMenu,
-    openSettings,
-    closeSettings,
-    openStatistics,
-    closeStatistics,
-    openInstructions,
-    closeInstructions,
+    activeModal,
+    isOpen,
+    open,
+    close,
     closeAllModals,
   }
 })

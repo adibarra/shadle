@@ -1,87 +1,89 @@
 <script setup lang="ts">
 const ui = useUiStore()
-const game = useGame()
+const game = useGameStore()
 const router = useRouter()
 const { t } = useI18n()
 
-// Check if we're on today's puzzle
-const isTodayPuzzle = computed(() => {
-  const today = new Date().toISOString().split('T')[0]
-  return game.gameState.value.puzzleId === `§${today}`
-})
+// Check current mode
+const currentMode = computed(() => game.currentMode)
 
 // Menu options
 const menuOptions = computed(() => [
   {
     id: 'daily',
-    title: t('menu.items.dailyPuzzle'),
+    title: t('menu.dailyPuzzle'),
     icon: 'i-carbon:time',
     action: () => {
+      game.setPuzzleMode('daily')
       router.push('/')
-      ui.showMenu = false
+      ui.close('menu')
     },
-    disabled: isTodayPuzzle.value,
+    disabled: false,
+    showActive: currentMode.value === 'daily',
+  },
+  {
+    id: 'random',
+    title: t('menu.randomPuzzle'),
+    icon: 'i-carbon:shuffle',
+    action: () => {
+      game.setPuzzleMode('random')
+      router.push('/')
+      ui.close('menu')
+    },
+    disabled: false,
+    showActive: currentMode.value === 'random',
   },
   {
     id: 'archive',
-    title: t('menu.items.pastPuzzles'),
+    title: t('menu.pastPuzzles'),
     icon: 'i-carbon:calendar',
     action: () => {
-      // TODO: Implement archive/past puzzles
-      alert('Past puzzles not implemented yet')
+      ui.open('pastPuzzles')
+    },
+    disabled: false,
+    showActive: currentMode.value === 'past',
+  },
+  {
+    id: 'stats',
+    title: t('menu.statistics'),
+    icon: 'i-carbon:chart-bar',
+    action: () => {
+      ui.open('statistics')
     },
     disabled: false,
   },
   {
-    id: 'stats',
-    title: t('menu.items.statistics'),
-    icon: 'i-carbon:chart-bar',
+    id: 'instructions',
+    title: t('menu.instructions'),
+    icon: 'i-carbon:help',
     action: () => {
-      ui.openStatistics()
+      ui.open('instructions')
     },
     disabled: false,
   },
   {
     id: 'settings',
-    title: t('menu.items.settings'),
+    title: t('menu.settings'),
     icon: 'i-carbon:settings',
-    action: () => ui.openSettings(),
+    action: () => ui.open('settings'),
     disabled: false,
   },
 ])
 </script>
 
 <template>
-  <div v-if="ui.showMenu" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click.self="ui.showMenu = false">
-    <div :class="isCompactViewport ? 'absolute inset-4 rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 shadow-lg' : 'mx-4 max-w-md w-full rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 shadow-lg'">
-      <div class="mb-8 flex flex-row items-center justify-between border-b border-[var(--color-outline)] pb-4">
-        <h2 class="text-3xl font-bold">
-          {{ t('menu.title') }}
-        </h2>
-        <button
-          class="p-2 text-3xl"
-          @click="ui.showMenu = false"
-        >
-          <div class="i-carbon:close" />
-        </button>
-      </div>
-
-      <div class="mb-8 flex flex-col gap-4">
-        <button
-          v-for="option in menuOptions"
-          :key="option.id"
-          class="w-full flex flex-col items-center justify-center border-2 rounded-lg px-8 py-4 transition-all"
-          :class="option.disabled
-            ? 'border-[var(--color-outline)] bg-[var(--color-outline)] cursor-not-allowed opacity-50'
-            : 'border-[var(--color-outline)] bg-[var(--color-bg)] hover:border-[var(--color-accent)] hover:bg-[var(--color-outline)]'"
-          :disabled="option.disabled"
-          @click="option.action()"
-        >
-          <div :class="option.icon" class="mb-2 text-3xl" />
-          <span class="text-center text-sm font-medium">{{ option.title }}</span>
-          <span v-if="option.disabled" class="text-center text-xs opacity-75">{{ t('menu.active') }}</span>
-        </button>
-      </div>
+  <BaseModal modal-name="menu" :title="t('menu.title')">
+    <div class="mb-8 flex flex-col gap-4">
+      <IconButton
+        v-for="option in menuOptions"
+        :key="option.id"
+        :icon="option.icon"
+        :text="option.title"
+        :disabled="option.disabled"
+        :show-active="option.showActive"
+        :active-text="t('menu.active')"
+        @click="option.action()"
+      />
     </div>
-  </div>
+  </BaseModal>
 </template>

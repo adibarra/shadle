@@ -1,33 +1,23 @@
 <script setup lang="ts">
-import type { StatsResponse, ValidColor } from '@shadle/types'
+import type { StatsResponse } from '@shadle/types'
 import { GuessStatus } from '@shadle/types'
 import { textColorClasses } from '../constants'
 
-interface Props {
-  won: boolean
-  attempts: number
-  onClose: () => void
-  guesses: readonly (readonly ValidColor[])[]
-  feedback: readonly (readonly GuessStatus[])[]
-}
-
-const props = defineProps<Props>()
 const { t } = useI18n()
 const { share } = useShare()
-
-const { gameState } = useGame()
+const game = useGameStore()
 
 const stats = ref<StatsResponse | null>(null)
 
-onMounted(async () => {
-  if (props.won) {
+watch(() => game.won || game.lost, async (gameEnded) => {
+  if (gameEnded) {
     try {
-      const fetchedStats = await getStats(gameState.value.puzzleId)
+      const fetchedStats = await getStats(game.puzzleId)
       stats.value = fetchedStats
     } catch {
       // if error use empty stats
       stats.value = {
-        puzzleId: gameState.value.puzzleId,
+        puzzleId: game.puzzleId,
         totalAttempts: 0,
         totalDevices: 0,
         avgTries: 0,
@@ -39,17 +29,17 @@ onMounted(async () => {
     }
     // always include the user's just completed game
     if (stats.value) {
-      stats.value.triesDistribution[props.attempts] = (stats.value.triesDistribution[props.attempts] || 0) + 1
+      stats.value.triesDistribution[game.attempts] = (stats.value.triesDistribution[game.attempts] || 0) + 1
       stats.value.totalAttempts += 1
     }
   }
 })
 
 function generateShareText() {
-  let text = `Shadle ${props.attempts}/6\n\n`
-  for (let i = 0; i < props.guesses.length; i++) {
-    for (let j = 0; j < props.guesses[i].length; j++) {
-      const status = props.feedback[i][j]
+  let text = `Shadle ${game.attempts}/6\n\n`
+  for (let i = 0; i < game.guesses.length; i++) {
+    for (let j = 0; j < game.guesses[i].length; j++) {
+      const status = game.feedback[i][j]
       if (status === GuessStatus.CORRECT) text += '🟩'
       else if (status === GuessStatus.PRESENT) text += '🟨'
       else text += '⬛'
@@ -69,52 +59,38 @@ function handleShare() {
 </script>
 
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click.self="props.onClose()">
-    <div :class="isCompactViewport ? 'absolute inset-4 flex flex-col justify-between rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 text-[var(--color-text)] shadow-lg' : 'mx-4 max-w-sm min-h-[200px] w-full flex flex-col justify-between rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 text-[var(--color-text)] shadow-lg'">
-      <div>
-        <div class="mb-4 flex flex-row items-center justify-between border-b border-[var(--color-outline)] pb-4">
-          <h2 class="text-2xl font-bold" :class="props.won ? textColorClasses.G : textColorClasses.R">
-            {{ props.won ? t('winModal.messages.congratulations') : t('winModal.messages.gameOver') }}
-          </h2>
-          <button
-            class="p-2 text-3xl"
-            @click="props.onClose()"
-          >
-            <div class="i-carbon:close" />
-          </button>
-        </div>
-        <p class="mb-4">
-          {{ props.won ? t('winModal.messages.solved', { attempts: props.attempts }) : t('winModal.messages.tryAgain') }}
-        </p>
-        <div v-if="props.won" class="mb-4">
-          <div class="grid grid-rows-6 gap-3">
-            <div
-              v-for="(_, guessIndex) in Array(6).fill(null)"
-              :key="guessIndex"
-              class="grid grid-cols-5"
-            >
-              <ColorSwatch
-                v-for="(__, colorIndex) in Array(5).fill(null)"
-                :key="colorIndex"
-                :color="guessIndex < props.guesses.length ? props.guesses[guessIndex][colorIndex] : undefined"
-                :feedback="guessIndex < props.guesses.length ? props.feedback[guessIndex][colorIndex] : undefined"
-              />
-            </div>
-          </div>
-        </div>
-        <div v-if="stats" class="mb-4">
-          <h3 class="mb-2 text-lg font-semibold">
-            {{ t('winModal.distribution.title') }}
-          </h3>
-          <DistributionChart
-            :tries-distribution="stats.triesDistribution"
-            :games-won="(Object.values(stats.triesDistribution) as number[]).reduce((sum, count) => sum + count, 0)"
+  <BaseModal modal-name="win" max-width="max-w-sm" :title="game.won ? t('modals.win.messages.congratulations') : t('modals.win.messages.gameOver')" :title-class="game.won ? textColorClasses.G : textColorClasses.R">
+    <p class="mb-4">
+      {{ game.won ? t('modals.win.messages.solved', { attempts: game.attempts }) : t('modals.win.messages.tryAgain') }}
+    </p>
+    <div v-if="game.won || game.lost" class="mb-4">
+      <div class="grid grid-rows-6 gap-3">
+        <div
+          v-for="(_, guessIndex) in Array(6).fill(null)"
+          :key="guessIndex"
+          class="grid grid-cols-5"
+        >
+          <ColorSwatch
+            v-for="(__, colorIndex) in Array(5).fill(null)"
+            :key="colorIndex"
+            :color="guessIndex < game.guesses.length ? game.guesses[guessIndex][colorIndex] : undefined"
+            :feedback="guessIndex < game.guesses.length ? game.feedback[guessIndex][colorIndex] : undefined"
           />
         </div>
       </div>
-      <div class="flex justify-start">
-        <IconButton v-if="props.won" icon="i-carbon:share" :text="t('winModal.actions.share')" @click="handleShare" />
-      </div>
     </div>
-  </div>
+    <div v-if="stats" class="mb-4">
+      <h3 class="mb-2 text-lg font-semibold">
+        {{ t('modals.win.distribution.title') }}
+      </h3>
+      <DistributionChart
+        :tries-distribution="stats.triesDistribution"
+        :games-won="(Object.values(stats.triesDistribution) as number[]).reduce((sum, count) => sum + count, 0)"
+      />
+    </div>
+
+    <div class="flex justify-start">
+      <IconButton v-if="game.won" icon="i-carbon:share" :text="t('modals.win.actions.share')" @click="handleShare" />
+    </div>
+  </BaseModal>
 </template>

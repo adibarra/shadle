@@ -89,97 +89,83 @@ async function loadStats() {
 
 // Load stats when modal opens
 watchEffect(() => {
-  if (ui.showStatistics) {
+  if (ui.isOpen('statistics')) {
     loadStats()
   }
 })
 </script>
 
 <template>
-  <div v-if="ui.showStatistics" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click.self="ui.showStatistics = false">
-    <div :class="isCompactViewport ? 'absolute inset-4 rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 shadow-lg' : 'mx-4 max-w-md w-full rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 shadow-lg'">
-      <div class="mb-8 flex flex-row items-center justify-between border-b border-[var(--color-outline)] pb-4">
-        <h2 class="text-3xl font-bold">
-          {{ t('stats.title') }}
-        </h2>
-        <button
-          class="p-2 text-3xl"
-          @click="ui.showStatistics = false"
-        >
-          <div class="i-carbon:close" />
-        </button>
+  <BaseModal modal-name="statistics" :title="t('stats.title')">
+    <div v-if="loading" class="py-8 text-center">
+      {{ t('stats.loading') }}
+    </div>
+
+    <div v-else-if="error" class="py-8 text-center text-red-500">
+      {{ error }}
+    </div>
+
+    <div v-else class="space-y-6">
+      <!-- Games Played -->
+      <div class="text-center">
+        <div class="text-4xl font-bold">
+          {{ stats.gamesPlayed }}
+        </div>
+        <div class="text-sm text-gray-600">
+          {{ t('stats.gamesPlayed') }}
+        </div>
       </div>
 
-      <div v-if="loading" class="py-8 text-center">
-        {{ t('stats.loading') }}
+      <!-- Win Rate -->
+      <div class="text-center">
+        <div class="text-4xl font-bold">
+          {{ stats.winRate }}%
+        </div>
+        <div class="text-sm text-gray-600">
+          {{ t('stats.winRate') }}
+        </div>
       </div>
 
-      <div v-else-if="error" class="py-8 text-center text-red-500">
-        {{ error }}
-      </div>
-
-      <div v-else class="space-y-6">
-        <!-- Games Played -->
+      <!-- Streaks -->
+      <div class="grid grid-cols-2 gap-4">
         <div class="text-center">
-          <div class="text-4xl font-bold">
-            {{ stats.gamesPlayed }}
+          <div class="text-3xl font-bold">
+            {{ stats.currentStreak }}
           </div>
           <div class="text-sm text-gray-600">
-            {{ t('stats.gamesPlayed') }}
+            {{ t('stats.currentStreak') }}
           </div>
         </div>
-
-        <!-- Win Rate -->
         <div class="text-center">
-          <div class="text-4xl font-bold">
-            {{ stats.winRate }}%
+          <div class="text-3xl font-bold">
+            {{ stats.bestStreak }}
           </div>
           <div class="text-sm text-gray-600">
-            {{ t('stats.winRate') }}
+            {{ t('stats.bestStreak') }}
           </div>
         </div>
+      </div>
 
-        <!-- Streaks -->
-        <div class="grid grid-cols-2 gap-4">
-          <div class="text-center">
-            <div class="text-3xl font-bold">
-              {{ stats.currentStreak }}
-            </div>
-            <div class="text-sm text-gray-600">
-              {{ t('stats.currentStreak') }}
-            </div>
-          </div>
-          <div class="text-center">
-            <div class="text-3xl font-bold">
-              {{ stats.bestStreak }}
-            </div>
-            <div class="text-sm text-gray-600">
-              {{ t('stats.bestStreak') }}
-            </div>
-          </div>
+      <!-- Average Tries -->
+      <div v-if="stats.gamesWon > 0" class="text-center">
+        <div class="text-4xl font-bold">
+          {{ stats.averageTries }}
         </div>
+        <div class="text-sm text-gray-600">
+          {{ t('stats.averageTries') }}
+        </div>
+      </div>
 
-        <!-- Average Tries -->
-        <div v-if="stats.gamesWon > 0" class="text-center">
-          <div class="text-4xl font-bold">
-            {{ stats.averageTries }}
-          </div>
-          <div class="text-sm text-gray-600">
-            {{ t('stats.averageTries') }}
-          </div>
-        </div>
-
-        <!-- Tries Distribution -->
-        <div v-if="stats.gamesWon > 0" class="space-y-2">
-          <h3 class="text-center text-lg font-semibold">
-            {{ t('stats.triesDistribution') }}
-          </h3>
-          <DistributionChart
-            :tries-distribution="stats.triesDistribution"
-            :games-won="stats.gamesWon"
-          />
-        </div>
+      <!-- Tries Distribution -->
+      <div v-if="stats.gamesWon > 0" class="space-y-2">
+        <h3 class="text-center text-lg font-semibold">
+          {{ t('stats.triesDistribution') }}
+        </h3>
+        <DistributionChart
+          :tries-distribution="stats.triesDistribution"
+          :games-won="stats.gamesWon"
+        />
       </div>
     </div>
-  </div>
+  </BaseModal>
 </template>
