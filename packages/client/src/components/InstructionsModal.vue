@@ -24,32 +24,32 @@ const { t } = useI18n()
 
       <div class="mb-8">
         <p class="mb-2">
-          {{ t('instructionsModal.feedbackTitle') }}
+          {{ t('instructionsModal.feedback.intro') }}
         </p>
         <ul class="list-disc list-inside space-y-2">
           <li class="flex items-center">
             <div class="mr-4 h-8 w-4 flex-shrink-0 rounded bg-[var(--color-b)]" />
-            {{ t('instructionsModal.correct') }}
+            {{ t('instructionsModal.feedback.correct') }}
           </li>
           <li class="flex items-center">
             <div class="relative mr-4 h-8 w-4 flex-shrink-0 rounded bg-[var(--color-b)]">
               <div class="absolute inset-0 bg-[hsl(0,0%,20%)]" style="clip-path: polygon(0 100%, 100% 0, 100% 100%)" />
             </div>
-            {{ t('instructionsModal.present') }}
+            {{ t('instructionsModal.feedback.present') }}
           </li>
           <li class="flex items-center">
             <div class="mr-4 h-8 w-4 flex-shrink-0 rounded bg-[hsl(0,0%,20%)]" />
-            {{ t('instructionsModal.absent') }}
+            {{ t('instructionsModal.feedback.absent') }}
           </li>
         </ul>
       </div>
 
       <div class="mb-8">
-        {{ t('instructionsModal.selectColors') }}
+        {{ t('instructionsModal.howTo.selectColors') }}
       </div>
 
       <div class="mb-8">
-        {{ t('instructionsModal.submit') }}
+        {{ t('instructionsModal.howTo.submit') }}
       </div>
     </div>
   </div>

@@ -19,10 +19,10 @@ const { t } = useI18n()
     <div class="mx-4 max-w-sm min-h-[200px] w-full flex flex-col justify-between rounded-lg bg-[var(--color-bg)] p-6 text-[var(--color-text)] shadow-lg">
       <div>
         <h2 class="mb-4 text-2xl font-bold" :class="props.won ? textColorClasses.G : textColorClasses.R">
-          {{ props.won ? t('winModal.congratulations') : t('winModal.gameOver') }}
+          {{ props.won ? t('winModal.messages.congratulations') : t('winModal.messages.gameOver') }}
         </h2>
         <p class="mb-4">
-          {{ props.won ? t('winModal.solved', { attempts: props.attempts }) : t('winModal.tryAgain') }}
+          {{ props.won ? t('winModal.messages.solved', { attempts: props.attempts }) : t('winModal.messages.tryAgain') }}
         </p>
         <div v-if="props.won" class="mb-4">
           <div class="grid grid-rows-6 gap-3">
@@ -43,7 +43,7 @@ const { t } = useI18n()
       </div>
       <div class="flex justify-end">
         <button class="rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="props.onClose">
-          {{ t('winModal.playAgain') }}
+          {{ t('winModal.actions.playAgain') }}
         </button>
       </div>
     </div>

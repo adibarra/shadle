@@ -13,7 +13,7 @@ function handleThemeChange(event: Event) {
 
 function handleReset() {
   // eslint-disable-next-line no-alert
-  if (confirm(t('settings.confirmReset'))) {
+  if (confirm(t('settings.reset.confirm'))) {
     resetApp()
     ui.showSettings = false
   }
@@ -36,9 +36,9 @@ function handleReset() {
       </div>
 
       <div class="mb-8">
-        <label for="theme-select" class="mb-2 block text-xl font-medium">{{ t('settings.theme') }}</label>
+        <label for="theme-select" class="mb-2 block text-xl font-medium">{{ t('settings.theme.title') }}</label>
         <p class="mb-2 text-sm op-50">
-          {{ t('settings.themeDescription') }}
+          {{ t('settings.theme.description') }}
         </p>
         <select
           id="theme-select"
@@ -47,18 +47,18 @@ function handleReset() {
           @change="handleThemeChange"
         >
           <option value="default">
-            {{ t('settings.default') }}
+            {{ t('settings.theme.options.default') }}
           </option>
           <option value="colorblind">
-            {{ t('settings.colorblind') }}
+            {{ t('settings.theme.options.colorblind') }}
           </option>
         </select>
       </div>
 
       <div class="mb-8">
-        <label for="language-select" class="mb-2 block text-xl font-medium">{{ t('settings.language') }}</label>
+        <label for="language-select" class="mb-2 block text-xl font-medium">{{ t('settings.language.title') }}</label>
         <p class="mb-2 text-sm op-50">
-          {{ t('settings.languageDescription') }}
+          {{ t('settings.language.description') }}
         </p>
         <select
           id="language-select"
@@ -72,12 +72,12 @@ function handleReset() {
       </div>
 
       <div class="mb-8">
-        <label class="mb-1 block text-xl text-red-500 font-medium">{{ t('settings.resetMemory') }}</label>
+        <label class="mb-1 block text-xl text-red-500 font-medium">{{ t('settings.reset.title') }}</label>
         <p class="mb-2 text-sm op-50">
-          {{ t('settings.resetDescription') }}
+          {{ t('settings.reset.description') }}
         </p>
         <button class="rounded bg-red-500 px-2 py-1 text-sm" @click="handleReset">
-          {{ t('settings.reset') }}
+          {{ t('settings.reset.reset') }}
         </button>
       </div>
     </div>

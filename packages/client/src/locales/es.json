@@ -13,16 +13,24 @@
   },
   "settings": {
     "title": "Configuración",
-    "language": "Idioma",
-    "languageDescription": "Elige tu idioma preferido para la interfaz.",
-    "theme": "Tema",
-    "themeDescription": "Elige tu esquema de color preferido.",
-    "default": "Predeterminado",
-    "colorblind": "Daltónico",
-    "resetMemory": "Restablecer Memoria",
-    "resetDescription": "Borra todos los datos guardados del juego y el historial.",
-    "reset": "Restablecer",
-    "confirmReset": "¿Estás seguro? Esto borrará permanentemente todos los datos del juego y generará una nueva ID de dispositivo. Esto no se puede deshacer."
+    "theme": {
+      "title": "Tema",
+      "description": "Elige tu esquema de color preferido.",
+      "options": {
+        "default": "Predeterminado",
+        "colorblind": "Daltónico"
+      }
+    },
+    "language": {
+      "title": "Idioma",
+      "description": "Elige tu idioma preferido para la interfaz."
+    },
+    "reset": {
+      "title": "Restablecer Memoria",
+      "description": "Borra todos los datos guardados del juego y el historial.",
+      "reset": "Restablecer",
+      "confirm": "¿Estás seguro? Esto borrará permanentemente todos los datos del juego y generará una nueva ID de dispositivo. Esto no se puede deshacer."
+    }
   },
   "instructions": {
     "guessPrompt": "Adivina la combinación de 5 colores en 6 intentos.",
@@ -31,27 +39,37 @@
   "instructionsModal": {
     "title": "Cómo Jugar",
     "description": "Adivina la combinación de 5 colores en 6 intentos. Los colores en la combinación pueden repetirse.",
-    "feedbackTitle": "Después de cada adivinanza, recibirás retroalimentación sobre cada color:",
-    "correct": "Si se muestra el color completo, la adivinanza fue correcta.",
-    "present": "Si se muestra la mitad del color, está presente pero en la posición incorrecta.",
-    "absent": "Si está completamente gris, entonces no está presente en la combinación.",
-    "selectColors": "Usa los botones de color debajo del tablero para seleccionar colores para tu adivinanza.",
-    "submit": "Haz clic en \"Enviar Adivinanza\" cuando estés listo."
+    "feedback": {
+      "intro": "Después de cada adivinanza, recibirás retroalimentación sobre cada color:",
+      "correct": "Si se muestra el color completo, la adivinanza fue correcta.",
+      "present": "Si se muestra la mitad del color, está presente pero en la posición incorrecta.",
+      "absent": "Si está completamente gris, entonces no está presente en la combinación."
+    },
+    "howTo": {
+      "selectColors": "Usa los botones de color debajo del tablero para seleccionar colores para tu adivinanza.",
+      "submit": "Haz clic en \"Enviar Adivinanza\" cuando estés listo."
+    }
   },
   "menu": {
     "title": "Menú",
-    "dailyPuzzle": "Rompecabezas Diario",
-    "pastPuzzles": "Rompecabezas Pasados",
-    "settings": "Configuración",
-    "statistics": "Estadísticas",
+    "items": {
+      "dailyPuzzle": "Rompecabezas Diario",
+      "pastPuzzles": "Rompecabezas Pasados",
+      "settings": "Configuración",
+      "statistics": "Estadísticas"
+    },
     "active": "Activo"
   },
   "winModal": {
-    "congratulations": "¡Felicitaciones!",
-    "gameOver": "Juego Terminado",
-    "solved": "¡Resolviste el rompecabezas en {attempts} intentos!",
-    "tryAgain": "¡Mejor suerte la próxima vez!",
-    "playAgain": "Jugar de Nuevo"
+    "messages": {
+      "congratulations": "¡Felicitaciones!",
+      "gameOver": "Juego Terminado",
+      "solved": "¡Resolviste el rompecabezas en {attempts} intentos!",
+      "tryAgain": "¡Mejor suerte la próxima vez!"
+    },
+    "actions": {
+      "playAgain": "Jugar de Nuevo"
+    }
   },
   "footer": {
     "madeWith": "Hecho con ❤️ por"

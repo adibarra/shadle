@@ -13,7 +13,7 @@ const isTodayPuzzle = computed(() => {
 const menuOptions = computed(() => [
   {
     id: 'daily',
-    title: t('menu.dailyPuzzle'),
+    title: t('menu.items.dailyPuzzle'),
     icon: 'i-carbon:time',
     action: () => {
       // TODO: Navigate to daily puzzle or reset to today
@@ -23,7 +23,7 @@ const menuOptions = computed(() => [
   },
   {
     id: 'archive',
-    title: t('menu.pastPuzzles'),
+    title: t('menu.items.pastPuzzles'),
     icon: 'i-carbon:calendar',
     action: () => {
       // TODO: Implement archive/past puzzles
@@ -33,14 +33,14 @@ const menuOptions = computed(() => [
   },
   {
     id: 'settings',
-    title: t('menu.settings'),
+    title: t('menu.items.settings'),
     icon: 'i-carbon:settings',
     action: () => ui.openSettings(),
     disabled: false,
   },
   {
     id: 'stats',
-    title: t('menu.statistics'),
+    title: t('menu.items.statistics'),
     icon: 'i-carbon:chart-bar',
     action: () => {
       // TODO: Implement stats modal

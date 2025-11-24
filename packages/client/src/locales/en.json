@@ -13,16 +13,24 @@
   },
   "settings": {
     "title": "Settings",
-    "language": "Language",
-    "languageDescription": "Choose your preferred language for the interface.",
-    "theme": "Theme",
-    "themeDescription": "Choose your preferred color scheme.",
-    "default": "Default",
-    "colorblind": "Colorblind",
-    "resetMemory": "Reset Memory",
-    "resetDescription": "Clear all saved game data and history.",
-    "reset": "Reset",
-    "confirmReset": "Are you sure? This will permanently delete all game data and generate a new device ID. This cannot be undone."
+    "theme": {
+      "title": "Theme",
+      "description": "Choose your preferred color scheme.",
+      "options": {
+        "default": "Default",
+        "colorblind": "Colorblind"
+      }
+    },
+    "language": {
+      "title": "Language",
+      "description": "Choose your preferred language for the interface."
+    },
+    "reset": {
+      "title": "Reset Memory",
+      "description": "Clear all saved game data and history.",
+      "reset": "Reset",
+      "confirm": "Are you sure? This will permanently delete all game data and generate a new device ID. This cannot be undone."
+    }
   },
   "instructions": {
     "guessPrompt": "Guess the 5-color combo in 6 tries.",
@@ -31,27 +39,37 @@
   "instructionsModal": {
     "title": "How to Play",
     "description": "Guess the 5-color combo in 6 tries. The colors in the combination can repeat.",
-    "feedbackTitle": "After each guess, you'll get feedback on each color:",
-    "correct": "If the full color is shown, the guess was correct.",
-    "present": "If half of the color is shown, it is present but in the wrong position.",
-    "absent": "If it is fully greyed out, then it is not present in the combo.",
-    "selectColors": "Use the color buttons below the board to select colors for your guess.",
-    "submit": "Click \"Submit Guess\" when ready."
+    "feedback": {
+      "intro": "After each guess, you'll get feedback on each color:",
+      "correct": "If the full color is shown, the guess was correct.",
+      "present": "If half of the color is shown, it is present but in the wrong position.",
+      "absent": "If it is fully greyed out, then it is not present in the combo."
+    },
+    "howTo": {
+      "selectColors": "Use the color buttons below the board to select colors for your guess.",
+      "submit": "Click \"Submit Guess\" when ready."
+    }
   },
   "menu": {
     "title": "Menu",
-    "dailyPuzzle": "Daily Puzzle",
-    "pastPuzzles": "Past Puzzles",
-    "settings": "Settings",
-    "statistics": "Statistics",
+    "items": {
+      "dailyPuzzle": "Daily Puzzle",
+      "pastPuzzles": "Past Puzzles",
+      "settings": "Settings",
+      "statistics": "Statistics"
+    },
     "active": "Active"
   },
   "winModal": {
-    "congratulations": "Congratulations!",
-    "gameOver": "Game Over",
-    "solved": "You solved the puzzle in {attempts} attempts!",
-    "tryAgain": "Better luck next time!",
-    "playAgain": "Play Again"
+    "messages": {
+      "congratulations": "Congratulations!",
+      "gameOver": "Game Over",
+      "solved": "You solved the puzzle in {attempts} attempts!",
+      "tryAgain": "Better luck next time!"
+    },
+    "actions": {
+      "playAgain": "Play Again"
+    }
   },
   "footer": {
     "madeWith": "Made with ❤️ by"
