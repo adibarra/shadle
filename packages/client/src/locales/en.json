@@ -32,48 +32,60 @@
       "confirm": "Are you sure? This will permanently delete all game data and generate a new device ID. This cannot be undone."
     }
   },
-  "instructions": {
+  "gamePrompts": {
     "guessPrompt": "Guess the 5-color combo in 6 tries.",
-    "helpPrompt": "Not sure how this works? Click the ? button."
+    "helpPrompt": "Not sure how this works? Check the menu."
   },
-  "instructionsModal": {
-    "title": "How to Play",
-    "description": "Guess the 5-color combo in 6 tries. The colors in the combination can repeat.",
-    "feedback": {
-      "intro": "After submitting, you'll get feedback on each color:",
-      "correct": "If the full color is shown, it's in the correct position.",
-      "present": "If half the color is shown, it's in the combo but wrong position.",
-      "absent": "If fully grayed out, it's not in the combo."
+  "modals": {
+    "instructions": {
+      "title": "How to Play",
+      "description": "Guess the 5-color combo in 6 tries. The colors in the combination can repeat.",
+      "feedback": {
+        "intro": "After submitting, you'll get feedback on each color:",
+        "correct": "If the full color is shown, it's in the correct position.",
+        "present": "If half the color is shown, it's in the combo but wrong position.",
+        "absent": "If fully grayed out, it's not in the combo."
+      },
+      "howTo": {
+        "selectColors": "Use the color buttons below the board to select colors for your guess. Click \"Submit Guess\" when ready."
+      }
     },
-    "howTo": {
-      "selectColors": "Use the color buttons below the board to select colors for your guess. Click \"Submit Guess\" when ready.",
-      "submit": ""
+    "win": {
+      "messages": {
+        "congratulations": "Congratulations!",
+        "gameOver": "Game Over",
+        "solved": "You solved the puzzle in {attempts} attempts!",
+        "tryAgain": "Better luck next time!"
+      },
+      "actions": {
+        "share": "Share"
+      },
+      "distribution": {
+        "title": "Public Distribution"
+      }
+    },
+    "alreadyPlayed": {
+      "title": "Already Played",
+      "description": "You have already played this puzzle. Please choose a different date or try a random puzzle from the menu.",
+      "close": "Close",
+      "goToMenu": "Go to Menu"
+    },
+    "pastPuzzles": {
+      "title": "Past Puzzles",
+      "description": "Select a date to play a past puzzle.",
+      "placeholder": "Select a date",
+      "selectDate": "Select Date"
     }
   },
   "menu": {
     "title": "Menu",
-    "items": {
-      "dailyPuzzle": "Daily Puzzle",
-      "pastPuzzles": "Past Puzzles",
-      "settings": "Settings",
-      "statistics": "Statistics"
-    },
+    "dailyPuzzle": "Daily Puzzle",
+    "pastPuzzles": "Past Puzzles",
+    "randomPuzzle": "Random Puzzle",
+    "settings": "Settings",
+    "statistics": "My Stats",
+    "instructions": "How to Play",
     "active": "Active"
-  },
-  "winModal": {
-    "messages": {
-      "congratulations": "Congratulations!",
-      "gameOver": "Game Over",
-      "solved": "You solved the puzzle in {attempts} attempts!",
-      "tryAgain": "Better luck next time!"
-    },
-    "actions": {
-      "playAgain": "Play Again",
-      "share": "Share"
-    },
-    "distribution": {
-      "title": "Public Distribution"
-    }
   },
   "stats": {
     "title": "Statistics",
@@ -86,6 +98,6 @@
     "triesDistribution": "Tries Distribution"
   },
   "footer": {
-    "madeWith": "Made with ❤️ by"
+    "credits": "Made with ❤️ by"
   }
 }
