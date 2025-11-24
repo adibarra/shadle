@@ -2,7 +2,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref, watchEffect } from 'vue'
 
 export const useUiStore = defineStore('ui', () => {
-  type ModalType = 'menu' | 'settings' | 'instructions' | 'statistics' | 'pastPuzzles' | 'alreadyPlayed' | 'win'
+  type ModalType = 'menu' | 'settings' | 'instructions' | 'statistics' | 'pastPuzzles' | 'alreadyPlayed' | 'win' | 'credits'
 
   const activeModal = ref<ModalType | null>(null)
 

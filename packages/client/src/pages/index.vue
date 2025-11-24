@@ -37,4 +37,5 @@ onMounted(() => {
   <PastPuzzlesModal />
   <AlreadyPlayedModal />
   <WinModal />
+  <CreditsModal />
 </template>

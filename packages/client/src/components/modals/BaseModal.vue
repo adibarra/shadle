@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type ModalType = 'menu' | 'settings' | 'instructions' | 'statistics' | 'pastPuzzles' | 'alreadyPlayed' | 'win'
+type ModalType = 'menu' | 'settings' | 'instructions' | 'statistics' | 'pastPuzzles' | 'alreadyPlayed' | 'win' | 'credits'
 
 interface Props {
   modalName: ModalType

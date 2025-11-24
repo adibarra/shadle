@@ -93,6 +93,7 @@
     "settings": "Configuración",
     "statistics": "Mis Estadísticas",
     "instructions": "Cómo Jugar",
+    "credits": "Créditos",
     "active": "Activo"
   },
   "stats": {
@@ -107,5 +108,9 @@
   },
   "footer": {
     "credits": "Hecho con ❤️ por"
+  },
+  "credits": {
+    "title": "Créditos",
+    "description": "Hecho con ❤️ por"
   }
 }
