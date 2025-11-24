@@ -72,12 +72,6 @@
         "title": "Public Distribution"
       }
     },
-    "alreadyPlayed": {
-      "title": "Already Played",
-      "description": "You have already played this puzzle. Please choose a different date or try a random puzzle from the menu.",
-      "close": "Close",
-      "goToMenu": "Go to Menu"
-    },
     "pastPuzzles": {
       "title": "Past Puzzles",
       "description": "Select a date to play a past puzzle.",

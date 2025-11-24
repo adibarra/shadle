@@ -27,7 +27,7 @@ onMounted(() => {
     :disabled-colors="game.disabledColors"
     :locked="game.won || game.lost || game.alreadyPlayed"
     @select="game.addColor"
-    @goToMenu="ui.open('menu')"
+    @go-to-menu="ui.open('menu')"
   />
 
   <InstructionsModal />
@@ -35,7 +35,6 @@ onMounted(() => {
   <SettingsModal />
   <StatisticsModal />
   <PastPuzzlesModal />
-  <AlreadyPlayedModal />
   <WinModal />
   <CreditsModal />
 </template>

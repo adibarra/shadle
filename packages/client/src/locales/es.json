@@ -72,12 +72,6 @@
         "title": "Distribución Pública"
       }
     },
-    "alreadyPlayed": {
-      "title": "Ya Jugado",
-      "description": "Ya has jugado este rompecabezas. Por favor elige una fecha diferente o prueba un rompecabezas aleatorio desde el menú.",
-      "close": "Cerrar",
-      "goToMenu": "Ir al Menú"
-    },
     "pastPuzzles": {
       "title": "Rompecabezas Pasados",
       "description": "Selecciona una fecha para jugar un rompecabezas pasado.",
