@@ -16,9 +16,9 @@ const { t } = useI18n()
 
 <template>
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="mx-4 max-w-sm min-h-[200px] w-full flex flex-col justify-between rounded-lg bg-[var(--color-bg)] p-6 text-[var(--color-text)] shadow-lg">
+    <div class="mx-4 max-w-sm min-h-[200px] w-full flex flex-col justify-between rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 text-[var(--color-text)] shadow-lg">
       <div>
-        <h2 class="mb-4 text-2xl font-bold" :class="props.won ? textColorClasses.G : textColorClasses.R">
+        <h2 class="mb-4 text-2xl font-bold border-b border-[var(--color-outline)] pb-4" :class="props.won ? textColorClasses.G : textColorClasses.R">
           {{ props.won ? t('winModal.messages.congratulations') : t('winModal.messages.gameOver') }}
         </h2>
         <p class="mb-4">
