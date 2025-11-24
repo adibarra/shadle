@@ -5,9 +5,6 @@
       <RouterView />
     </div>
     <Footer />
-    <InstructionsModal />
-    <MenuModal />
-    <SettingsModal />
   </div>
 </template>
 

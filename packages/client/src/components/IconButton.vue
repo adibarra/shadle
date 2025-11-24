@@ -20,7 +20,7 @@ const emit = defineEmits<{
 
 <template>
   <button
-    class="flex flex-row items-center justify-start border-2 border-[var(--color-outline)] rounded-lg bg-[var(--color-bg)] px-8 py-3 transition-all hover:border-[var(--color-accent)] hover:bg-[var(--color-outline)]"
+    class="w-full flex flex-row items-center justify-start border-2 border-[var(--color-outline)] rounded-lg bg-[var(--color-bg)] px-8 py-3 transition-all hover:border-[var(--color-accent)] hover:bg-[var(--color-outline)]"
     :class="props.disabled ? 'cursor-not-allowed' : ''"
     :disabled="props.disabled"
     :tabindex="props.disabled ? -1 : 0"
