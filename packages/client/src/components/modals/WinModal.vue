@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { StatsResponse } from '@shadle/types'
 import { GuessStatus } from '@shadle/types'
-import { textColorClasses } from '../constants'
+import { textColorClasses } from '~/constants'
 
 const { t } = useI18n()
 const { share } = useShare()

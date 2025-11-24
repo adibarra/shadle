@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { getHistory } from '../composables/api'
-import DistributionChart from './DistributionChart.vue'
-
 const ui = useUiStore()
 const { t } = useI18n()
 

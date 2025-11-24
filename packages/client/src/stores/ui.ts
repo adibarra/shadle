@@ -24,11 +24,6 @@ export const useUiStore = defineStore('ui', () => {
   const close = (modal: ModalType) => {
     if (activeModal.value === modal) {
       activeModal.value = null
-      // Reset game when win modal is closed
-      if (modal === 'winModal') {
-        const game = useGameStore()
-        game.resetGame()
-      }
     }
   }
 

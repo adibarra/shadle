@@ -1,12 +1,4 @@
 <script setup lang="ts">
-import AlreadyPlayedModal from '../components/AlreadyPlayedModal.vue'
-import InstructionsModal from '../components/InstructionsModal.vue'
-import MenuModal from '../components/MenuModal.vue'
-import PastPuzzlesModal from '../components/PastPuzzlesModal.vue'
-import PuzzleModeIndicator from '../components/PuzzleModeIndicator.vue'
-import SettingsModal from '../components/SettingsModal.vue'
-import StatisticsModal from '../components/StatisticsModal.vue'
-
 const game = useGameStore()
 const ui = useUiStore()
 

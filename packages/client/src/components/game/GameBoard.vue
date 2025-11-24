@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { GuessStatus, ValidColor } from '@shadle/types'
-import ColorSwatch from './ColorSwatch.vue'
 
 interface Props {
   guesses: readonly (readonly ValidColor[])[]
