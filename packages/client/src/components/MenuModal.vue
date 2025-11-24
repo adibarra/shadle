@@ -53,7 +53,7 @@ const menuOptions = computed(() => [
 
 <template>
   <div v-if="ui.showSidebar" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click.self="ui.showSidebar = false">
-    <div class="mx-4 max-w-md w-full rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 shadow-lg">
+    <div :class="isCompactViewport ? 'absolute inset-4 rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 shadow-lg' : 'mx-4 max-w-md w-full rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 shadow-lg'">
       <div class="mb-8 flex flex-row items-center justify-between border-b border-[var(--color-outline)] pb-4">
         <h2 class="text-3xl font-bold">
           {{ t('menu.title') }}
