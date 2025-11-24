@@ -112,11 +112,8 @@ function handleShare() {
           />
         </div>
       </div>
-      <div class="flex justify-center">
-        <button v-if="props.won" class="flex grow flex-row items-center justify-center border-2 border-[var(--color-outline)] rounded-lg bg-[var(--color-bg)] px-8 py-3 transition-all hover:border-[var(--color-accent)] hover:bg-[var(--color-outline)]" @click="handleShare">
-          <div class="i-carbon:share mr-2 text-3xl" />
-          <span class="text-center text-sm font-medium">{{ t('winModal.actions.share') }}</span>
-        </button>
+      <div class="flex justify-start">
+        <IconButton v-if="props.won" icon="i-carbon:share" :text="t('winModal.actions.share')" @click="handleShare" />
       </div>
     </div>
   </div>
