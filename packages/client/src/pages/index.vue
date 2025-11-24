@@ -1,40 +1,53 @@
 <script setup lang="ts">
-const { gameState, currentGuess, addColor, submitGuess, canSubmit, resetGame, removeColor, loadState, disabledColors } = useGame()
+import AlreadyPlayedModal from '../components/AlreadyPlayedModal.vue'
+import InstructionsModal from '../components/InstructionsModal.vue'
+import MenuModal from '../components/MenuModal.vue'
+import PastPuzzlesModal from '../components/PastPuzzlesModal.vue'
+import PuzzleModeIndicator from '../components/PuzzleModeIndicator.vue'
+import SettingsModal from '../components/SettingsModal.vue'
+import StatisticsModal from '../components/StatisticsModal.vue'
+
+const game = useGameStore()
+const ui = useUiStore()
+
+watch(() => game.won || game.lost, (shouldShowWin) => {
+  if (shouldShowWin && !ui.isOpen('win')) {
+    ui.open('win')
+  }
+})
 
 onMounted(() => {
-  loadState()
-  if (!gameState.value.puzzleId) {
-    resetGame()
+  game.loadGameState()
+  if (!game.puzzleId) {
+    game.resetGame()
   }
 })
 </script>
 
 <template>
   <Instructions />
+  <PuzzleModeIndicator />
   <GameBoard
-    :guesses="gameState.guesses"
-    :feedback="gameState.feedback"
-    :current-guess="currentGuess"
+    :guesses="game.guesses"
+    :feedback="game.feedback"
+    :current-guess="game.currentGuess"
   />
   <GameControls
-    :current-guess-length="currentGuess.length"
-    :can-submit="canSubmit"
-    @remove="removeColor"
-    @submit="submitGuess"
+    :current-guess-length="game.currentGuess.length"
+    :can-submit="game.canSubmit"
+    @remove="game.removeColor"
+    @submit="game.submitGuess"
   />
   <ColorSelect
-    :disabled-colors="disabledColors"
-    @select="addColor"
+    :disabled-colors="game.disabledColors"
+    @select="game.addColor"
   />
 
-  <WinModal
-    v-if="gameState.won || gameState.lost"
-    :won="gameState.won"
-    :attempts="gameState.attempts"
-    :guesses="gameState.guesses"
-    :feedback="gameState.feedback"
-    :on-close="resetGame"
-  />
-
+  <InstructionsModal />
+  <MenuModal />
+  <SettingsModal />
   <StatisticsModal />
+  <PastPuzzlesModal />
+  <AlreadyPlayedModal />
+  <WinModal />
 </template>
