@@ -74,7 +74,8 @@ export const useGameStore = defineStore('game', () => {
   // Persistence functions
   function saveGameState() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState.value))
+      const key = `${STORAGE_KEY}-${currentMode.value}`
+      localStorage.setItem(key, JSON.stringify(gameState.value))
     } catch (error) {
       console.error('Failed to save game state:', error)
     }
@@ -82,7 +83,8 @@ export const useGameStore = defineStore('game', () => {
 
   function loadGameState() {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY)
+      const key = `${STORAGE_KEY}-${currentMode.value}`
+      const saved = localStorage.getItem(key)
       if (saved) {
         const parsed = JSON.parse(saved)
         if (parsed.puzzleId === generatePuzzleId()) {
@@ -125,7 +127,10 @@ export const useGameStore = defineStore('game', () => {
 
   function resetApp() {
     localStorage.setItem('shadle-device-id', generateDeviceId())
-    localStorage.removeItem(STORAGE_KEY)
+    // Clear all mode-specific game states
+    localStorage.removeItem(`${STORAGE_KEY}-daily`)
+    localStorage.removeItem(`${STORAGE_KEY}-random`)
+    localStorage.removeItem(`${STORAGE_KEY}-past`)
     // Clear mode data
     selectedDate.value = ''
     randomSeed.value = ''
@@ -159,6 +164,9 @@ export const useGameStore = defineStore('game', () => {
   }
 
   async function setPuzzleMode(mode: 'daily' | 'random' | 'past', seedOrDate?: string) {
+    // Save current game state before switching
+    saveGameState()
+
     if (mode === 'daily') {
       selectedDate.value = ''
       randomSeed.value = ''
@@ -170,19 +178,18 @@ export const useGameStore = defineStore('game', () => {
       randomSeed.value = ''
     }
 
+    currentMode.value = mode
+
     const puzzleId = generatePuzzleId()
 
     // Check if already played for daily and past modes
     if (mode === 'daily' || mode === 'past') {
       const deviceId = _getDeviceId()
-      const ui = useUiStore()
       try {
         const history = await getHistory(deviceId, puzzleId)
         if (history.attempts.length > 0) {
-          // Already played
+          // Already played - mark as such but continue to load state
           gameState.value.alreadyPlayed = true
-          ui.open('alreadyPlayed')
-          return
         }
       } catch (error) {
         console.error('Failed to check puzzle history:', error)
@@ -190,8 +197,13 @@ export const useGameStore = defineStore('game', () => {
       }
     }
 
-    currentMode.value = mode
-    resetGame()
+    // Load the game state for this mode
+    loadGameState()
+
+    // If no saved state or puzzleId doesn't match, reset
+    if (gameState.value.puzzleId !== puzzleId) {
+      resetGame()
+    }
   }
 
   function addColor(color: ValidColor) {
