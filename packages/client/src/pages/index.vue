@@ -1,12 +1,5 @@
 <script setup lang="ts">
 const game = useGameStore()
-const ui = useUiStore()
-
-watch(() => game.won || game.lost, (shouldShowWin) => {
-  if (shouldShowWin && !ui.isOpen('win')) {
-    ui.open('win')
-  }
-})
 
 onMounted(() => {
   game.loadGameState()

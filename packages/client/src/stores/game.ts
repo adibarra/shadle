@@ -214,6 +214,10 @@ export const useGameStore = defineStore('game', () => {
       } else if (gameState.value.attempts >= maxAttempts) {
         gameState.value.lost = true
       }
+      if (isWin || gameState.value.attempts >= maxAttempts) {
+        const ui = useUiStore()
+        ui.open('win')
+      }
 
       currentGuess.value = []
       saveGameState()
@@ -237,6 +241,10 @@ export const useGameStore = defineStore('game', () => {
         gameState.value.won = true
       } else if (gameState.value.attempts >= maxAttempts) {
         gameState.value.lost = true
+      }
+      if (isWin || gameState.value.attempts >= maxAttempts) {
+        const ui = useUiStore()
+        ui.open('win')
       }
 
       currentGuess.value = []
