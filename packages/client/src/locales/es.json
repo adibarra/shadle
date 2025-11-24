@@ -68,7 +68,8 @@
       "tryAgain": "¡Mejor suerte la próxima vez!"
     },
     "actions": {
-      "playAgain": "Jugar de Nuevo"
+      "playAgain": "Jugar de Nuevo",
+      "share": "Compartir"
     }
   },
   "footer": {

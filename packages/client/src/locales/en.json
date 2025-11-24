@@ -68,7 +68,8 @@
       "tryAgain": "Better luck next time!"
     },
     "actions": {
-      "playAgain": "Play Again"
+      "playAgain": "Play Again",
+      "share": "Share"
     }
   },
   "footer": {

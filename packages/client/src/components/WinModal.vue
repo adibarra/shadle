@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { GuessStatus, ValidColor } from '@shadle/types'
+import type { ValidColor } from '@shadle/types'
+import { GuessStatus } from '@shadle/types'
 import { textColorClasses } from '../constants'
 
 interface Props {
@@ -12,6 +13,29 @@ interface Props {
 
 const props = defineProps<Props>()
 const { t } = useI18n()
+const { share } = useShare()
+
+function generateShareText() {
+  let text = `Shadle ${props.attempts}/6\n\n`
+  for (let i = 0; i < props.guesses.length; i++) {
+    for (let j = 0; j < props.guesses[i].length; j++) {
+      const status = props.feedback[i][j]
+      if (status === GuessStatus.CORRECT) text += '🟩'
+      else if (status === GuessStatus.PRESENT) text += '🟨'
+      else text += '🟥'
+    }
+    text += '\n'
+  }
+  return text.trim()
+}
+
+function handleShare() {
+  share({
+    title: 'Shadle',
+    text: generateShareText(),
+    url: window.location.href,
+  })
+}
 </script>
 
 <template>
@@ -41,7 +65,10 @@ const { t } = useI18n()
           </div>
         </div>
       </div>
-      <div class="flex justify-end">
+      <div class="flex justify-end gap-2">
+        <button v-if="props.won" class="rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="handleShare">
+          {{ t('winModal.actions.share') }}
+        </button>
         <button class="rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="props.onClose">
           {{ t('winModal.actions.playAgain') }}
         </button>
