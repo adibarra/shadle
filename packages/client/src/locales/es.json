@@ -72,6 +72,16 @@
       "share": "Compartir"
     }
   },
+  "stats": {
+    "title": "Estadísticas",
+    "loading": "Cargando estadísticas...",
+    "gamesPlayed": "Juegos Jugados",
+    "winRate": "Tasa de Victoria",
+    "currentStreak": "Racha Actual",
+    "bestStreak": "Mejor Racha",
+    "averageTries": "Intentos Promedio",
+    "triesDistribution": "Distribución de Intentos"
+  },
   "footer": {
     "madeWith": "Hecho con ❤️ por"
   }

@@ -72,6 +72,16 @@
       "share": "Share"
     }
   },
+  "stats": {
+    "title": "Statistics",
+    "loading": "Loading statistics...",
+    "gamesPlayed": "Games Played",
+    "winRate": "Win Rate",
+    "currentStreak": "Current Streak",
+    "bestStreak": "Best Streak",
+    "averageTries": "Average Tries",
+    "triesDistribution": "Tries Distribution"
+  },
   "footer": {
     "madeWith": "Made with ❤️ by"
   }

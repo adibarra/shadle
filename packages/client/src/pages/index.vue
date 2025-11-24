@@ -35,4 +35,6 @@ onMounted(() => {
     :feedback="gameState.feedback"
     :on-close="resetGame"
   />
+
+  <StatisticsModal />
 </template>

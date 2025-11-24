@@ -2,26 +2,36 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref, watchEffect } from 'vue'
 
 export const useUiStore = defineStore('ui', () => {
-  const showSidebar = ref(false)
+  const showMenu = ref(false)
   const showSettings = ref(false)
   const showInstructions = ref(false)
+  const showStatistics = ref(false)
 
   watchEffect(() => {
-    const anyModal = showInstructions.value || showSidebar.value || showSettings.value
+    const anyModal = showInstructions.value || showMenu.value || showSettings.value || showStatistics.value
     document.body.classList.toggle('no-scroll', anyModal)
   })
 
-  const toggleSidebar = () => {
-    showSidebar.value = !showSidebar.value
+  const openMenu = () => {
+    showMenu.value = !showMenu.value
   }
 
   const openSettings = () => {
     showSettings.value = true
-    showSidebar.value = false
+    showMenu.value = false
   }
 
   const closeSettings = () => {
     showSettings.value = false
+  }
+
+  const openStatistics = () => {
+    showStatistics.value = true
+    showMenu.value = false
+  }
+
+  const closeStatistics = () => {
+    showStatistics.value = false
   }
 
   const openInstructions = () => {
@@ -33,18 +43,22 @@ export const useUiStore = defineStore('ui', () => {
   }
 
   const closeAllModals = () => {
-    showSidebar.value = false
+    showMenu.value = false
     showSettings.value = false
     showInstructions.value = false
+    showStatistics.value = false
   }
 
   return {
-    showSidebar,
+    showMenu,
     showSettings,
     showInstructions,
-    toggleSidebar,
+    showStatistics,
+    openMenu,
     openSettings,
     closeSettings,
+    openStatistics,
+    closeStatistics,
     openInstructions,
     closeInstructions,
     closeAllModals,

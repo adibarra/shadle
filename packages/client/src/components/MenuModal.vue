@@ -18,7 +18,7 @@ const menuOptions = computed(() => [
     icon: 'i-carbon:time',
     action: () => {
       router.push('/')
-      ui.showSidebar = false
+      ui.showMenu = false
     },
     disabled: isTodayPuzzle.value,
   },
@@ -37,8 +37,7 @@ const menuOptions = computed(() => [
     title: t('menu.items.statistics'),
     icon: 'i-carbon:chart-bar',
     action: () => {
-      // TODO: Implement stats modal
-      alert('Statistics not implemented yet')
+      ui.openStatistics()
     },
     disabled: false,
   },
@@ -53,7 +52,7 @@ const menuOptions = computed(() => [
 </script>
 
 <template>
-  <div v-if="ui.showSidebar" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click.self="ui.showSidebar = false">
+  <div v-if="ui.showMenu" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click.self="ui.showMenu = false">
     <div :class="isCompactViewport ? 'absolute inset-4 rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 shadow-lg' : 'mx-4 max-w-md w-full rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 shadow-lg'">
       <div class="mb-8 flex flex-row items-center justify-between border-b border-[var(--color-outline)] pb-4">
         <h2 class="text-3xl font-bold">
@@ -61,7 +60,7 @@ const menuOptions = computed(() => [
         </h2>
         <button
           class="p-2 text-3xl"
-          @click="ui.showSidebar = false"
+          @click="ui.showMenu = false"
         >
           <div class="i-carbon:close" />
         </button>
