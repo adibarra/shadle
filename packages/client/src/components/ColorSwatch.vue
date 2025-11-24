@@ -18,14 +18,16 @@ const props = defineProps<Props>()
       style="clip-path: inset(0 round 0.25rem)"
     >
       <div
-        v-if="props.color && props.feedback !== GuessStatus.ABSENT"
-        :class="`absolute inset-0 z-10 ${bgColorClasses[props.color]}`"
+        v-if="props.color"
+        :class="`absolute inset-0 z-10 transition-opacity duration-500 ${bgColorClasses[props.color]}`"
+        :style="{ opacity: props.feedback !== GuessStatus.ABSENT ? 1 : 0 }"
       />
-      <div
-        v-if="props.feedback === GuessStatus.PRESENT"
-        class="absolute inset-0 z-20"
-      >
-        <div class="absolute inset-0 bg-[hsl(0,0%,20%)]" style="clip-path: polygon(0 100%, 100% 0, 100% 100%)" />
+      <div class="absolute inset-0 z-20">
+        <div
+          class="absolute inset-0 bg-[hsl(0,0%,20%)] transition-opacity duration-500"
+          style="clip-path: polygon(0 100%, 100% 0, 100% 100%)"
+          :style="{ opacity: props.feedback === GuessStatus.PRESENT ? 1 : 0 }"
+        />
       </div>
     </div>
   </div>

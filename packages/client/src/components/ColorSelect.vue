@@ -21,7 +21,7 @@ const emit = defineEmits<{
     <div
       v-for="color in VALID_COLORS"
       :key="color"
-      :class="`relative rounded p-4 transition-opacity select-none ${
+      :class="`relative rounded p-4 transition-colors duration-500 select-none ${
         props.disabledColors.includes(color) ? `bg-[hsl(0,0%,20%)] cursor-not-allowed pointer-events-none` : `${bgColorClasses[color]} cursor-pointer`
       }`"
       :style="props.disabledColors.includes(color) ? { boxShadow: `inset 0 0 0 1px var(--color-${color.toLowerCase()})` } : {}"
