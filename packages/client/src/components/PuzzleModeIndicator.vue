@@ -17,7 +17,7 @@ const displayText = computed(() => {
 </script>
 
 <template>
-  <div style="position: fixed; top: 0; right: 0; z-index: 40; width: 85px; height: 85px; overflow: hidden;">
+  <div style="position: absolute; top: 0; right: 0; z-index: 40; width: 85px; height: 85px; overflow: hidden;">
     <div
       style="
         position: absolute;

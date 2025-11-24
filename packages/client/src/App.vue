@@ -1,6 +1,7 @@
 <template>
-  <div class="flex flex-col min-h-svh">
+  <div class="relative flex flex-col min-h-svh">
     <Header />
+    <PuzzleModeIndicator />
     <div class="flex grow flex-col px-4">
       <RouterView />
     </div>

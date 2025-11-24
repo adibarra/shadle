@@ -18,7 +18,6 @@ onMounted(() => {
 
 <template>
   <Instructions />
-  <PuzzleModeIndicator />
   <GameBoard
     :guesses="game.guesses"
     :feedback="game.feedback"
