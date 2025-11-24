@@ -9,7 +9,6 @@ await describe('server', async ({ runTestSuite }) => {
   runTestSuite(import('./guess-logic.test'))
   runTestSuite(import('./validation.test'))
   runTestSuite(import('./guess-api.test'))
-  runTestSuite(import('./custom-puzzles.test'))
   runTestSuite(import('./puzzle-attempts.test'))
   runTestSuite(import('./stats-utils.test'))
 })

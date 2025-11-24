@@ -1,6 +1,5 @@
 import type { GuessResponse, ValidColor } from '@shadle/types'
 import config from '@shadle/config'
-import { getCustomPuzzle } from '@shadle/database'
 import { GuessStatus, VALID_COLORS } from '@shadle/types'
 
 /**
@@ -19,8 +18,8 @@ function hashString(str: string): number {
 /**
  * Get the correct answer for a given puzzle id
  * - §PUZZLE_ID format: daily puzzles (PUZZLE_ID is like §2025-11-11)
- * - PUZZLE_ID format: custom puzzles (checks database)
- * - Returns null if puzzle id format is invalid or not found
+ * - random:SEED format: random puzzles
+ * - Returns null if puzzle id format is invalid
  */
 export async function getPuzzleAnswer(puzzleId: string): Promise<ValidColor[] | null> {
   const dailyMatch = puzzleId.match(/^§(\d{4})-(\d{2})-(\d{2})$/)
@@ -40,10 +39,27 @@ export async function getPuzzleAnswer(puzzleId: string): Promise<ValidColor[] | 
     }
 
     return answer
-  } else {
-    const customPuzzle = await getCustomPuzzle(puzzleId)
-    return customPuzzle ? customPuzzle.answer : null
   }
+
+  const randomMatch = puzzleId.match(/^random:(.+)$/)
+  if (randomMatch) {
+    const seedStr = randomMatch[1]
+    const seed = hashString(seedStr) + hashString(config.PUZZLE_SALT)
+
+    const colors = VALID_COLORS
+    const answer: ValidColor[] = []
+    let tempSeed = seed
+
+    for (let i = 0; i < 5; i++) {
+      tempSeed = (tempSeed * 9301 + 49297) % 233280
+      const index = tempSeed % colors.length
+      answer.push(colors[index])
+    }
+
+    return answer
+  }
+
+  return null
 }
 
 /**

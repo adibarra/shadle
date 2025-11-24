@@ -220,53 +220,5 @@ export default testSuite(({ describe }) => {
       // O not in answer
       expect(feedback[4].status).toBe(GuessStatus.ABSENT)
     })
-
-    test('should handle custom puzzle guesses with real database integration', async ({ skip }) => {
-      if (config.IS_CI) {
-        skip('Skipping database tests in CI')
-      }
-
-      const { createCustomPuzzle, getCustomPuzzle } = await import('@shadle/database')
-      const { getPuzzleAnswer } = await import('../src/logic/guess.js')
-      const { validateGuess } = await import('../src/logic/guess.js')
-
-      // use a unique namespace for test data
-      const TEST_NAMESPACE = `test-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-      const answer: ValidColor[] = ['R', 'G', 'B', 'Y', 'M']
-      const puzzleId = `${TEST_NAMESPACE}-custom-puzzle`
-
-      // create a real custom puzzle in the database
-      const created = await createCustomPuzzle(puzzleId, answer)
-      expect(created.id).toBe(puzzleId)
-      expect(created.answer).toEqual(answer)
-
-      // retrieve the puzzle answer using the real database
-      const retrievedAnswer = await getPuzzleAnswer(puzzleId)
-      expect(retrievedAnswer).toEqual(['R', 'G', 'B', 'Y', 'M'])
-
-      // test guess validation against the real answer
-      const guess: ValidColor[] = ['R', 'G', 'B', 'Y', 'M'] // perfect match
-      const feedback = validateGuess(guess, retrievedAnswer!)
-
-      // all letters should be correct
-      expect(feedback.every(f => f.status === GuessStatus.CORRECT)).toBe(true)
-
-      // test partial match
-      const partialGuess: ValidColor[] = ['R', 'G', 'B', 'Y', 'C']
-      const partialFeedback = validateGuess(partialGuess, retrievedAnswer!)
-
-      // RGBYM vs RGBYC
-      // R=correct, G=correct, B=correct, Y=correct, C=absent (C not in RGBYM)
-      expect(partialFeedback[0].status).toBe(GuessStatus.CORRECT) // R
-      expect(partialFeedback[1].status).toBe(GuessStatus.CORRECT) // G
-      expect(partialFeedback[2].status).toBe(GuessStatus.CORRECT) // B
-      expect(partialFeedback[3].status).toBe(GuessStatus.CORRECT) // Y
-      expect(partialFeedback[4].status).toBe(GuessStatus.ABSENT) // C (C not in RGBYM)
-
-      // verify the puzzle still exists in database
-      const retrieved = await getCustomPuzzle(puzzleId)
-      expect(retrieved).not.toBeNull()
-      expect(retrieved!.answer).toEqual(answer)
-    })
   })
 })
