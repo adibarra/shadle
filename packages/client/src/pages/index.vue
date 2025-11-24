@@ -30,11 +30,22 @@ onMounted(() => {
     @go-to-menu="ui.open('menu')"
   />
 
-  <InstructionsModal />
   <MenuModal />
   <SettingsModal />
+  <InstructionsModal />
   <StatisticsModal />
   <PastPuzzlesModal />
   <WinModal />
   <CreditsModal />
+
+  <!-- Hidden links for SEO -->
+  <div style="display: none;">
+    <a href="#menu">Menu</a>
+    <a href="#settings">Settings</a>
+    <a href="#instructions">Instructions</a>
+    <a href="#statistics">Statistics</a>
+    <a href="#pastPuzzles">Past Puzzles</a>
+    <a href="#win">Win</a>
+    <a href="#credits">Credits</a>
+  </div>
 </template>
