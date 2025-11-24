@@ -22,7 +22,7 @@ function generateShareText() {
       const status = props.feedback[i][j]
       if (status === GuessStatus.CORRECT) text += '🟩'
       else if (status === GuessStatus.PRESENT) text += '🟨'
-      else text += '🟥'
+      else text += '⬛'
     }
     text += '\n'
   }
