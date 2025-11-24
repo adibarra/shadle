@@ -68,6 +68,7 @@
     "adibarra",
     "buildx",
     "citext",
+    "datepicker",
     "esbuild",
     "eslintcache",
     "iconify",
@@ -86,6 +87,7 @@
     "unplugin",
     "upserts",
     "vite",
+    "vuepic",
     "vueuse",
     "wordle"
   ]
