@@ -30,7 +30,7 @@ function handleReset() {
       <select
         id="theme-select"
         :value="theme"
-        class="w-full border border-[var(--color-outline)] rounded bg-[var(--color-bg)] p-2 text-sm text-[var(--color-text)]"
+        class="h-9.5 w-full border border-[var(--color-outline)] rounded bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text)] focus:border-blue-500 focus:outline-none"
         @change="handleThemeChange"
       >
         <option v-for="themeKey in Object.keys(themes)" :key="themeKey" :value="themeKey">
@@ -47,7 +47,7 @@ function handleReset() {
       <select
         id="language-select"
         v-model="currentLocale"
-        class="w-full border border-[var(--color-outline)] rounded bg-[var(--color-bg)] p-2 text-sm text-[var(--color-text)]"
+        class="h-9.5 w-full border border-[var(--color-outline)] rounded bg-[var(--color-bg)] px-3 py-2 text-[var(--color-text)] focus:border-blue-500 focus:outline-none"
       >
         <option v-for="locale in availableLocales" :key="locale" :value="locale">
           {{ localeNames[locale] }}
