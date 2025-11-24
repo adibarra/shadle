@@ -9,7 +9,12 @@
     "win": "¡Ganaste!",
     "lose": "Juego Terminado",
     "backspace": "Retroceso",
-    "submitGuess": "Enviar Adivinanza"
+    "submitGuess": "Enviar Adivinanza",
+    "locked": {
+      "title": "Juego Terminado",
+      "description": "Este rompecabezas ya ha sido jugado. Revisa el menú para juegos aleatorios o pasados.",
+      "goToMenu": "Ir al Menú"
+    }
   },
   "settings": {
     "title": "Configuración",

@@ -9,7 +9,12 @@
     "win": "You Win!",
     "lose": "Game Over",
     "backspace": "Backspace",
-    "submitGuess": "Submit Guess"
+    "submitGuess": "Submit Guess",
+    "locked": {
+      "title": "Game Ended",
+      "description": "This puzzle has already been played. Check the menu for random or past games.",
+      "goToMenu": "Go to Menu"
+    }
   },
   "settings": {
     "title": "Settings",

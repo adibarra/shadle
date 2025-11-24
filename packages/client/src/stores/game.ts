@@ -17,6 +17,7 @@ interface GameState {
   attempts: number
   won: boolean
   lost: boolean
+  alreadyPlayed: boolean
 }
 
 export const useGameStore = defineStore('game', () => {
@@ -33,6 +34,7 @@ export const useGameStore = defineStore('game', () => {
     attempts: 0,
     won: false,
     lost: false,
+    alreadyPlayed: false,
   })
 
   const currentGuess = ref<ValidColor[]>([])
@@ -136,6 +138,7 @@ export const useGameStore = defineStore('game', () => {
       attempts: 0,
       won: false,
       lost: false,
+      alreadyPlayed: false,
     }
     currentGuess.value = []
     window.location.reload()
@@ -149,6 +152,7 @@ export const useGameStore = defineStore('game', () => {
       attempts: 0,
       won: false,
       lost: false,
+      alreadyPlayed: false,
     }
     currentGuess.value = []
     saveGameState()
@@ -176,6 +180,7 @@ export const useGameStore = defineStore('game', () => {
         const history = await getHistory(deviceId, puzzleId)
         if (history.attempts.length > 0) {
           // Already played
+          gameState.value.alreadyPlayed = true
           ui.open('alreadyPlayed')
           return
         }
@@ -259,6 +264,7 @@ export const useGameStore = defineStore('game', () => {
     attempts: computed(() => gameState.value.attempts),
     won: computed(() => gameState.value.won),
     lost: computed(() => gameState.value.lost),
+    alreadyPlayed: computed(() => gameState.value.alreadyPlayed),
     puzzleId: computed(() => gameState.value.puzzleId),
 
     // Other state
