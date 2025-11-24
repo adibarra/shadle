@@ -34,11 +34,25 @@ export async function loadLanguageAsync(lang: string): Promise<string> {
 
   const messages = await localesMap[lang]()
   i18n.global.setLocaleMessage(lang, messages.default as any)
+  i18n.global.setDateTimeFormat(lang, {
+    short: {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    },
+  })
+
   loadedLanguages.push(lang)
   return setI18nLanguage(lang)
 }
 
 export const install: UserModule = ({ app }) => {
   app.use(i18n)
-  loadLanguageAsync('en')
+  i18n.global.setDateTimeFormat('en', {
+    short: {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    },
+  })
 }
