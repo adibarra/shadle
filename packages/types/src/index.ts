@@ -38,15 +38,8 @@ export type PushSubData = NativePushSubscription | WebPushSubscription
 // DATA MODELS
 // =============================================================================
 
-export interface StatsResponse {
-  puzzleId: string // unique puzzle identifier
-  totalAttempts: number // total attempts on this puzzle
-  totalDevices: number // unique users who attempted this puzzle
-  avgTries: number // average tries for completed attempts
-  successRate: number // percentage of completed attempts that succeeded (<=6 tries)
-  failedAttempts: number // completed attempts that failed (>6 tries)
-  triesDistribution: Record<number, number> // distribution of tries for completed attempts
-  completionRate: number // percentage of attempts that were completed
+export interface StatsRequest {
+  puzzleId: string
 }
 
 export interface PuzzleAttemptResponse {

@@ -8,7 +8,7 @@ import { validatePuzzleId } from '../../../../utils/validation'
  */
 const route: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.get('/', async (request, reply): Promise<StatsResponse | ApiError> => {
-    const { puzzleId } = request.body as StatsRequest
+    const { puzzleId } = request.query as StatsRequest
 
     const idValidation = validatePuzzleId(puzzleId)
     if (!idValidation.isValid) {

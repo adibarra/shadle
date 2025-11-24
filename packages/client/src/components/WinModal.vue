@@ -2,6 +2,10 @@
 import type { ValidColor } from '@shadle/types'
 import { GuessStatus } from '@shadle/types'
 import { textColorClasses } from '../constants'
+import { useGame } from '../composables/game'
+import { getStats } from '../composables/api'
+import type { StatsResponse } from '@shadle/types'
+import DistributionChart from './DistributionChart.vue'
 
 interface Props {
   won: boolean
@@ -14,6 +18,38 @@ interface Props {
 const props = defineProps<Props>()
 const { t } = useI18n()
 const { share } = useShare()
+
+const { gameState } = useGame()
+
+const stats = ref<StatsResponse | null>(null)
+
+onMounted(async () => {
+  if (props.won) {
+    try {
+      const fetchedStats = await getStats(gameState.value.puzzleId)
+      stats.value = fetchedStats
+    } catch (e) {
+      // If 404 or error, create empty stats
+      stats.value = {
+        puzzleId: gameState.value.puzzleId,
+        totalAttempts: 0,
+        totalDevices: 0,
+        avgTries: 0,
+        successRate: 0,
+        failedAttempts: 0,
+        triesDistribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
+        completionRate: 0,
+      }
+    }
+    // Always include the user's just completed game
+    if (stats.value) {
+      stats.value.triesDistribution[props.attempts] = (stats.value.triesDistribution[props.attempts] || 0) + 1
+      stats.value.totalAttempts += 1
+      stats.value.totalDevices += 1 // Assuming new device, but actually might not be
+      // Recalculate gamesWon as sum of triesDistribution
+    }
+  }
+})
 
 function generateShareText() {
   let text = `Shadle ${props.attempts}/6\n\n`
@@ -72,10 +108,17 @@ function handleShare() {
             </div>
           </div>
         </div>
+        <div v-if="stats" class="mb-4">
+          <h3 class="text-lg font-semibold mb-2">{{ t('winModal.distribution.title') }}</h3>
+          <DistributionChart
+            :tries-distribution="stats.triesDistribution"
+            :games-won="(Object.values(stats.triesDistribution) as number[]).reduce((sum, count) => sum + count, 0)"
+          />
+        </div>
       </div>
       <div class="flex justify-center">
-        <button v-if="props.won" class="flex grow flex-col items-center justify-center border-2 border-[var(--color-outline)] rounded-lg bg-[var(--color-bg)] px-8 py-4 transition-all hover:border-[var(--color-accent)] hover:bg-[var(--color-outline)]" @click="handleShare">
-          <div class="i-carbon:share mb-2 text-3xl" />
+        <button v-if="props.won" class="flex grow flex-row items-center justify-center border-2 border-[var(--color-outline)] rounded-lg bg-[var(--color-bg)] px-8 py-3 transition-all hover:border-[var(--color-accent)] hover:bg-[var(--color-outline)]" @click="handleShare">
+          <div class="i-carbon:share mr-2 text-3xl" />
           <span class="text-center text-sm font-medium">{{ t('winModal.actions.share') }}</span>
         </button>
       </div>

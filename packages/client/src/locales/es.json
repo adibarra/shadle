@@ -70,6 +70,9 @@
     "actions": {
       "playAgain": "Jugar de Nuevo",
       "share": "Compartir"
+    },
+    "distribution": {
+      "title": "Distribución Pública"
     }
   },
   "stats": {
