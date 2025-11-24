@@ -36,14 +36,14 @@ const { t } = useI18n()
             {{ t('instructionsModal.feedback.correct') }}
           </li>
           <li class="flex items-center">
-            <div class="mr-4 h-8 w-4 flex-shrink-0 rounded bg-[hsl(0,0%,20%)]" />
-            {{ t('instructionsModal.feedback.absent') }}
-          </li>
-          <li class="flex items-center">
             <div class="relative mr-4 h-8 w-4 flex-shrink-0 rounded bg-[var(--color-b)]">
               <div class="absolute inset-0 bg-[hsl(0,0%,20%)]" style="clip-path: polygon(0 100%, 100% 0, 100% 100%)" />
             </div>
             {{ t('instructionsModal.feedback.present') }}
+          </li>
+          <li class="flex items-center">
+            <div class="mr-4 h-8 w-4 flex-shrink-0 rounded bg-[hsl(0,0%,20%)]" />
+            {{ t('instructionsModal.feedback.absent') }}
           </li>
         </ul>
       </div>
