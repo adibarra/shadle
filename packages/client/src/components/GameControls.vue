@@ -24,7 +24,7 @@ const { t } = useI18n()
       :class="[
         currentGuessLength === 0
           ? 'border-[var(--color-outline)] opacity-50'
-          : 'border-[var(--color-outline)] active:opacity-75'
+          : 'border-[var(--color-outline)] active:opacity-75',
       ]"
       @click="emit('remove')"
     >
@@ -36,7 +36,7 @@ const { t } = useI18n()
       :class="[
         !canSubmit
           ? 'border-[var(--color-outline)] opacity-50'
-          : 'border-[var(--color-outline)] active:opacity-75'
+          : 'border-[var(--color-outline)] active:opacity-75',
       ]"
       @click="emit('submit')"
     >

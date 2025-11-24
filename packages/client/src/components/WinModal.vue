@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import type { ValidColor } from '@shadle/types'
+import type { StatsResponse, ValidColor } from '@shadle/types'
 import { GuessStatus } from '@shadle/types'
 import { textColorClasses } from '../constants'
-import { useGame } from '../composables/game'
-import { getStats } from '../composables/api'
-import type { StatsResponse } from '@shadle/types'
-import DistributionChart from './DistributionChart.vue'
 
 interface Props {
   won: boolean
@@ -28,8 +24,8 @@ onMounted(async () => {
     try {
       const fetchedStats = await getStats(gameState.value.puzzleId)
       stats.value = fetchedStats
-    } catch (e) {
-      // If 404 or error, create empty stats
+    } catch {
+      // if error use empty stats
       stats.value = {
         puzzleId: gameState.value.puzzleId,
         totalAttempts: 0,
@@ -41,12 +37,10 @@ onMounted(async () => {
         completionRate: 0,
       }
     }
-    // Always include the user's just completed game
+    // always include the user's just completed game
     if (stats.value) {
       stats.value.triesDistribution[props.attempts] = (stats.value.triesDistribution[props.attempts] || 0) + 1
       stats.value.totalAttempts += 1
-      stats.value.totalDevices += 1 // Assuming new device, but actually might not be
-      // Recalculate gamesWon as sum of triesDistribution
     }
   }
 })
@@ -95,21 +89,23 @@ function handleShare() {
         <div v-if="props.won" class="mb-4">
           <div class="grid grid-rows-6 gap-3">
             <div
-              v-for="(guess, guessIndex) in props.guesses"
+              v-for="(_, guessIndex) in Array(6).fill(null)"
               :key="guessIndex"
               class="grid grid-cols-5"
             >
               <ColorSwatch
-                v-for="(color, colorIndex) in guess"
+                v-for="(__, colorIndex) in Array(5).fill(null)"
                 :key="colorIndex"
-                :color="color"
-                :feedback="props.feedback[guessIndex][colorIndex]"
+                :color="guessIndex < props.guesses.length ? props.guesses[guessIndex][colorIndex] : undefined"
+                :feedback="guessIndex < props.guesses.length ? props.feedback[guessIndex][colorIndex] : undefined"
               />
             </div>
           </div>
         </div>
         <div v-if="stats" class="mb-4">
-          <h3 class="text-lg font-semibold mb-2">{{ t('winModal.distribution.title') }}</h3>
+          <h3 class="mb-2 text-lg font-semibold">
+            {{ t('winModal.distribution.title') }}
+          </h3>
           <DistributionChart
             :tries-distribution="stats.triesDistribution"
             :games-won="(Object.values(stats.triesDistribution) as number[]).reduce((sum, count) => sum + count, 0)"

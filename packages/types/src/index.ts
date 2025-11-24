@@ -107,3 +107,14 @@ export interface HistoryResponse {
 export interface StatsRequest {
   puzzleId: string
 }
+
+export interface StatsResponse {
+  puzzleId: string
+  totalAttempts: number
+  totalDevices: number
+  avgTries: number
+  successRate: number
+  failedAttempts: number
+  triesDistribution: Record<number, number>
+  completionRate: number
+}

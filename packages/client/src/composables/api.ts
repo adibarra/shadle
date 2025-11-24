@@ -1,4 +1,4 @@
-import type { HistoryResponse, StatsResponse } from '@shadle/types'
+import type { GuessStatus, HistoryResponse, StatsResponse, ValidColor } from '@shadle/types'
 
 const API_BASE = `${window.location.origin}/api/v1`
 
