@@ -1,4 +1,4 @@
-import type { GuessStatus, ValidColor } from '@shadle/types'
+import type { HistoryResponse, StatsResponse } from '@shadle/types'
 
 const API_BASE = `${window.location.origin}/api/v1`
 
@@ -23,7 +23,7 @@ export async function submitGuess(puzzleId: string, guess: ValidColor[], deviceI
   return data.feedback.map((item: { letter: string, status: GuessStatus }) => item.status)
 }
 
-export async function getHistory(deviceId: string, puzzleId?: string): Promise<any[]> {
+export async function getHistory(deviceId: string, puzzleId?: string): Promise<HistoryResponse> {
   const url = new URL(`${API_BASE}/history`)
   url.searchParams.set('deviceId', deviceId)
   if (puzzleId) {
@@ -38,7 +38,7 @@ export async function getHistory(deviceId: string, puzzleId?: string): Promise<a
   return response.json()
 }
 
-export async function getStats(puzzleId: string): Promise<any> {
+export async function getStats(puzzleId: string): Promise<StatsResponse> {
   const response = await fetch(`${API_BASE}/stats?puzzleId=${encodeURIComponent(puzzleId)}`)
   if (!response.ok) {
     throw new Error(`API error: ${response.status}`)

@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { getHistory } from '../composables/api'
-import { useGame } from '../composables/game'
+import DistributionChart from './DistributionChart.vue'
 
 const ui = useUiStore()
 const { t } = useI18n()
-const game = useGame()
 
 // Get device ID
 const deviceId = computed(() => {
@@ -46,11 +45,12 @@ function calculateStats(history: any[]) {
     if (game.solved) {
       tempStreak++
       bestStreak = Math.max(bestStreak, tempStreak)
-      if (currentStreak === 0) currentStreak = tempStreak
     } else {
-      tempStreak = 0
+      break
     }
   }
+
+  currentStreak = tempStreak
 
   stats.value.currentStreak = currentStreak
   stats.value.bestStreak = bestStreak
@@ -76,7 +76,8 @@ async function loadStats() {
   error.value = ''
 
   try {
-    const history = await getHistory(deviceId.value)
+    const response = await getHistory(deviceId.value)
+    const history = response.attempts
     calculateStats(history)
   } catch (err) {
     error.value = 'Failed to load statistics'
@@ -173,18 +174,10 @@ watchEffect(() => {
           <h3 class="text-center text-lg font-semibold">
             {{ t('stats.triesDistribution') }}
           </h3>
-          <div class="space-y-1">
-            <div v-for="tries in [1, 2, 3, 4, 5, 6]" :key="tries" class="flex items-center gap-2">
-              <span class="w-4 text-sm">{{ tries }}</span>
-              <div class="h-4 flex-1 rounded bg-gray-200">
-                <div
-                  class="h-full rounded bg-[var(--color-accent)] transition-all"
-                  :style="{ width: stats.gamesWon > 0 ? `${(stats.triesDistribution[tries] / stats.gamesWon) * 100}%` : '0%' }"
-                />
-              </div>
-              <span class="w-6 text-right text-sm">{{ stats.triesDistribution[tries] }}</span>
-            </div>
-          </div>
+          <DistributionChart
+            :tries-distribution="stats.triesDistribution"
+            :games-won="stats.gamesWon"
+          />
         </div>
       </div>
     </div>
