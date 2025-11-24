@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const ui = useUiStore()
 const game = useGame()
+const router = useRouter()
 const { t } = useI18n()
 
 // Check if we're on today's puzzle
@@ -16,8 +17,8 @@ const menuOptions = computed(() => [
     title: t('menu.items.dailyPuzzle'),
     icon: 'i-carbon:time',
     action: () => {
-      // TODO: Navigate to daily puzzle or reset to today
-      console.warn('Daily puzzle navigation not implemented yet')
+      router.push('/')
+      ui.showSidebar = false
     },
     disabled: isTodayPuzzle.value,
   },
@@ -27,7 +28,7 @@ const menuOptions = computed(() => [
     icon: 'i-carbon:calendar',
     action: () => {
       // TODO: Implement archive/past puzzles
-      console.warn('Past puzzles not implemented yet')
+      alert('Past puzzles not implemented yet')
     },
     disabled: false,
   },
@@ -37,7 +38,7 @@ const menuOptions = computed(() => [
     icon: 'i-carbon:chart-bar',
     action: () => {
       // TODO: Implement stats modal
-      console.warn('Statistics not implemented yet')
+      alert('Statistics not implemented yet')
     },
     disabled: false,
   },
@@ -66,11 +67,11 @@ const menuOptions = computed(() => [
         </button>
       </div>
 
-      <div class="flex flex-col gap-4 mb-8">
+      <div class="mb-8 flex flex-col gap-4">
         <button
           v-for="option in menuOptions"
           :key="option.id"
-          class="flex flex-col items-center justify-center border-2 rounded-lg px-8 py-4 transition-all w-full"
+          class="w-full flex flex-col items-center justify-center border-2 rounded-lg px-8 py-4 transition-all"
           :class="option.disabled
             ? 'border-[var(--color-outline)] bg-[var(--color-outline)] cursor-not-allowed opacity-50'
             : 'border-[var(--color-outline)] bg-[var(--color-bg)] hover:border-[var(--color-accent)] hover:bg-[var(--color-outline)]'"
