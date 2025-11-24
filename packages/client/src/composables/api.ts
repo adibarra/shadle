@@ -46,3 +46,12 @@ export async function getStats(puzzleId: string): Promise<StatsResponse> {
 
   return response.json()
 }
+
+export async function getRandomStats(): Promise<StatsResponse> {
+  const response = await fetch(`${API_BASE}/stats/random`)
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`)
+  }
+
+  return response.json()
+}
