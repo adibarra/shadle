@@ -27,7 +27,7 @@
   --color-o: #c2410c;
 }
 
-:root.tol-muted {
+:root.colorblind {
   --color-r: #332288;
   --color-g: #117733;
   --color-b: #44aa99;
@@ -36,6 +36,28 @@
   --color-c: #cc6677;
   --color-p: #882255;
   --color-o: #aa4499;
+}
+
+:root.pastel {
+  --color-r: #ffb3ba;
+  --color-g: #baffc9;
+  --color-b: #bae1ff;
+  --color-y: #ffffba;
+  --color-m: #e6baff;
+  --color-c: #baffff;
+  --color-p: #ffb3ff;
+  --color-o: #ffd4ba;
+}
+
+:root.retro {
+  --color-r: #ff0000;
+  --color-g: #00ff00;
+  --color-b: #0000ff;
+  --color-y: #ffff00;
+  --color-m: #ff00ff;
+  --color-c: #00ffff;
+  --color-p: #ff1493;
+  --color-o: #ff4500;
 }
 
 html,

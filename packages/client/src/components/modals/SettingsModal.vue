@@ -33,11 +33,8 @@ function handleReset() {
         class="w-full border border-[var(--color-outline)] rounded bg-[var(--color-bg)] p-2 text-sm text-[var(--color-text)]"
         @change="handleThemeChange"
       >
-        <option value="default">
-          {{ t('settings.theme.options.default') }}
-        </option>
-        <option value="colorblind">
-          {{ t('settings.theme.options.colorblind') }}
+        <option v-for="themeKey in Object.keys(themes)" :key="themeKey" :value="themeKey">
+          {{ t(`settings.theme.options.${themeKey}`) }}
         </option>
       </select>
     </div>

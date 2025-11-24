@@ -18,7 +18,9 @@
       "description": "Choose your preferred color scheme.",
       "options": {
         "default": "Default",
-        "colorblind": "Colorblind"
+        "colorblind": "Colorblind",
+        "pastel": "Pastel",
+        "retro": "Retro"
       }
     },
     "language": {

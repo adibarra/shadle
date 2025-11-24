@@ -18,7 +18,9 @@
       "description": "Elige tu esquema de color preferido.",
       "options": {
         "default": "Predeterminado",
-        "colorblind": "Daltónico"
+        "colorblind": "Daltónico",
+        "pastel": "Pastel",
+        "retro": "Retro"
       }
     },
     "language": {

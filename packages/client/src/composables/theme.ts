@@ -1,9 +1,11 @@
 import { useStorage } from '@vueuse/core'
 import { watch } from 'vue'
 
-const themes = {
+export const themes = {
   default: '',
-  colorblind: 'tol-muted',
+  colorblind: 'colorblind',
+  pastel: 'pastel',
+  retro: 'retro',
 } as const
 
 export function useTheme() {
