@@ -9,7 +9,7 @@ const { t } = useI18n()
       {{ commitHash }}
     </span>
     <span class="op-50">
-      {{ t('footer.madeWith') }}
+      {{ t('footer.credits') }}
     </span>
     <a
       href="https://adibarra.com"
