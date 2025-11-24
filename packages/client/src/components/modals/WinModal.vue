@@ -6,6 +6,7 @@ import { textColorClasses } from '~/constants'
 const { t } = useI18n()
 const { share } = useShare()
 const game = useGameStore()
+const ui = useUiStore()
 
 const stats = ref<StatsResponse | null>(null)
 
@@ -56,6 +57,11 @@ function handleShare() {
     url: window.location.href,
   })
 }
+
+function handlePlayRandom() {
+  game.setPuzzleMode('random')
+  ui.close('win')
+}
 </script>
 
 <template>
@@ -89,8 +95,11 @@ function handleShare() {
       />
     </div>
 
-    <div class="flex justify-start">
+    <div class="grow" />
+
+    <div class="flex justify-center gap-2">
       <IconButton v-if="game.won" icon="i-carbon:share" :text="t('modals.win.actions.share')" @click="handleShare" />
+      <IconButton icon="i-carbon:shuffle" :text="t('modals.win.actions.playRandom')" @click="handlePlayRandom" />
     </div>
   </BaseModal>
 </template>

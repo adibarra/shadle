@@ -60,7 +60,8 @@
         "tryAgain": "¡Mejor suerte la próxima vez!"
       },
       "actions": {
-        "share": "Compartir"
+        "share": "Compartir",
+        "playRandom": "Jugar Aleatorio"
       },
       "distribution": {
         "title": "Distribución Pública"

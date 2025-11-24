@@ -3,16 +3,10 @@ type ModalType = 'menu' | 'settings' | 'instructions' | 'statistics' | 'pastPuzz
 
 interface Props {
   modalName: ModalType
-  maxWidth?: string
-  title?: string
-  titleClass?: string
+  title: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  maxWidth: 'max-w-md',
-})
-
-const { modalName, maxWidth, title, titleClass } = props
+defineProps<Props>()
 
 const ui = useUiStore()
 </script>
@@ -20,9 +14,9 @@ const ui = useUiStore()
 <template>
   <Transition name="modal" appear>
     <div v-if="ui.isOpen(modalName)" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click.self="ui.close(modalName)">
-      <div :class="isCompactViewport ? 'absolute inset-4 rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 text-[var(--color-text)] shadow-lg' : `mx-4 ${maxWidth} w-full rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 text-[var(--color-text)] shadow-lg`">
-        <div class="mb-8 flex flex-row items-center justify-between border-b border-[var(--color-outline)] pb-4">
-          <h2 v-if="title" class="text-3xl font-bold" :class="titleClass">
+      <div class="absolute inset-4 flex flex-col border border-[var(--color-outline)] rounded-lg bg-[var(--color-bg)] p-4 text-[var(--color-text)] shadow-lg">
+        <div class="mb-4 flex flex-row items-center justify-between border-b border-[var(--color-outline)] pb-2">
+          <h2 class="mx-2 text-3xl font-bold">
             {{ title }}
           </h2>
           <button
