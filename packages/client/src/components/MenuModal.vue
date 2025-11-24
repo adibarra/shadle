@@ -32,13 +32,6 @@ const menuOptions = computed(() => [
     disabled: false,
   },
   {
-    id: 'settings',
-    title: t('menu.items.settings'),
-    icon: 'i-carbon:settings',
-    action: () => ui.openSettings(),
-    disabled: false,
-  },
-  {
     id: 'stats',
     title: t('menu.items.statistics'),
     icon: 'i-carbon:chart-bar',
@@ -46,6 +39,13 @@ const menuOptions = computed(() => [
       // TODO: Implement stats modal
       console.warn('Statistics not implemented yet')
     },
+    disabled: false,
+  },
+  {
+    id: 'settings',
+    title: t('menu.items.settings'),
+    icon: 'i-carbon:settings',
+    action: () => ui.openSettings(),
     disabled: false,
   },
 ])
@@ -66,11 +66,11 @@ const menuOptions = computed(() => [
         </button>
       </div>
 
-      <div class="grid grid-cols-2 mb-8 gap-4">
+      <div class="flex flex-col gap-4 mb-8">
         <button
           v-for="option in menuOptions"
           :key="option.id"
-          class="flex flex-col items-center justify-center border-2 rounded-lg p-4 transition-all"
+          class="flex flex-col items-center justify-center border-2 rounded-lg px-8 py-4 transition-all w-full"
           :class="option.disabled
             ? 'border-[var(--color-outline)] bg-[var(--color-outline)] cursor-not-allowed opacity-50'
             : 'border-[var(--color-outline)] bg-[var(--color-bg)] hover:border-[var(--color-accent)] hover:bg-[var(--color-outline)]'"

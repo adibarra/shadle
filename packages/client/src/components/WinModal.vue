@@ -39,12 +39,20 @@ function handleShare() {
 </script>
 
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" @click.self="props.onClose()">
     <div :class="isCompactViewport ? 'absolute inset-4 flex flex-col justify-between rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 text-[var(--color-text)] shadow-lg' : 'mx-4 max-w-sm min-h-[200px] w-full flex flex-col justify-between rounded-lg bg-[var(--color-bg)] border border-[var(--color-outline)] p-6 text-[var(--color-text)] shadow-lg'">
       <div>
-        <h2 class="mb-4 border-b border-[var(--color-outline)] pb-4 text-2xl font-bold" :class="props.won ? textColorClasses.G : textColorClasses.R">
-          {{ props.won ? t('winModal.messages.congratulations') : t('winModal.messages.gameOver') }}
-        </h2>
+        <div class="mb-4 flex flex-row items-center justify-between border-b border-[var(--color-outline)] pb-4">
+          <h2 class="text-2xl font-bold" :class="props.won ? textColorClasses.G : textColorClasses.R">
+            {{ props.won ? t('winModal.messages.congratulations') : t('winModal.messages.gameOver') }}
+          </h2>
+          <button
+            class="p-2 text-3xl"
+            @click="props.onClose()"
+          >
+            <div class="i-carbon:close" />
+          </button>
+        </div>
         <p class="mb-4">
           {{ props.won ? t('winModal.messages.solved', { attempts: props.attempts }) : t('winModal.messages.tryAgain') }}
         </p>
@@ -65,12 +73,10 @@ function handleShare() {
           </div>
         </div>
       </div>
-      <div class="flex justify-end gap-2">
-        <button v-if="props.won" class="rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="handleShare">
-          {{ t('winModal.actions.share') }}
-        </button>
-        <button class="rounded bg-[var(--color-accent)] px-4 py-2 text-[var(--color-text)]" @click="props.onClose">
-          {{ t('winModal.actions.playAgain') }}
+      <div class="flex justify-center">
+        <button v-if="props.won" class="flex grow flex-col items-center justify-center border-2 border-[var(--color-outline)] rounded-lg bg-[var(--color-bg)] px-8 py-4 transition-all hover:border-[var(--color-accent)] hover:bg-[var(--color-outline)]" @click="handleShare">
+          <div class="i-carbon:share mb-2 text-3xl" />
+          <span class="text-center text-sm font-medium">{{ t('winModal.actions.share') }}</span>
         </button>
       </div>
     </div>
