@@ -39,14 +39,14 @@
 }
 
 :root.pastel {
-  --color-r: #ffb3ba;
-  --color-g: #baffc9;
-  --color-b: #bae1ff;
-  --color-y: #ffffba;
-  --color-m: #e6baff;
-  --color-c: #baffff;
-  --color-p: #ffb3ff;
-  --color-o: #ffd4ba;
+  --color-r: #ff9999;
+  --color-g: #99ff99;
+  --color-b: #9999ff;
+  --color-y: #ffff99;
+  --color-m: #ff99ff;
+  --color-c: #99ffff;
+  --color-p: #ff99cc;
+  --color-o: #ffcc99;
 }
 
 :root.retro {
