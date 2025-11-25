@@ -19,8 +19,9 @@
         <li><strong>Game Attempts:</strong> Records of your puzzle attempts, including the puzzle ID, number of tries, completion status, and timestamps. This data is linked to your Player ID.</li>
         <li><strong>Push Notifications:</strong> If enabled, your Player ID, platform (iOS/Android/Web), and push subscription details (endpoint and encryption keys). This is used for sending notifications.</li>
         <li><strong>Puzzle Statistics:</strong> Aggregated, anonymized stats for puzzles (e.g., average tries, success rates) shared across all users.</li>
+        <li><strong>Analytics Data:</strong> We use Google Analytics to collect information about how you use the app, such as pages visited, time spent, and interactions. This data is anonymized and helps us improve the app.</li>
       </ul>
-      <p>We do not collect personally identifiable information such as your name, email, IP address, or location. We use browser localStorage for Player IDs and may use cookies via Google AdSense for ads. You can manage cookies in your browser settings.</p>
+      <p>We do not collect personally identifiable information such as your name, email, IP address, or location. We use browser localStorage for Player IDs and may use cookies via Google AdSense and Google Analytics for ads and analytics. You can manage cookies in your browser settings.</p>
 
       <p>This app is not intended for users under 13. We do not knowingly collect data from children.</p>
 
@@ -41,7 +42,8 @@
       <p>We do not sell, trade, or share your data with third parties, except as described below:</p>
       <ul class="ml-4 list-disc list-inside">
         <li><strong>Google AdSense:</strong> We use Google AdSense to display ads. Google may collect data via cookies and similar technologies for ad targeting and measurement. This includes information about your device and browsing activity. Google's use of this data is governed by their Privacy Policy (available at <a href="https://policies.google.com/privacy" target="_blank" class="text-blue-500 underline">policies.google.com/privacy</a>). You can opt out of personalized ads by visiting <a href="https://adssettings.google.com" target="_blank" class="text-blue-500 underline">adssettings.google.com</a>.</li>
-        <li><strong>Hosting and Infrastructure:</strong> Data is stored on secure servers. We may use cloud providers, but they do not access your data.</li>
+        <li><strong>Google Analytics:</strong> We use Google Analytics to analyze website traffic and user behavior. Google may collect data via cookies and similar technologies. This data is used to improve our service. Google's use of this data is governed by their Privacy Policy (available at <a href="https://policies.google.com/privacy" target="_blank" class="text-blue-500 underline">policies.google.com/privacy</a>). You can opt out of Google Analytics by installing the Google Analytics Opt-out Browser Add-on (available at <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" class="text-blue-500 underline">tools.google.com/dlpage/gaoptout</a>).</li>
+        <li><strong>Hosting and Infrastructure:</strong> Data is stored on secure servers. We use Cloudflare as a content delivery network (CDN) to improve performance and security. Cloudflare may collect IP addresses and other technical data as part of their service. See Cloudflare's privacy policy at <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" class="text-blue-500 underline">www.cloudflare.com/privacypolicy</a>. We may use other cloud providers, but they do not access your data.</li>
       </ul>
 
       <h3 class="text-lg font-semibold">
