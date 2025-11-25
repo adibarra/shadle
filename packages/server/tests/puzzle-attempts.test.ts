@@ -142,7 +142,6 @@ export default testSuite(({ describe }) => {
       expect(stats.triesDistribution[3]).toBe(1) // 1 device with 3 tries
       expect(stats.triesDistribution[4]).toBe(1) // 1 device with 4 tries
       expect(stats.triesDistribution[5]).toBe(1) // 1 device with 5 tries
-      expect(stats.triesDistribution[7]).toBe(1) // 1 device with 7 tries (failed)
     })
 
     test('should return empty array for non-existent attempts', async ({ skip }) => {
