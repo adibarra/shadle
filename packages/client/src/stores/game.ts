@@ -243,10 +243,10 @@ export const useGameStore = defineStore('game', () => {
       // Fallback to mock for development
       const mockFeedback: GuessStatus[] = [
         GuessStatus.CORRECT,
+        GuessStatus.CORRECT,
+        GuessStatus.PRESENT,
         GuessStatus.PRESENT,
         GuessStatus.ABSENT,
-        GuessStatus.ABSENT,
-        GuessStatus.PRESENT,
       ]
 
       gameState.value.guesses.push([...currentGuess.value])
