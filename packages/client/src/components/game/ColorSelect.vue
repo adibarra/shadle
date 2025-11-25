@@ -20,7 +20,7 @@ interface Props {
 
 <template>
   <div>
-    <div class="relative grid grid-cols-4 mb-4 gap-4">
+    <div class="relative grid grid-cols-4 gap-4">
       <div
         v-for="color in VALID_COLORS"
         :key="color"
