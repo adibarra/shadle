@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { StatsResponse } from '@shadle/types'
 import { GuessStatus } from '@shadle/types'
+import confetti from 'canvas-confetti'
 import { textColorClasses } from '~/constants'
 
 const { t } = useI18n()
@@ -19,6 +20,52 @@ watch(() => game.won || game.lost, async (gameEnded) => {
       stats.value.triesDistribution[game.attempts] = (stats.value.triesDistribution[game.attempts] || 0) + 1
       stats.value.totalAttempts += 1
     }
+  }
+})
+
+// trigger confetti on win
+watch(() => ui.isOpen('win'), (isOpen) => {
+  if (isOpen && game.won) {
+    // Fire confetti from both sides
+    const duration = 3000
+    const animationEnd = Date.now() + duration
+
+    const randomInRange = (min: number, max: number) => {
+      return Math.random() * (max - min) + min
+    }
+
+    const interval = setInterval(() => {
+      const timeLeft = animationEnd - Date.now()
+
+      if (timeLeft <= 0) {
+        clearInterval(interval)
+        return
+      }
+
+      const particleCount = 50 * (timeLeft / duration)
+
+      // fire from left edge
+      confetti({
+        particleCount,
+        startVelocity: randomInRange(50, 100),
+        spread: randomInRange(50, 70),
+        origin: {
+          x: randomInRange(0.1, 0.3),
+          y: Math.random() - 0.2,
+        },
+      })
+
+      // fire from right edge
+      confetti({
+        particleCount,
+        startVelocity: randomInRange(50, 100),
+        spread: randomInRange(50, 70),
+        origin: {
+          x: randomInRange(0.7, 0.9),
+          y: Math.random() - 0.2,
+        },
+      })
+    }, 250)
   }
 })
 
