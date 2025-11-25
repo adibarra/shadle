@@ -1,12 +1,18 @@
+<script setup lang="ts">
+import PhoneContainer from '~/components/PhoneContainer.vue'
+</script>
+
 <template>
-  <div class="relative flex grow flex-col min-h-svh">
-    <Header />
-    <PuzzleModeIndicator />
-    <div class="flex flex-col px-4">
-      <RouterView />
+  <PhoneContainer>
+    <div class="relative flex grow flex-col min-h-svh">
+      <Header />
+      <PuzzleModeIndicator />
+      <div class="flex flex-col px-4">
+        <RouterView />
+      </div>
+      <Footer />
     </div>
-    <Footer />
-  </div>
+  </PhoneContainer>
 </template>
 
 <style>
