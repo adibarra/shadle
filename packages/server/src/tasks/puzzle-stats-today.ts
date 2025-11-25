@@ -14,9 +14,13 @@ export default {
   run: async () => {
     try {
       const puzzleId = `§${new Date().toISOString().split('T')[0]}`
-      const finalStats = await getPuzzleAttemptAggregates(puzzleId)
 
-      await upsertPuzzleStats(finalStats)
+      try {
+        const stats = await getPuzzleAttemptAggregates(puzzleId)
+        await upsertPuzzleStats(stats)
+      } catch (error) {
+        logger.error(`Failed to update stats for '${puzzleId}': ${error instanceof Error ? error.message : String(error)}`)
+      }
     } catch (error) {
       logger.error(`Failed to generate statistics: ${error instanceof Error ? error.message : String(error)}`)
     }

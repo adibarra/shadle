@@ -14,22 +14,29 @@ export default {
   run: async () => {
     try {
       const sql = await getSql()
-      const dateResult = await sql`
+      const countResult = await sql`
+        select count(distinct puzzle_id) as count
+        from puzzle_attempts
+        where puzzle_id like '§%'
+      `
+
+      const puzzleCount = Number(countResult[0]?.count ?? 0)
+      logger.info(`[puzzle-stats-all] Found ${puzzleCount} puzzle ids to update`)
+
+      const idsResult = await sql`
         select distinct puzzle_id
         from puzzle_attempts
         where puzzle_id like '§%'
         order by puzzle_id
       `
-
-      const puzzleIds = dateResult.map(row => row.puzzle_id as string)
-      logger.info(`Found ${puzzleIds.length} puzzle ids to update`)
+      const puzzleIds = idsResult.map(row => row.puzzle_id as string)
 
       for (const puzzleId of puzzleIds) {
         try {
           const stats = await getPuzzleAttemptAggregates(puzzleId)
           await upsertPuzzleStats(stats)
         } catch (error) {
-          logger.error(`Failed to update stats for ${puzzleId}: ${error instanceof Error ? error.message : String(error)}`)
+          logger.error(`Failed to update stats for '${puzzleId}': ${error instanceof Error ? error.message : String(error)}`)
         }
       }
     } catch (error) {

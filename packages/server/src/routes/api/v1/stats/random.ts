@@ -9,9 +9,6 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.get('/', async (request, reply): Promise<StatsResponse | ApiError> => {
     try {
       const stats = await getRandomPuzzleStats()
-      if (stats.totalAttempts === 0) {
-        return reply.code(404).send({ error: 'No stats found for random puzzles.' })
-      }
       return reply.code(200).send({
         puzzleId: stats.puzzle_id,
         totalAttempts: stats.totalAttempts,

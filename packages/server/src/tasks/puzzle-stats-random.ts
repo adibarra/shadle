@@ -1,4 +1,4 @@
-import { getRandomPuzzleStats, upsertPuzzleStats } from '@shadle/database'
+import { getRandomPuzzleStats, getSql, upsertPuzzleStats } from '@shadle/database'
 import { getLogger } from '@shadle/logger'
 
 const logger = getLogger('TASKS')
@@ -13,9 +13,22 @@ export default {
   enabled: true,
   run: async () => {
     try {
-      const stats = await getRandomPuzzleStats()
-      await upsertPuzzleStats(stats)
-      logger.info('Updated random puzzle statistics')
+      const sql = await getSql()
+      const result = await sql`
+        select count(distinct puzzle_id) as count
+        from puzzle_attempts
+        where puzzle_id like 'random:%'
+      `
+
+      const randomPuzzleCount = Number(result[0]?.count ?? 0)
+      logger.info(`[puzzle-stats-random] Found ${randomPuzzleCount} puzzle ids to aggregate`)
+
+      try {
+        const stats = await getRandomPuzzleStats()
+        await upsertPuzzleStats(stats)
+      } catch (error) {
+        logger.error(`Failed to update stats for 'random': ${error instanceof Error ? error.message : String(error)}`)
+      }
     } catch (error) {
       logger.error(`Failed to update random puzzle statistics: ${error instanceof Error ? error.message : String(error)}`)
     }
