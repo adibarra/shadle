@@ -4,7 +4,6 @@
 !README.md
 *~
 *.tsbuildinfo
-*.log
 .DS_Store
 .env
 .env*
@@ -19,6 +18,7 @@
 *:Zone.Identifier
 auto-imports.d.ts
 components.d.ts
+logs/
 deploy.sh
 dist/
 node_modules/

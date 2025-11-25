@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 
 const ROOT_DIR = resolve(import.meta.dirname, '..')
 export const PROJECT_ROOT_DIR = resolve(ROOT_DIR, '..', '..')
-export const LOGS_DIR = PROJECT_ROOT_DIR
+export const LOGS_DIR = `${PROJECT_ROOT_DIR}/logs`
 
 let cachedPackageVersion: string | null = null
 

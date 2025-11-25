@@ -12,7 +12,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./app.log:/app/app.log
+      - ./logs:/app/logs
       - ./.env:/app/.env:ro
     restart: unless-stopped
     depends_on:

@@ -2,13 +2,13 @@
 .npm/
 .pnpm-store/
 .yarn/
+logs/
 node_modules/
 
 *:Zone.Identifier
 .DS_Store
 .env
 .eslintcache
-*.log
 .pnp.*
 tsconfig.tsbuildinfo
 
