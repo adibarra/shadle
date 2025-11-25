@@ -88,7 +88,7 @@
     "settings": "Configuración",
     "statistics": "Mis Estadísticas",
     "instructions": "Cómo Jugar",
-    "credits": "Créditos",
+    "legal": "Legal",
     "active": "Activo"
   },
   "stats": {
@@ -100,6 +100,11 @@
     "bestStreak": "Mejor Racha",
     "averageTries": "Intentos Promedio",
     "triesDistribution": "Distribución Intentos"
+  },
+  "legal": {
+    "title": "Legal",
+    "credits": "Créditos",
+    "privacyPolicy": "Política de Privacidad"
   },
   "credits": {
     "title": "Créditos",
