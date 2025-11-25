@@ -4,7 +4,7 @@
 
 <template>
   <BaseModal modal-name="privacyPolicy" title="Privacy Policy">
-    <div class="overflow-y-auto text-sm space-y-4" style="max-height: calc(100vh - 4rem);">
+        <div class="text-sm space-y-4">
       <h3 class="text-lg font-semibold">
         Introduction
       </h3>
