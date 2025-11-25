@@ -3,8 +3,8 @@ const ui = useUiStore()
 </script>
 
 <template>
-  <div class="m-6 relative flex items-center">
-    <h1 class="text-center text-6xl w-full">
+  <div class="relative m-6 flex items-center">
+    <h1 class="w-full text-center text-6xl">
       <ShadleTitle />
     </h1>
     <button class="absolute left-0 p-2 text-2xl text-[var(--color-text)]" @click="ui.open('menu')">
