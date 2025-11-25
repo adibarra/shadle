@@ -5,11 +5,11 @@ const logger = getLogger('TASKS')
 
 /**
  * Generate puzzle statistics for all puzzle ids.
- * Runs daily at 3:00 AM UTC.
+ * Runs hourly.
  */
 export default {
   name: 'puzzle-stats-all',
-  schedule: '0 3 * * *', // daily at 3:00 AM UTC
+  schedule: '0 * * * *', // hourly
   enabled: true,
   run: async () => {
     try {
@@ -17,6 +17,7 @@ export default {
       const dateResult = await sql`
         select distinct puzzle_id
         from puzzle_attempts
+        where puzzle_id like '§%'
         order by puzzle_id
       `
 
