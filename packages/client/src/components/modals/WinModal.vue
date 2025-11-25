@@ -12,22 +12,8 @@ const stats = ref<StatsResponse | null>(null)
 
 watch(() => game.won || game.lost, async (gameEnded) => {
   if (gameEnded) {
-    try {
-      const fetchedStats = game.currentMode === 'random' ? await getRandomStats() : await getStats(game.puzzleId)
-      stats.value = fetchedStats
-    } catch {
-      // if error use empty stats
-      stats.value = {
-        puzzleId: game.puzzleId,
-        totalAttempts: 0,
-        totalDevices: 0,
-        avgTries: 0,
-        successRate: 0,
-        failedAttempts: 0,
-        triesDistribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
-        completionRate: 0,
-      }
-    }
+    const fetchedStats = game.currentMode === 'random' ? await getRandomStats() : await getStats(game.puzzleId)
+    stats.value = fetchedStats
     // always include the user's just completed game
     if (stats.value) {
       stats.value.triesDistribution[game.attempts] = (stats.value.triesDistribution[game.attempts] || 0) + 1

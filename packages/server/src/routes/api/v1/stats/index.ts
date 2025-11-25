@@ -1,6 +1,6 @@
 import type { ApiError, StatsRequest, StatsResponse } from '@shadle/types'
 import type { FastifyPluginAsync } from 'fastify'
-import { getPuzzleStats } from '@shadle/database'
+import { getPuzzleStats, getRandomPuzzleStats } from '@shadle/database'
 import { validatePuzzleId } from '../../../../utils/validation'
 
 /**
@@ -17,10 +17,18 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
 
     try {
       const stats = await getPuzzleStats(puzzleId)
-      if (stats.length === 0) {
-        return reply.code(404).send({ error: 'No stats found for this puzzle.' })
-      }
-      const puzzleStats = stats[0]
+      const puzzleStats = stats.length > 0
+        ? stats[0]
+        : {
+            puzzle_id: puzzleId,
+            totalAttempts: 0,
+            totalDevices: 0,
+            avgTries: 0,
+            successRate: 0,
+            failedAttempts: 0,
+            triesDistribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
+            completionRate: 0,
+          }
       return reply.code(200).send({
         puzzleId: puzzleStats.puzzle_id,
         totalAttempts: puzzleStats.totalAttempts,
@@ -33,6 +41,24 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
       })
     } catch {
       return reply.code(500).send({ error: 'Failed to fetch puzzle stats.' })
+    }
+  })
+
+  fastify.get('/random', async (request, reply): Promise<StatsResponse | ApiError> => {
+    try {
+      const stats = await getRandomPuzzleStats()
+      return reply.code(200).send({
+        puzzleId: stats.puzzle_id,
+        totalAttempts: stats.totalAttempts,
+        totalDevices: stats.totalDevices,
+        avgTries: stats.avgTries,
+        successRate: stats.successRate,
+        failedAttempts: stats.failedAttempts,
+        triesDistribution: stats.triesDistribution,
+        completionRate: stats.completionRate,
+      })
+    } catch {
+      return reply.code(500).send({ error: 'Failed to fetch random puzzle stats.' })
     }
   })
 }
