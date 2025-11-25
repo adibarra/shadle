@@ -36,5 +36,5 @@ CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
 FROM base AS server
 
 COPY --from=builder --exclude=packages/client/dist /app /app
-EXPOSE 80
+EXPOSE 81
 CMD ["pnpm", "run", "start"]
