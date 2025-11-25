@@ -69,7 +69,7 @@
         "playRandom": "Play Random"
       },
       "distribution": {
-        "title": "Public Distribution"
+        "title": "Community Stats"
       }
     },
     "pastPuzzles": {
@@ -99,9 +99,6 @@
     "bestStreak": "Best Streak",
     "averageTries": "Average Tries",
     "triesDistribution": "Tries Distribution"
-  },
-  "footer": {
-    "credits": "Made with ❤️ by"
   },
   "credits": {
     "title": "Credits",

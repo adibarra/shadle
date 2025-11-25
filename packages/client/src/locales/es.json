@@ -69,7 +69,7 @@
         "playRandom": "Jugar Aleatorio"
       },
       "distribution": {
-        "title": "Distribución Pública"
+        "title": "Estadísticas Comunitarias"
       }
     },
     "pastPuzzles": {
@@ -99,9 +99,6 @@
     "bestStreak": "Mejor Racha",
     "averageTries": "Intentos Promedio",
     "triesDistribution": "Distribución Intentos"
-  },
-  "footer": {
-    "credits": "Hecho con ❤️ por"
   },
   "credits": {
     "title": "Créditos",
