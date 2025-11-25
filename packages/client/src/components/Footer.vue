@@ -15,7 +15,7 @@ if (!isDev) {
 
 onMounted(() => {
   if (!isDev && window.adsbygoogle) {
-    (adsbygoogle = window.adsbygoogle || []).push({})
+    (window.adsbygoogle = window.adsbygoogle || []).push({})
   }
 })
 </script>

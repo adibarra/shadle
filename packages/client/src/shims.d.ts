@@ -1,3 +1,3 @@
 declare interface Window {
-  // extend the window
+  adsbygoogle?: any[]
 }
