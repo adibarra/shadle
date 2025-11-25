@@ -1,8 +1,8 @@
 <template>
-  <footer class="w-full" role="contentinfo">
-    <div class="banner-ad-container w-full flex items-center justify-center border-t border-gray-200 bg-gray-100" style="height: 50px;">
-      <div class="text-sm text-gray-500">
-        Banner Ad Space
+  <footer class="w-full flex grow items-center justify-center" role="contentinfo">
+    <div class="border border-[var(--color-outline)] rounded" style="width: 320px; height: 50px; display: flex; align-items: center; justify-content: center;">
+      <div class="text-sm">
+        Ad Banner Space
       </div>
     </div>
   </footer>

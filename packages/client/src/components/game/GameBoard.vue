@@ -11,7 +11,7 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-  <div class="grid grid-rows-6 mx-6 mb-6 gap-5">
+  <div class="grid grid-rows-6 mx-6 mb-4 gap-5">
     <div
       v-for="(_, guessIndex) in Array(6).fill(null)"
       :key="guessIndex"
