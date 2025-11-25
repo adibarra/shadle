@@ -12,6 +12,8 @@ const emit = defineEmits<{
   select: [color: ValidColor]
 }>()
 
+const game = useGameStore()
+
 interface Props {
   disabledColors?: ValidColor[]
   locked?: boolean
@@ -31,9 +33,15 @@ interface Props {
         @click="props.disabledColors.includes(color) || props.locked || emit('select', color)"
       />
       <div v-if="props.locked" class="absolute inset-0 rounded bg-[var(--color-bg)] bg-opacity-50 outline-1">
-        <p class="h-full w-full flex items-center justify-center border border-[var(--color-outline)] rounded px-4 text-center text-sm">
-          {{ $t('game.locked.description') }}
-        </p>
+        <IconButton
+          v-if="game.currentMode === 'random'"
+          icon="i-carbon:shuffle"
+          :text="$t('game.newRandomPuzzle')"
+          @click="game.setPuzzleMode('random')"
+        />
+        <div v-else class="h-full w-full flex items-center justify-center border border-[var(--color-outline)] rounded px-4 text-center text-sm">
+          <p>{{ $t('game.locked.description') }}</p>
+        </div>
       </div>
     </div>
   </div>

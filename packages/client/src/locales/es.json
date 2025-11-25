@@ -14,7 +14,8 @@
       "title": "Juego Terminado",
       "description": "Este rompecabezas ya ha sido jugado. Revisa el menú para juegos aleatorios o pasados.",
       "goToMenu": "Ir al Menú"
-    }
+    },
+    "newRandomPuzzle": "Nuevo Rompecabezas Aleatorio"
   },
   "settings": {
     "title": "Configuración",

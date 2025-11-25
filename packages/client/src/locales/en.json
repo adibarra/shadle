@@ -14,7 +14,8 @@
       "title": "Game Ended",
       "description": "This puzzle has already been played. Check the menu for random or past games.",
       "goToMenu": "Go to Menu"
-    }
+    },
+    "newRandomPuzzle": "New Random Puzzle"
   },
   "settings": {
     "title": "Settings",

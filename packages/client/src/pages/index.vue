@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const game = useGameStore()
-const ui = useUiStore()
 
 onMounted(() => {
   game.loadGameState()
@@ -27,7 +26,6 @@ onMounted(() => {
     :disabled-colors="game.disabledColors"
     :locked="game.won || game.lost || game.alreadyPlayed"
     @select="game.addColor"
-    @go-to-menu="ui.open('menu')"
   />
 
   <MenuModal />
