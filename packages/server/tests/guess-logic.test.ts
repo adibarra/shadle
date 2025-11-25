@@ -119,7 +119,7 @@ export default testSuite(({ describe }) => {
   describe('getPuzzleAnswer', ({ test }) => {
     test('should generate correct daily puzzle answer for specific date', async () => {
       const result = await getPuzzleAnswer('§2025-11-11')
-      expect(result).toEqual(['B', 'Y', 'R', 'G', 'P']) // based on LCG algorithm with seed for 2025-11-11
+      expect(result).toEqual(['P', 'O', 'M', 'C', 'B']) // based on glibc LCG algorithm with seed for 2025-11-11
     })
 
     test('should generate different answers for different dates', async () => {

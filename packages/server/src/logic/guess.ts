@@ -5,14 +5,14 @@ import { GuessStatus, VALID_COLORS } from '@shadle/types'
 /**
  * Simple string hash function for salting the randomization
  */
-function hashString(str: string): number {
-  let hash = 0
+function hashString(str: string): bigint {
+  let hash = 0n
   for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i)
-    hash = ((hash << 5) - hash) + char
+    const char = BigInt(str.charCodeAt(i))
+    hash = ((hash << 5n) - hash) + char
     hash = hash & hash // convert to 32-bit integer
   }
-  return Math.abs(hash)
+  return hash > 0n ? hash : -hash
 }
 
 /**
@@ -26,15 +26,15 @@ export async function getPuzzleAnswer(puzzleId: string): Promise<ValidColor[] | 
   if (dailyMatch) {
     const [, year, month, day] = dailyMatch
     const dateSeed = Number.parseInt(year) * 10000 + Number.parseInt(month) * 100 + Number.parseInt(day)
-    const seed = dateSeed + hashString(config.PUZZLE_SALT)
+    const seed = BigInt(dateSeed) + hashString(config.PUZZLE_SALT)
 
     const colors = VALID_COLORS
     const answer: ValidColor[] = []
     let tempSeed = seed
 
     for (let i = 0; i < 5; i++) {
-      tempSeed = (tempSeed * 9301 + 49297) % 233280 // simple lcg
-      const index = tempSeed % colors.length
+      tempSeed = (tempSeed * 1103515245n + 12345n) % 2147483648n
+      const index = Number(tempSeed % BigInt(colors.length))
       answer.push(colors[index])
     }
 
@@ -51,8 +51,8 @@ export async function getPuzzleAnswer(puzzleId: string): Promise<ValidColor[] | 
     let tempSeed = seed
 
     for (let i = 0; i < 5; i++) {
-      tempSeed = (tempSeed * 9301 + 49297) % 233280
-      const index = tempSeed % colors.length
+      tempSeed = (tempSeed * 1103515245n + 12345n) % 2147483648n
+      const index = Number(tempSeed % BigInt(colors.length))
       answer.push(colors[index])
     }
 

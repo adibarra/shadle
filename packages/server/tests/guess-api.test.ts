@@ -22,7 +22,7 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device-1',
         puzzleId: '§2025-11-11',
-        guess: ['B', 'Y', 'R', 'G', 'P'], // correct answer
+        guess: ['P', 'O', 'M', 'C', 'B'], // correct answer
       }
 
       // validate inputs
@@ -36,7 +36,7 @@ export default testSuite(({ describe }) => {
 
       // get puzzle answer
       const answer = await getPuzzleAnswer(request.puzzleId)
-      expect(answer).toEqual(['B', 'Y', 'R', 'G', 'P'])
+      expect(answer).toEqual(['P', 'O', 'M', 'C', 'B'])
 
       // validate guess
       const feedback = validateGuess(request.guess.map(c => c.toUpperCase() as ValidColor), answer!)
@@ -190,7 +190,7 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: ['b', 'y', 'r', 'g', 'p'] as unknown as ValidColor[], // lowercase
+        guess: ['p', 'o', 'm', 'c', 'b'] as unknown as ValidColor[], // lowercase
       }
 
       const answer = await getPuzzleAnswer(request.puzzleId)
@@ -203,21 +203,21 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: ['P', 'B', 'R', 'Y', 'O'], // P present, B present, R correct, Y present, O absent
+        guess: ['P', 'B', 'O', 'M', 'R'], // P correct, B present, O present, M present, R absent
       }
 
       const answer = await getPuzzleAnswer(request.puzzleId)
       const feedback = validateGuess(request.guess.map(c => c.toUpperCase() as ValidColor), answer!)
 
-      // P exists but wrong position
-      expect(feedback[0].status).toBe(GuessStatus.PRESENT)
+      // P is in correct position
+      expect(feedback[0].status).toBe(GuessStatus.CORRECT)
       // B exists but wrong position
       expect(feedback[1].status).toBe(GuessStatus.PRESENT)
-      // R is in correct position
-      expect(feedback[2].status).toBe(GuessStatus.CORRECT)
-      // Y exists but wrong position
+      // O exists but wrong position
+      expect(feedback[2].status).toBe(GuessStatus.PRESENT)
+      // M exists but wrong position
       expect(feedback[3].status).toBe(GuessStatus.PRESENT)
-      // O not in answer
+      // R not in answer
       expect(feedback[4].status).toBe(GuessStatus.ABSENT)
     })
   })
