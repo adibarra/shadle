@@ -5,11 +5,11 @@ const logger = getLogger('TASKS')
 
 /**
  * Generate puzzle statistics for the current day.
- * Runs every 15 minutes.
+ * Runs every 5 minutes.
  */
 export default {
   name: 'puzzle-stats-today',
-  schedule: '*/15 * * * *', // every 15 minutes
+  schedule: '*/5 * * * *', // every 5 minutes
   enabled: true,
   run: async () => {
     try {
