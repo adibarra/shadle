@@ -31,7 +31,7 @@ interface Props {
         @click="props.disabledColors.includes(color) || props.locked || emit('select', color)"
       />
       <div v-if="props.locked" class="absolute inset-0 rounded bg-[var(--color-bg)] bg-opacity-50 outline-1">
-        <p class="h-full w-full flex items-center justify-center border border-[var(--color-outline)] rounded text-center text-sm text-white">
+        <p class="h-full w-full flex items-center justify-center border border-[var(--color-outline)] rounded px-4 text-center text-sm">
           {{ $t('game.locked.description') }}
         </p>
       </div>
