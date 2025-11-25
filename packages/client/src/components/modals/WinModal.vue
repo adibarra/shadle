@@ -13,7 +13,7 @@ const stats = ref<StatsResponse | null>(null)
 watch(() => game.won || game.lost, async (gameEnded) => {
   if (gameEnded) {
     try {
-      const fetchedStats = await getStats(game.puzzleId)
+      const fetchedStats = game.currentMode === 'random' ? await getRandomStats() : await getStats(game.puzzleId)
       stats.value = fetchedStats
     } catch {
       // if error use empty stats
