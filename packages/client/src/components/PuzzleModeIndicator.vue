@@ -8,7 +8,8 @@ const displayText = computed(() => {
   if (game.currentMode === 'random') {
     return 'Random'
   } else if (game.currentMode === 'past' && game.selectedDate) {
-    const date = new Date(game.selectedDate)
+    const [year, month, day] = game.selectedDate.split('-').map(Number)
+    const date = new Date(year, month - 1, day)
     return d(date, 'short')
   } else {
     return 'Daily'

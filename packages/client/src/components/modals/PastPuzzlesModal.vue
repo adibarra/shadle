@@ -26,7 +26,10 @@ function isDateDisabled(date: Date) {
 async function selectPuzzle() {
   if (!selectedDate.value) return
 
-  const dateStr = selectedDate.value.toISOString().split('T')[0]
+  const year = selectedDate.value.getFullYear()
+  const month = String(selectedDate.value.getMonth() + 1).padStart(2, '0')
+  const day = String(selectedDate.value.getDate()).padStart(2, '0')
+  const dateStr = `${year}-${month}-${day}`
   ui.close('pastPuzzles')
   await game.setPuzzleMode('past', dateStr)
   // If not already played, the mode is set and game resets
