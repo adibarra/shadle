@@ -98,7 +98,7 @@ function handlePlayRandom() {
     <div class="grow" />
 
     <div class="flex justify-center gap-2">
-      <IconButton v-if="game.won" icon="i-carbon:share" :text="t('modals.win.actions.share')" @click="handleShare" />
+      <IconButton v-if="(game.won || game.lost) && game.currentMode === 'daily'" icon="i-carbon:share" :text="t('modals.win.actions.share')" @click="handleShare" />
       <IconButton icon="i-carbon:shuffle" :text="t('modals.win.actions.playRandom')" @click="handlePlayRandom" />
     </div>
   </BaseModal>
