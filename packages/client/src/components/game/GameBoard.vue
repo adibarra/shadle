@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import type { GuessStatus, ValidColor } from '@shadle/types'
 
+const props = defineProps<Props>()
+
+const game = useGameStore()
+
 interface Props {
   guesses: readonly (readonly ValidColor[])[]
   feedback?: readonly (readonly GuessStatus[])[]
   currentGuess?: readonly ValidColor[]
 }
-
-const props = defineProps<Props>()
 </script>
 
 <template>
@@ -17,7 +19,7 @@ const props = defineProps<Props>()
       :key="guessIndex"
       class="relative grid grid-cols-5 gap-1"
     >
-      <div v-if="guessIndex === props.guesses.length" class="bounce-lr absolute left-[-1.5rem] top-1/2 w-4 flex items-center justify-center">
+      <div v-if="guessIndex === props.guesses.length && !game.won && !game.lost" class="bounce-lr absolute left-[-1.5rem] top-1/2 w-4 flex items-center justify-center">
         <span class="color-cycle text-lg">&gt;</span>
       </div>
       <ColorSwatch
