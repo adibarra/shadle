@@ -105,20 +105,20 @@ watchEffect(() => {
     <div v-else class="space-y-6">
       <!-- Games Played -->
       <div class="text-center">
-        <div class="text-4xl font-bold">
+        <div class="text-4xl font-bold opacity-75">
           {{ stats.gamesPlayed }}
         </div>
-        <div class="text-sm text-gray-600">
+        <div class="text-sm">
           {{ t('stats.gamesPlayed') }}
         </div>
       </div>
 
       <!-- Win Rate -->
       <div class="text-center">
-        <div class="text-4xl font-bold">
+        <div class="text-4xl font-bold opacity-75">
           {{ stats.winRate }}%
         </div>
-        <div class="text-sm text-gray-600">
+        <div class="text-sm">
           {{ t('stats.winRate') }}
         </div>
       </div>
@@ -126,18 +126,18 @@ watchEffect(() => {
       <!-- Streaks -->
       <div class="grid grid-cols-2 gap-4">
         <div class="text-center">
-          <div class="text-3xl font-bold">
+          <div class="text-3xl font-bold opacity-75">
             {{ stats.currentStreak }}
           </div>
-          <div class="text-sm text-gray-600">
+          <div class="text-sm">
             {{ t('stats.currentStreak') }}
           </div>
         </div>
         <div class="text-center">
-          <div class="text-3xl font-bold">
+          <div class="text-3xl font-bold opacity-75">
             {{ stats.bestStreak }}
           </div>
-          <div class="text-sm text-gray-600">
+          <div class="text-sm">
             {{ t('stats.bestStreak') }}
           </div>
         </div>
@@ -145,10 +145,10 @@ watchEffect(() => {
 
       <!-- Average Tries -->
       <div v-if="stats.gamesWon > 0" class="text-center">
-        <div class="text-4xl font-bold">
+        <div class="text-4xl font-bold opacity-75">
           {{ stats.averageTries }}
         </div>
-        <div class="text-sm text-gray-600">
+        <div class="text-sm">
           {{ t('stats.averageTries') }}
         </div>
       </div>
