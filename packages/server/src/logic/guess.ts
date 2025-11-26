@@ -30,12 +30,34 @@ export async function getPuzzleAnswer(puzzleId: string): Promise<ValidColor[] | 
 
     const colors = VALID_COLORS
     const answer: ValidColor[] = []
-    let tempSeed = seed
 
-    for (let i = 0; i < 5; i++) {
+    // Decide mode: 50% unique, 50% with duplicates
+    const isUnique = (seed % 2n) === 0n
+
+    if (isUnique) {
+      // Generate unique colors using seeded shuffle
+      const shuffled = [...colors]
+      let tempSeed = seed
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        tempSeed = (tempSeed * 1103515245n + 12345n) % 2147483648n
+        const j = Number(tempSeed % BigInt(i + 1))
+        ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+      }
+      answer.push(...shuffled.slice(0, 5))
+    } else {
+      // Generate with guaranteed duplicates: 4 unique + 1 duplicate of one of them
+      const shuffled = [...colors]
+      let tempSeed = seed
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        tempSeed = (tempSeed * 1103515245n + 12345n) % 2147483648n
+        const j = Number(tempSeed % BigInt(i + 1))
+        ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+      }
+      const unique4 = shuffled.slice(0, 4)
+      // Choose one of the 4 to duplicate
       tempSeed = (tempSeed * 1103515245n + 12345n) % 2147483648n
-      const index = Number(tempSeed % BigInt(colors.length))
-      answer.push(colors[index])
+      const dupIndex = Number(tempSeed % 4n)
+      answer.push(...unique4, unique4[dupIndex])
     }
 
     return answer
@@ -48,12 +70,34 @@ export async function getPuzzleAnswer(puzzleId: string): Promise<ValidColor[] | 
 
     const colors = VALID_COLORS
     const answer: ValidColor[] = []
-    let tempSeed = seed
 
-    for (let i = 0; i < 5; i++) {
+    // Decide mode: 50% unique, 50% with duplicates
+    const isUnique = (seed % 2n) === 0n
+
+    if (isUnique) {
+      // Generate unique colors using seeded shuffle
+      const shuffled = [...colors]
+      let tempSeed = seed
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        tempSeed = (tempSeed * 1103515245n + 12345n) % 2147483648n
+        const j = Number(tempSeed % BigInt(i + 1))
+        ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+      }
+      answer.push(...shuffled.slice(0, 5))
+    } else {
+      // Generate with guaranteed duplicates: 4 unique + 1 duplicate of one of them
+      const shuffled = [...colors]
+      let tempSeed = seed
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        tempSeed = (tempSeed * 1103515245n + 12345n) % 2147483648n
+        const j = Number(tempSeed % BigInt(i + 1))
+        ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+      }
+      const unique4 = shuffled.slice(0, 4)
+      // Choose one of the 4 to duplicate
       tempSeed = (tempSeed * 1103515245n + 12345n) % 2147483648n
-      const index = Number(tempSeed % BigInt(colors.length))
-      answer.push(colors[index])
+      const dupIndex = Number(tempSeed % 4n)
+      answer.push(...unique4, unique4[dupIndex])
     }
 
     return answer
