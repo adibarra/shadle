@@ -109,5 +109,9 @@
   "credits": {
     "title": "Credits",
     "description": "Made with ❤️ by"
+  },
+  "puzzleMode": {
+    "random": "Random",
+    "daily": "Daily"
   }
 }

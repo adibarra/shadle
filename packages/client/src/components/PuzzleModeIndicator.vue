@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 
-const { d } = useI18n()
+const { t, d } = useI18n()
 const game = useGameStore()
 
 const displayText = computed(() => {
   if (game.currentMode === 'random') {
-    return 'Random'
+    return t('puzzleMode.random')
   } else if (game.currentMode === 'past' && game.selectedDate) {
     const [year, month, day] = game.selectedDate.split('-').map(Number)
     const date = new Date(year, month - 1, day)
     return d(date, 'short')
   } else {
-    return 'Daily'
+    return t('puzzleMode.daily')
   }
 })
 </script>
