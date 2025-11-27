@@ -26,9 +26,6 @@ function computeAdSize() {
   const rect = footerRef.value.getBoundingClientRect()
   const isFullyVisible = rect.top >= 0 && rect.bottom <= window.innerHeight
 
-  console.warn('Footer available size:', { availableWidth, availableHeight })
-  console.warn('Footer is fully visible:', isFullyVisible)
-
   if (isFullyVisible) {
     if (availableHeight >= 100 + 40) {
       adSize.value = { w: availableWidth - 32, h: 100 }
@@ -40,8 +37,6 @@ function computeAdSize() {
   } else {
     adSize.value = { w: 0, h: 0 }
   }
-
-  console.warn('Footer ad size set to:', { w: adSize.value.w, h: adSize.value.h })
 }
 
 onMounted(() => {
