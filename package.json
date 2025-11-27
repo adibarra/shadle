@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.22.0",
+  "packageManager": "pnpm@10.24.0",
   "description": "A Wordle-style game for colors.",
   "contributors": [
     "adibarra <github@adibarra.com> (https://adibarra.com)"
@@ -26,7 +26,7 @@
     "@types/node": "^24.10.1",
     "eslint": "^9.39.1",
     "eslint-plugin-format": "^1.0.2",
-    "taze": "^19.9.0",
+    "taze": "^19.9.2",
     "typescript": "^5.9.3"
   }
 }
