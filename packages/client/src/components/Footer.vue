@@ -70,7 +70,8 @@ onUnmounted(() => {
     <div class="grow" />
     <div
       v-if="!isDev"
-      class="mx-4 my-5"
+      class="mx-4"
+      :class="isPwa && isIos ? 'mt-5 mb-10' : 'my-5'"
       :style="`width:${adSize.w}px; height:${adSize.h}px;`"
     >
       <ins
@@ -82,7 +83,8 @@ onUnmounted(() => {
     </div>
     <div
       v-else
-      class="mx-4 my-5 rounded-[8px] bg-[var(--color-outline)]"
+      class="mx-4 rounded-[8px] bg-[var(--color-outline)]"
+      :class="isPwa && isIos ? 'mt-5 mb-10' : 'my-5'"
       :style="`width:${adSize.w}px; height:${adSize.h}px;`"
     />
   </footer>
