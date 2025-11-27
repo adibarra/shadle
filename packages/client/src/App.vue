@@ -4,14 +4,12 @@ import PhoneContainer from '~/components/PhoneContainer.vue'
 
 <template>
   <PhoneContainer>
-    <div class="relative flex grow flex-col min-h-svh">
-      <Header />
-      <PuzzleModeIndicator />
-      <div class="flex flex-col px-4">
-        <RouterView />
-      </div>
-      <Footer />
+    <Header />
+    <PuzzleModeIndicator />
+    <div class="flex flex-col px-4">
+      <RouterView />
     </div>
+    <Footer />
   </PhoneContainer>
 </template>
 

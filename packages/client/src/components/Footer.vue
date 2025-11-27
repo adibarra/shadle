@@ -13,25 +13,77 @@ if (!isDev) {
   })
 }
 
+const footerRef = ref<HTMLElement | null>(null)
+const adSize = ref<{ w: number, h: number }>({ w: 0, h: 0 })
+let resizeObserver: ResizeObserver | null = null
+
+function computeAdSize() {
+  if (!footerRef.value) return
+
+  const style = window.getComputedStyle(footerRef.value)
+  const availableHeight = Number.parseFloat(style.height)
+  const availableWidth = Number.parseFloat(style.width)
+  const rect = footerRef.value.getBoundingClientRect()
+  const isFullyVisible = rect.top >= 0 && rect.bottom <= window.innerHeight
+
+  console.warn('Footer available size:', { availableWidth, availableHeight })
+  console.warn('Footer is fully visible:', isFullyVisible)
+
+  if (isFullyVisible) {
+    if (availableHeight >= 100 + 40) {
+      adSize.value = { w: availableWidth - 32, h: 100 }
+    } else if (availableHeight >= 50 + 40) {
+      adSize.value = { w: availableWidth - 32, h: 50 }
+    } else {
+      adSize.value = { w: 0, h: 0 }
+    }
+  } else {
+    adSize.value = { w: 0, h: 0 }
+  }
+
+  console.warn('Footer ad size set to:', { w: adSize.value.w, h: adSize.value.h })
+}
+
 onMounted(() => {
+  nextTick(() => {
+    computeAdSize()
+    if (footerRef.value) {
+      resizeObserver = new ResizeObserver(() => computeAdSize())
+      resizeObserver.observe(footerRef.value)
+    }
+  })
+
   if (!isDev && window.adsbygoogle) {
-    (window.adsbygoogle = window.adsbygoogle || []).push({})
+    ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+  }
+})
+
+onUnmounted(() => {
+  if (resizeObserver) {
+    resizeObserver.disconnect()
   }
 })
 </script>
 
 <template>
-  <footer class="w-full flex grow items-center justify-center" role="contentinfo">
-    <div class="border border-[var(--color-outline)] rounded" style="width: 320px; height: 50px;">
+  <footer ref="footerRef" class="w-full flex flex-grow flex-col items-center" role="contentinfo">
+    <div class="grow" />
+    <div
+      v-if="!isDev"
+      class="mx-4 my-5"
+      :style="`width:${adSize.w}px; height:${adSize.h}px;`"
+    >
       <ins
-        v-if="!isDev"
         class="adsbygoogle"
         style="display:block"
         data-ad-client="ca-pub-1557521916095990"
         data-ad-slot="4651494788"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
       />
     </div>
+    <div
+      v-else
+      class="mx-4 my-5 rounded-[8px] bg-[var(--color-outline)]"
+      :style="`width:${adSize.w}px; height:${adSize.h}px;`"
+    />
   </footer>
 </template>
