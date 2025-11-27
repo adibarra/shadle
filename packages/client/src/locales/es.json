@@ -8,7 +8,7 @@
     "guess": "Adivinar",
     "win": "¡Ganaste!",
     "lose": "Juego Terminado",
-    "backspace": "Retroceso",
+    "backspace": "Borrar",
     "submitGuess": "Enviar Adivinanza",
     "locked": {
       "title": "Juego Terminado",
@@ -42,7 +42,7 @@
   },
   "gamePrompts": {
     "guessPrompt": "Adivina la combinación de 5 colores en 6 intentos.",
-    "helpPrompt": "¿No estás seguro de cómo funciona? Consulta el menú."
+    "helpPrompt": "Consulta el menú si necesitas instrucciones."
   },
   "modals": {
     "instructions": {
@@ -50,9 +50,9 @@
       "description": "Adivina la combinación de 5 colores en 6 intentos. Los colores en la combinación pueden repetirse.",
       "feedback": {
         "intro": "Después de enviar, recibirás retroalimentación sobre cada color:",
-        "correct": "Si se muestra el color completo, está en la posición correcta.",
-        "present": "Si se muestra la mitad del color, está en la combinación pero en posición incorrecta.",
-        "absent": "Si está completamente gris, no está en la combinación."
+        "correct": "Si se muestra el color completo, tu elección está en la posición correcta.",
+        "present": "Si se muestra la mitad del color, tu elección está en la combinación pero en la posición incorrecta.",
+        "absent": "Si está completamente gris, tu elección no es parte de la combinación."
       },
       "howTo": {
         "selectColors": "Usa los botones de color debajo del tablero para seleccionar colores para tu adivinanza. Haz clic en \"Enviar Adivinanza\" cuando estés listo."
