@@ -32,7 +32,7 @@ interface Props {
         :style="props.disabledColors.includes(color) || props.locked ? { boxShadow: `inset 0 0 0 1px var(--color-${color.toLowerCase()})` } : {}"
         @click="props.disabledColors.includes(color) || props.locked || emit('select', color)"
       />
-      <div v-if="props.locked" class="absolute inset-0 rounded bg-[var(--color-bg)] bg-opacity-50 outline-1">
+      <div v-if="props.locked" class="absolute inset-0 rounded bg-[var(--color-bg)] outline-1">
         <IconButton
           v-if="game.currentMode === 'random'"
           icon="i-carbon:shuffle"
