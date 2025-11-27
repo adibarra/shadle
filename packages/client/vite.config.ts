@@ -9,6 +9,7 @@ import VueMacros from 'unplugin-vue-macros/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
+import { VitePWA } from 'vite-plugin-pwa'
 import WebfontDownload from 'vite-plugin-webfont-dl'
 
 const commitHash = process.env.COMMIT_HASH || 'unknown'
@@ -65,6 +66,42 @@ export default defineConfig({
     // https://github.com/unocss/unocss
     // see unocss.config.ts for config
     Unocss(),
+
+    // https://https://vite-pwa-org.netlify.app/
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.svg', 'favicon-dark.svg'],
+      manifest: {
+        name: 'Shadle',
+        short_name: 'Shadle',
+        description: 'A word puzzle game',
+        theme_color: '#121212',
+        background_color: '#121212',
+        icons: [
+          {
+            src: 'favicon.svg',
+            sizes: 'any',
+            type: 'image/svg+xml',
+          },
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
+        ],
+      },
+    }),
 
     // https://github.com/feat-agency/vite-plugin-webfont-dl
     ...(process.env.NODE_ENV === 'prod'
