@@ -5,6 +5,7 @@ export const themes = {
   default: '',
   colorblind: 'colorblind',
   retro: 'retro',
+  blues: 'blues',
 } as const
 
 export function useTheme() {

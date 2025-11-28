@@ -25,7 +25,8 @@
       "options": {
         "default": "Predeterminado",
         "colorblind": "Daltónico",
-        "retro": "Retro"
+        "retro": "Retro",
+        "blues": "Azules"
       }
     },
     "language": {

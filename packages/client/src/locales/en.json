@@ -25,7 +25,8 @@
       "options": {
         "default": "Default",
         "colorblind": "Colorblind",
-        "retro": "Retro"
+        "retro": "Retro",
+        "blues": "Blues"
       }
     },
     "language": {

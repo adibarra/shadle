@@ -53,6 +53,17 @@ import PhoneContainer from '~/components/PhoneContainer.vue'
   --color-o: #ff8200;
 }
 
+:root.blues {
+  --color-r: #0c224f;
+  --color-g: #153a8c;
+  --color-b: #1954c6;
+  --color-y: #1f6fea;
+  --color-m: #3f8fff;
+  --color-c: #66b8ff;
+  --color-p: #a7d4ff;
+  --color-o: #e2f2ff;
+}
+
 html,
 body,
 #app {
