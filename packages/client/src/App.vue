@@ -21,14 +21,14 @@ import PhoneContainer from '~/components/PhoneContainer.vue'
   --color-outline: #555555;
   --color-accent: #0044ff;
 
-  --color-r: #ff0000;
-  --color-g: #00aa00;
+  --color-r: #c70000;
+  --color-g: #0d8c0d;
   --color-b: #0044ff;
   --color-y: #ffc509;
   --color-m: #800080;
   --color-c: #0891b2;
   --color-p: #ec4899;
-  --color-o: #db6d00;
+  --color-o: #f47a00;
 }
 
 :root.colorblind {
