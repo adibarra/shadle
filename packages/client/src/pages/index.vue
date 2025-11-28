@@ -34,7 +34,8 @@ onMounted(() => {
   <StatisticsModal />
   <PastPuzzlesModal />
   <WinModal />
-  <LegalModal />
+  <MoreModal />
+  <FaqModal />
   <CreditsModal />
   <PrivacyPolicyModal />
 
@@ -46,7 +47,8 @@ onMounted(() => {
     <a href="#statistics">Statistics</a>
     <a href="#pastPuzzles">Past Puzzles</a>
     <a href="#win">Win</a>
-    <a href="#legal">Legal</a>
+    <a href="#more">More</a>
+    <a href="#faq">FAQ</a>
     <a href="#credits">Credits</a>
     <a href="#privacyPolicy">Privacy Policy</a>
   </div>

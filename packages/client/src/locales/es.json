@@ -88,7 +88,7 @@
     "settings": "Configuración",
     "statistics": "Mis Estadísticas",
     "instructions": "Cómo Jugar",
-    "legal": "Legal",
+    "more": "Más",
     "active": "Activo"
   },
   "stats": {
@@ -101,10 +101,42 @@
     "averageTries": "Intentos Promedio",
     "triesDistribution": "Distribución Intentos"
   },
-  "legal": {
-    "title": "Legal",
+  "more": {
+    "title": "Más",
     "credits": "Créditos",
-    "privacyPolicy": "Política de Privacidad"
+    "privacyPolicy": "Política de Privacidad",
+    "faq": "Preguntas Frecuentes"
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "whatIs": {
+      "question": "¿Qué es Shadle?",
+      "answer": "Shadle es un juego de adivinar colores inspirado en Wordle. Adivina la combinación de 5 colores en 6 intentos. Los colores no pueden repetirse en la combinación."
+    },
+    "gameModes": {
+      "question": "¿Cuáles son los diferentes modos de juego?",
+      "daily": "El mismo nuevo rompecabezas cada día para que todos jueguen.",
+      "random": "Juega un rompecabezas generado aleatoriamente.",
+      "past": "Elige y juega cualquier rompecabezas diario anterior."
+    },
+    "statistics": {
+      "question": "¿Cómo se rastrean las estadísticas?",
+      "answer": "Tu historial de juegos se almacena en el servidor y se asocia con tu ID de jugador. Se utilizan para calcular estadísticas como juegos jugados, tasa de victorias, racha actual y mejor racha. Puedes verlos en el menú bajo \"Mis Estadísticas\"."
+    },
+    "pwa": {
+      "question": "¿Hay una aplicación móvil?",
+      "answer": "¡Más o menos! Shadle es una aplicación web progresiva (PWA), por lo que puedes instalarla directamente desde tu navegador tocando \"Agregar a la pantalla de inicio\". Funcionará como una aplicación nativa una vez instalada.",
+      "guide": "¿No sabes cómo hacer esto? Consulta",
+      "guideLink": "esta guía"
+    },
+    "themes": {
+      "question": "¿Puedo jugar con diferentes temas?",
+      "answer": "¡Sí! Shadle admite múltiples temas de color: Predeterminado, Apto para daltónicos, Retro y Azules. Puedes cambiar los temas en el menú de Configuración."
+    },
+    "affiliation": {
+      "question": "¿Shadle está afiliado con Wordle?",
+      "answer": "¡No! Shadle es un proyecto independiente inspirado en Wordle, pero no está afiliado de ninguna manera."
+    }
   },
   "credits": {
     "title": "Créditos",

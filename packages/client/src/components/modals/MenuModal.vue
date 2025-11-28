@@ -69,10 +69,10 @@ const menuOptions = computed(() => [
     disabled: false,
   },
   {
-    id: 'legal',
-    title: t('menu.legal'),
-    icon: 'i-carbon:document',
-    action: () => ui.open('legal'),
+    id: 'more',
+    title: t('menu.more'),
+    icon: 'i-carbon:information',
+    action: () => ui.open('more'),
     disabled: false,
   },
 ])

@@ -88,7 +88,7 @@
     "settings": "Settings",
     "statistics": "My Stats",
     "instructions": "How to Play",
-    "legal": "Legal",
+    "more": "More",
     "active": "Active"
   },
   "stats": {
@@ -101,10 +101,42 @@
     "averageTries": "Average Tries",
     "triesDistribution": "Tries Distribution"
   },
-  "legal": {
-    "title": "Legal",
+  "more": {
+    "title": "More",
     "credits": "Credits",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "faq": "FAQ"
+  },
+  "faq": {
+    "title": "FAQ",
+    "whatIs": {
+      "question": "What is Shadle?",
+      "answer": "Shadle is a color-guessing game inspired by Wordle. Guess the 5-color combination in 6 tries. Colors cannot repeat in the combination."
+    },
+    "gameModes": {
+      "question": "What are the different game modes?",
+      "daily": "The same new puzzle every day for everyone to play.",
+      "random": "Play a randomly generated puzzle.",
+      "past": "Choose and play any past daily puzzle."
+    },
+    "statistics": {
+      "question": "How are statistics tracked?",
+      "answer": "Your game history is stored on the server and associated with your player ID. They are used to calculate statistics such as games played, win rate, current and best streaks. You can view them in the menu under \"My Stats\"."
+    },
+    "pwa": {
+      "question": "Is there a mobile app?",
+      "answer": "Sort of! Shadle is a Progressive Web App (PWA), so you can install it directly from your browser by tapping \"Add to Home Screen.\" It'll work just like a native app once installed.",
+      "guide": "Not sure how to do this? Check out",
+      "guideLink": "this guide"
+    },
+    "themes": {
+      "question": "Can I play in different themes?",
+      "answer": "Yes! Shadle supports multiple color themes: Default, Colorblind-friendly, Retro, and Blues. You can change themes in the Settings menu."
+    },
+    "affiliation": {
+      "question": "Is Shadle affiliated with Wordle?",
+      "answer": "No! Shadle is an independent project inspired by Wordle, but not affiliated with it in any way."
+    }
   },
   "credits": {
     "title": "Credits",
