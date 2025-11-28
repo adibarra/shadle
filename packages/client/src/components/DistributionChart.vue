@@ -8,23 +8,44 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-  <div class="relative max-h-28 flex items-end justify-center gap-2 px-4">
-    <!-- X-axis -->
-    <div class="absolute bottom-5 left-0 right-0 h-px bg-gray-400" />
+  <div class="relative max-h-32 flex flex-col items-center px-4">
+    <div class="relative flex items-end justify-center gap-2">
+      <!-- X-axis -->
+      <div class="absolute bottom-5 left-0 right-0 h-px bg-gray-400" />
 
-    <div v-for="tries in [1, 2, 3, 4, 5, 6]" :key="tries" class="relative z-10 flex flex-col items-center">
-      <div class="text-xs text-white font-medium">
-        {{ props.triesDistribution[tries] }}
-      </div>
-      <div class="w-8 flex flex-col justify-end" :style="{ height: '70px' }">
+      <div v-for="tries in [1, 2, 3, 4, 5, 6]" :key="tries" class="relative z-10 flex flex-col items-center">
         <div
-          class="w-full flex items-end justify-center rounded-t bg-[var(--color-accent)] transition-all"
-          :style="{ height: props.gamesWon > 0 ? `${Math.max((props.triesDistribution[tries] / props.gamesWon) * 100, 10)}%` : '0%' }"
-        />
+          class="relative w-8 flex flex-col justify-end"
+          :style="{ height: '70px' }"
+        >
+          <div
+            class="absolute w-full text-center text-xs text-white font-medium"
+            :style="{
+              bottom: (() => {
+                const barHeightPercent = props.gamesWon > 0 ? Math.max((props.triesDistribution[tries] / props.gamesWon) * 100, 10) : 0;
+                return `${(barHeightPercent / 100) * 70}px`;
+              })(),
+            }"
+          >
+            {{ props.triesDistribution[tries] }}
+          </div>
+          <div
+            class="w-full rounded-t bg-[var(--color-accent)] transition-all"
+            :style="{
+              height: (() => {
+                const barHeightPercent = props.gamesWon > 0 ? Math.max((props.triesDistribution[tries] / props.gamesWon) * 100, 10) : 0;
+                return `${(barHeightPercent / 100) * 70}px`;
+              })(),
+            }"
+          />
+        </div>
+        <div class="mt-1.5 text-xs font-900">
+          {{ tries }}
+        </div>
       </div>
-      <div class="mt-1.5 text-xs font-900">
-        {{ tries }}
-      </div>
+    </div>
+    <div class="mt-1 text-center text-xs font-900">
+      Number of tries
     </div>
   </div>
 </template>
