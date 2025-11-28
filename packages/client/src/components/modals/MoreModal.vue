@@ -3,7 +3,19 @@ import { useRegisterSW } from 'virtual:pwa-register/vue'
 
 const ui = useUiStore()
 const { t } = useI18n()
-const { updateServiceWorker } = useRegisterSW()
+const { needRefresh, updateServiceWorker } = useRegisterSW()
+
+function checkForUpdate() {
+  if (needRefresh.value) {
+    // eslint-disable-next-line no-alert
+    if (confirm('Update available. Update now?')) {
+      updateServiceWorker(true)
+    }
+  } else {
+    // eslint-disable-next-line no-alert
+    alert('No updates available.')
+  }
+}
 </script>
 
 <template>
@@ -28,7 +40,7 @@ const { updateServiceWorker } = useRegisterSW()
         v-if="isPwa"
         icon="i-carbon:renew"
         :text="t('more.checkForUpdates')"
-        @click="updateServiceWorker(true)"
+        @click="checkForUpdate"
       />
     </div>
   </BaseModal>
