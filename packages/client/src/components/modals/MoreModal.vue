@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useRegisterSW } from 'virtual:pwa-register/vue'
+
 const ui = useUiStore()
 const { t } = useI18n()
+const { updateServiceWorker } = useRegisterSW()
 </script>
 
 <template>
@@ -20,6 +23,12 @@ const { t } = useI18n()
         icon="i-carbon:document"
         :text="t('more.privacyPolicy')"
         @click="ui.open('privacyPolicy')"
+      />
+      <IconButton
+        v-if="isPwa"
+        icon="i-carbon:renew"
+        :text="t('more.checkForUpdates')"
+        @click="updateServiceWorker(true)"
       />
     </div>
   </BaseModal>

@@ -105,7 +105,8 @@
     "title": "Más",
     "credits": "Créditos",
     "privacyPolicy": "Política de Privacidad",
-    "faq": "Preguntas Frecuentes"
+    "faq": "Preguntas Frecuentes",
+    "checkForUpdates": "Buscar actualizaciones"
   },
   "faq": {
     "title": "Preguntas Frecuentes",
