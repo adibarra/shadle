@@ -47,7 +47,7 @@
   "modals": {
     "instructions": {
       "title": "How to Play",
-      "description": "Guess the 5-color combo in 6 tries. The colors in the combination can repeat.",
+      "description": "Guess the 5-color combo in 6 tries. The colors in the combination can not repeat.",
       "feedback": {
         "intro": "After submitting, you'll get feedback on each color:",
         "correct": "If the full color is shown, it's in the correct position.",

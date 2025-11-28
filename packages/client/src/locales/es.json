@@ -47,7 +47,7 @@
   "modals": {
     "instructions": {
       "title": "Cómo Jugar",
-      "description": "Adivina la combinación de 5 colores en 6 intentos. Los colores en la combinación pueden repetirse.",
+      "description": "Adivina la combinación de 5 colores en 6 intentos. Los colores en la combinación no pueden repetirse.",
       "feedback": {
         "intro": "Después de enviar, recibirás retroalimentación sobre cada color:",
         "correct": "Si se muestra el color completo, tu elección está en la posición correcta.",
