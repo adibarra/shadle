@@ -47,10 +47,10 @@ import PhoneContainer from '~/components/PhoneContainer.vue'
   --color-g: #00ff00;
   --color-b: #0000ff;
   --color-y: #ffff00;
-  --color-m: #ff00ff;
+  --color-m: #bc00ff;
   --color-c: #00ffff;
   --color-p: #ff1493;
-  --color-o: #ff4500;
+  --color-o: #ff8200;
 }
 
 html,
