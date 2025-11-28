@@ -25,7 +25,6 @@
       "options": {
         "default": "Default",
         "colorblind": "Colorblind",
-        "pastel": "Pastel",
         "retro": "Retro"
       }
     },

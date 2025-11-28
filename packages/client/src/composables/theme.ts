@@ -4,7 +4,6 @@ import { watch } from 'vue'
 export const themes = {
   default: '',
   colorblind: 'colorblind',
-  pastel: 'pastel',
   retro: 'retro',
 } as const
 

@@ -25,7 +25,6 @@
       "options": {
         "default": "Predeterminado",
         "colorblind": "Daltónico",
-        "pastel": "Pastel",
         "retro": "Retro"
       }
     },

@@ -42,17 +42,6 @@ import PhoneContainer from '~/components/PhoneContainer.vue'
   --color-o: #aa4499;
 }
 
-:root.pastel {
-  --color-r: #ff9999;
-  --color-g: #99ff99;
-  --color-b: #9999ff;
-  --color-y: #ffff99;
-  --color-m: #ff99ff;
-  --color-c: #99ffff;
-  --color-p: #ff99cc;
-  --color-o: #ffcc99;
-}
-
 :root.retro {
   --color-r: #ff0000;
   --color-g: #00ff00;
