@@ -19,7 +19,7 @@ import PhoneContainer from '~/components/PhoneContainer.vue'
   --color-text: #e5e7eb;
   --color-text-alt: #121212;
   --color-outline: #555555;
-  --color-accent: #2563eb;
+  --color-accent: #0044ff;
 
   --color-r: #ff0000;
   --color-g: #00aa00;
