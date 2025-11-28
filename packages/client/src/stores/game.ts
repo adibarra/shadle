@@ -182,14 +182,15 @@ export const useGameStore = defineStore('game', () => {
 
     const puzzleId = generatePuzzleId()
 
+    let shouldBeAlreadyPlayed = false
+
     // Check if already played for daily and past modes
     if (mode === 'daily' || mode === 'past') {
       const deviceId = _getDeviceId()
       try {
         const history = await getHistory(deviceId, puzzleId)
         if (history.attempts.length > 0) {
-          // Already played - mark as such but continue to load state
-          gameState.value.alreadyPlayed = true
+          shouldBeAlreadyPlayed = true
         }
       } catch (error) {
         console.error('Failed to check puzzle history:', error)
@@ -204,6 +205,9 @@ export const useGameStore = defineStore('game', () => {
     if (gameState.value.puzzleId !== puzzleId) {
       resetGame()
     }
+
+    // Set alreadyPlayed based on history check
+    gameState.value.alreadyPlayed = shouldBeAlreadyPlayed
   }
 
   function addColor(color: ValidColor) {
