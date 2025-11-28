@@ -15,11 +15,11 @@ import PhoneContainer from '~/components/PhoneContainer.vue'
 
 <style>
 :root {
-  --color-bg: #121212;
-  --color-text: #e5e7eb;
-  --color-text-alt: #121212;
-  --color-outline: #555555;
-  --color-accent: #0044ff;
+  --color-bg: color(display-p3 0.0705 0.0705 0.0705);
+  --color-text: #color(display-p3 0.8980 0.9058 0.9215);
+  --color-text-alt: color(display-p3 0.0705 0.0705 0.0705);
+  --color-outline: color(display-p3 0.3333 0.3333 0.3333);
+  --color-accent: color(display-p3 0 0.2666 1);
 
   --color-r: #c70000;
   --color-g: #0d8c0d;
