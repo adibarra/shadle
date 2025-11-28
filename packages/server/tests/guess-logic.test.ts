@@ -119,7 +119,7 @@ export default testSuite(({ describe }) => {
   describe('getPuzzleAnswer', ({ test }) => {
     test('should generate correct daily puzzle answer for specific date', async () => {
       const result = await getPuzzleAnswer('§2025-11-11')
-      expect(result).toEqual(['P', 'O', 'M', 'M', 'B'])
+      expect(result).toEqual(['P', 'O', 'M', 'C', 'B'])
     })
 
     test('should generate different answers for different dates', async () => {

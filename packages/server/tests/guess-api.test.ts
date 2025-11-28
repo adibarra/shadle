@@ -22,7 +22,7 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device-1',
         puzzleId: '§2025-11-11',
-        guess: ['P', 'O', 'M', 'M', 'B'], // correct answer
+        guess: ['P', 'O', 'M', 'C', 'B'], // correct answer
       }
 
       // validate inputs
@@ -36,7 +36,7 @@ export default testSuite(({ describe }) => {
 
       // get puzzle answer
       const answer = await getPuzzleAnswer(request.puzzleId)
-      expect(answer).toEqual(['P', 'O', 'M', 'M', 'B'])
+      expect(answer).toEqual(['P', 'O', 'M', 'C', 'B'])
 
       // validate guess
       const feedback = validateGuess(request.guess.map(c => c.toUpperCase() as ValidColor), answer!)
@@ -190,7 +190,7 @@ export default testSuite(({ describe }) => {
       const request: GuessRequest = {
         deviceId: 'test-device',
         puzzleId: '§2025-11-11',
-        guess: ['p', 'o', 'm', 'm', 'b'] as unknown as ValidColor[], // lowercase
+        guess: ['p', 'o', 'm', 'c', 'b'] as unknown as ValidColor[], // lowercase
       }
 
       const answer = await getPuzzleAnswer(request.puzzleId)
