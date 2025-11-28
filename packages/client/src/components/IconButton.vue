@@ -26,7 +26,7 @@ const emit = defineEmits<{
     :tabindex="props.disabled ? -1 : 0"
     @click="emit('click')"
   >
-    <div :class="[icon, props.disabled ? 'opacity-50' : '']" class="mr-2 text-3xl" />
+    <div :class="[icon, props.disabled ? 'opacity-50' : '']" class="mr-5 text-3xl" />
     <span class="text-sm font-medium" :class="props.disabled ? 'opacity-50' : ''">{{ text }}</span>
     <span v-if="showActive" class="ml-auto text-xs font-900 opacity-100">{{ activeText }}</span>
   </button>
