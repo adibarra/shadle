@@ -3,17 +3,24 @@ import { useRegisterSW } from 'virtual:pwa-register/vue'
 
 const ui = useUiStore()
 const { t } = useI18n()
-const { needRefresh, updateServiceWorker } = useRegisterSW()
 
-function checkForUpdate() {
-  if (needRefresh.value) {
+let registration: ServiceWorkerRegistration | undefined
+
+useRegisterSW({
+  onRegistered(r: ServiceWorkerRegistration | undefined) {
+    registration = r
+  },
+})
+
+async function checkForUpdate() {
+  if (registration) {
+    await registration.update()
     // eslint-disable-next-line no-alert
-    if (confirm('Update available. Update now?')) {
-      updateServiceWorker(true)
-    }
+    alert('Update check completed. If an update was available, it has been installed and the app will reload.')
+    window.location.reload()
   } else {
     // eslint-disable-next-line no-alert
-    alert('No updates available.')
+    alert('Service worker not registered.')
   }
 }
 </script>
