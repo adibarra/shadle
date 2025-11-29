@@ -43,7 +43,7 @@ export interface StatsRequest {
 }
 
 export interface PuzzleAttemptResponse {
-  device_id: string
+  player_id: string
   puzzle_id: string
   tries: number
   timestamp: Date
@@ -73,7 +73,7 @@ export enum GuessStatus {
 }
 
 export interface GuessRequest {
-  deviceId: string
+  playerId: string
   puzzleId: string
   guess: ValidColor[]
 }
@@ -92,7 +92,7 @@ export interface GuessResponse {
 // =============================================================================
 
 export interface HistoryRequest {
-  deviceId: string
+  playerId: string
   puzzleId?: string
 }
 
@@ -111,7 +111,7 @@ export interface StatsRequest {
 export interface StatsResponse {
   puzzleId: string
   totalAttempts: number
-  totalDevices: number
+  totalPlayers: number
   avgTries: number
   successRate: number
   failedAttempts: number

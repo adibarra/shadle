@@ -4,7 +4,7 @@ import { useStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, readonly, ref } from 'vue'
 import { getHistory, submitGuess as submitGuessAPI } from '../composables/api'
-import { generateDeviceId } from '../utils'
+import { generatePlayerId } from '../utils'
 import { useUiStore } from './ui'
 
 const STORAGE_KEY = 'shadle-game-state'
@@ -116,17 +116,17 @@ export const useGameStore = defineStore('game', () => {
     return `§${date}`
   }
 
-  function _getDeviceId() {
-    let deviceId = localStorage.getItem('shadle-device-id')
-    if (!deviceId) {
-      deviceId = generateDeviceId()
-      localStorage.setItem('shadle-device-id', deviceId)
+  function _getPlayerId() {
+    let playerId = localStorage.getItem('shadle-player-id')
+    if (!playerId) {
+      playerId = generatePlayerId()
+      localStorage.setItem('shadle-player-id', playerId)
     }
-    return deviceId
+    return playerId
   }
 
   function resetApp() {
-    localStorage.setItem('shadle-device-id', generateDeviceId())
+    localStorage.setItem('shadle-player-id', generatePlayerId())
     // Clear all mode-specific game states
     localStorage.removeItem(`${STORAGE_KEY}-daily`)
     localStorage.removeItem(`${STORAGE_KEY}-random`)
@@ -186,9 +186,9 @@ export const useGameStore = defineStore('game', () => {
 
     // Check if already played for daily and past modes
     if (mode === 'daily' || mode === 'past') {
-      const deviceId = _getDeviceId()
+      const playerId = _getPlayerId()
       try {
-        const history = await getHistory(deviceId, puzzleId)
+        const history = await getHistory(playerId, puzzleId)
         if (history.attempts.length > 0) {
           shouldBeAlreadyPlayed = true
         }
@@ -224,7 +224,7 @@ export const useGameStore = defineStore('game', () => {
     if (!canSubmit.value) return
 
     try {
-      const feedback = await submitGuessAPI(gameState.value.puzzleId, currentGuess.value, _getDeviceId())
+      const feedback = await submitGuessAPI(gameState.value.puzzleId, currentGuess.value, _getPlayerId())
       gameState.value.guesses.push([...currentGuess.value])
       gameState.value.feedback.push(feedback)
       gameState.value.attempts++

@@ -7,13 +7,13 @@ export interface Migration {
 }
 
 export interface PushSubscription {
-  device_id: string
+  player_id: string
   platform: Platform
   push_sub: any
 }
 
 export interface PuzzleAttempt {
-  device_id: string
+  player_id: string
   puzzle_id: string
   tries: number
   solved: boolean
@@ -23,7 +23,7 @@ export interface PuzzleAttempt {
 export interface PuzzleStats {
   puzzle_id: string // unique puzzle identifier
   totalAttempts: number // total attempts on this puzzle
-  totalDevices: number // unique devices who attempted this puzzle
+  totalPlayers: number // unique players who attempted this puzzle
   avgTries: number // average tries for solved attempts
   successRate: number // ratio of solved attempts that succeeded (<=6 tries) (0.0 to 1.0)
   failedAttempts: number // solved attempts that failed (>6 tries)

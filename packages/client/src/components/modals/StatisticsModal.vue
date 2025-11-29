@@ -2,10 +2,10 @@
 const ui = useUiStore()
 const { t } = useI18n()
 
-// Get device ID
-const deviceId = computed(() => {
+// Get player ID
+const playerId = computed(() => {
   if (typeof window === 'undefined') return ''
-  return localStorage.getItem('shadle-device-id') || ''
+  return localStorage.getItem('shadle-player-id') || ''
 })
 
 // Statistics data
@@ -67,13 +67,13 @@ function calculateStats(history: any[]) {
 
 // Load statistics
 async function loadStats() {
-  if (!deviceId.value) return
+  if (!playerId.value) return
 
   loading.value = true
   error.value = ''
 
   try {
-    const response = await getHistory(deviceId.value)
+    const response = await getHistory(playerId.value)
     const history = response.attempts
     calculateStats(history)
   } catch (err) {

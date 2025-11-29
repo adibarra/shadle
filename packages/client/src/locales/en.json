@@ -38,7 +38,7 @@
       "title": "Reset Memory",
       "description": "Clear all saved game data and history.",
       "reset": "Reset",
-      "confirm": "Are you sure? This will permanently delete all game data and generate a new device ID. This cannot be undone."
+      "confirm": "Are you sure? This will permanently delete all game data and generate a new player ID. This cannot be undone."
     }
   },
   "gamePrompts": {

@@ -16,11 +16,11 @@ export function validatePuzzleId(puzzleId: string): { isValid: boolean, error?: 
 }
 
 /**
- * Validates that a device ID is present and non-empty
+ * Validates that a player ID is present and non-empty
  */
-export function validateDeviceId(deviceId: string | undefined): { isValid: boolean, error?: string } {
-  if (!deviceId) {
-    return { isValid: false, error: 'Device ID is required.' }
+export function validatePlayerId(playerId: string | undefined): { isValid: boolean, error?: string } {
+  if (!playerId) {
+    return { isValid: false, error: 'Player ID is required.' }
   }
   return { isValid: true }
 }

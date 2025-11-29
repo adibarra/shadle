@@ -2,7 +2,7 @@ create type platform as enum ('ios', 'android', 'web');
 
 create table push_subscriptions (
     -- unique identifiers
-    device_id       text primary key,
+    player_id       text primary key,
 
     -- data
     platform        platform not null,

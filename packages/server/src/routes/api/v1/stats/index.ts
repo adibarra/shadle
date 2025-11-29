@@ -22,7 +22,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
         : {
             puzzle_id: puzzleId,
             totalAttempts: 0,
-            totalDevices: 0,
+            totalPlayers: 0,
             avgTries: 0,
             successRate: 0,
             failedAttempts: 0,
@@ -32,7 +32,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
       return reply.code(200).send({
         puzzleId: puzzleStats.puzzle_id,
         totalAttempts: puzzleStats.totalAttempts,
-        totalDevices: puzzleStats.totalDevices,
+        totalPlayers: puzzleStats.totalPlayers,
         avgTries: puzzleStats.avgTries,
         successRate: puzzleStats.successRate,
         failedAttempts: puzzleStats.failedAttempts,
@@ -50,7 +50,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
       return reply.code(200).send({
         puzzleId: stats.puzzle_id,
         totalAttempts: stats.totalAttempts,
-        totalDevices: stats.totalDevices,
+        totalPlayers: stats.totalPlayers,
         avgTries: stats.avgTries,
         successRate: stats.successRate,
         failedAttempts: stats.failedAttempts,

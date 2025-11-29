@@ -38,7 +38,7 @@
       "title": "Restablecer Memoria",
       "description": "Borra todos los datos guardados del juego.",
       "reset": "Restablecer",
-      "confirm": "¿Estás seguro? Esto borrará permanentemente todos los datos del juego y generará una nueva ID de dispositivo. No se puede deshacer."
+      "confirm": "¿Estás seguro? Esto borrará permanentemente todos los datos del juego y generará una nueva ID de jugador. No se puede deshacer."
     }
   },
   "gamePrompts": {

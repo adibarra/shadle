@@ -18,8 +18,8 @@ const playedDates = ref<Set<string>>(new Set())
 
 async function fetchPlayedDates() {
   try {
-    const deviceId = localStorage.getItem('shadle-device-id') || ''
-    const history = await getHistory(deviceId)
+    const playerId = localStorage.getItem('shadle-player-id') || ''
+    const history = await getHistory(playerId)
     const dates = new Set<string>()
     for (const attempt of history.attempts) {
       if (attempt.puzzle_id.startsWith('§')) {

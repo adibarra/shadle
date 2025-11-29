@@ -3,20 +3,20 @@ import type { FastifyPluginAsync } from 'fastify'
 import { recordPuzzleAttempt } from '@shadle/database'
 import { GuessStatus } from '@shadle/types'
 import { getPuzzleAnswer, validateGuess } from '../../../../logic/guess'
-import { validateDeviceId, validateGuessFormat, validatePuzzleId } from '../../../../utils/validation'
+import { validateGuessFormat, validatePlayerId, validatePuzzleId } from '../../../../utils/validation'
 
 /**
  * Fastify route for puzzle guess operations.
  */
 const route: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.post('/', async (request, reply): Promise<GuessResponse | ApiError> => {
-    const { deviceId, puzzleId, guess } = request.body as GuessRequest
+    const { playerId, puzzleId, guess } = request.body as GuessRequest
 
     const normalizedGuess = guess.map(color => color.toUpperCase() as ValidColor)
 
-    const deviceValidation = validateDeviceId(deviceId)
-    if (!deviceValidation.isValid) {
-      return reply.code(400).send({ error: deviceValidation.error })
+    const playerValidation = validatePlayerId(playerId)
+    if (!playerValidation.isValid) {
+      return reply.code(400).send({ error: playerValidation.error })
     }
 
     const idValidation = validatePuzzleId(puzzleId)
@@ -37,7 +37,7 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
 
       const feedback = validateGuess(normalizedGuess, answer)
       const correct = feedback.every(item => item.status === GuessStatus.CORRECT)
-      const { tries } = await recordPuzzleAttempt(deviceId, puzzleId, correct)
+      const { tries } = await recordPuzzleAttempt(playerId, puzzleId, correct)
 
       return reply.code(200).send({
         tries,

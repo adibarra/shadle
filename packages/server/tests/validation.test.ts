@@ -1,7 +1,7 @@
 import type { ValidColor } from '@shadle/types'
 import { VALID_COLORS } from '@shadle/types'
 import { expect, testSuite } from 'manten'
-import { validateDeviceId, validateGuessFormat, validatePuzzleId } from '../src/utils/validation.js'
+import { validateGuessFormat, validatePlayerId, validatePuzzleId } from '../src/utils/validation.js'
 
 export default testSuite(({ describe }) => {
   describe('validatePuzzleId', ({ test }) => {
@@ -24,35 +24,35 @@ export default testSuite(({ describe }) => {
     })
   })
 
-  describe('validateDeviceId', ({ test }) => {
+  describe('validatePlayerId', ({ test }) => {
     test('should return valid for non-empty string', () => {
-      const result = validateDeviceId('device-123')
+      const result = validatePlayerId('player-123')
       expect(result.isValid).toBe(true)
       expect(result.error).toBeUndefined()
     })
 
     test('should return invalid for empty string', () => {
-      const result = validateDeviceId('')
+      const result = validatePlayerId('')
       expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Device ID is required.')
+      expect(result.error).toBe('Player ID is required.')
     })
 
     test('should return invalid for undefined', () => {
-      const result = validateDeviceId(undefined)
+      const result = validatePlayerId(undefined)
       expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Device ID is required.')
+      expect(result.error).toBe('Player ID is required.')
     })
 
     test('should return invalid for null', () => {
-      const result = validateDeviceId(null as any)
+      const result = validatePlayerId(null as any)
       expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Device ID is required.')
+      expect(result.error).toBe('Player ID is required.')
     })
 
-    test('should accept various device ID formats', () => {
-      expect(validateDeviceId('abc123').isValid).toBe(true)
-      expect(validateDeviceId('device-uuid-123').isValid).toBe(true)
-      expect(validateDeviceId('test_device_123').isValid).toBe(true)
+    test('should accept various player ID formats', () => {
+      expect(validatePlayerId('abc123').isValid).toBe(true)
+      expect(validatePlayerId('player-uuid-123').isValid).toBe(true)
+      expect(validatePlayerId('test_player_123').isValid).toBe(true)
     })
   })
 

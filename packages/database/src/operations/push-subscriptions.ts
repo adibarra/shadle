@@ -4,18 +4,18 @@ import { getSql } from '../initializer'
 /**
  * Creates or updates a push notification subscription.
  */
-export async function upsertPushSubscription(device_id: string, platform: string, push_sub: any): Promise<PushSubscription> {
+export async function upsertPushSubscription(player_id: string, platform: string, push_sub: any): Promise<PushSubscription> {
   const sql = await getSql()
   const result = await sql`
-    insert into push_subscriptions (device_id, platform, push_sub)
-    values (${device_id}, ${platform}, ${JSON.stringify(push_sub)})
-    on conflict (device_id)
+    insert into push_subscriptions (player_id, platform, push_sub)
+    values (${player_id}, ${platform}, ${JSON.stringify(push_sub)})
+    on conflict (player_id)
     do update set
       platform = excluded.platform,
       push_sub = excluded.push_sub,
       updated_at = now()
     returning
-      device_id,
+      player_id,
       platform,
       push_sub;
   `
@@ -26,17 +26,17 @@ export async function upsertPushSubscription(device_id: string, platform: string
 }
 
 /**
- * Gets a push subscription by device_id.
+ * Gets a push subscription by player_id.
  */
-export async function getPushSubscription(device_id: string): Promise<PushSubscription | null> {
+export async function getPushSubscription(player_id: string): Promise<PushSubscription | null> {
   const sql = await getSql()
   const result = await sql`
     select
-      device_id,
+      player_id,
       platform,
       push_sub
     from push_subscriptions
-    where device_id = ${device_id};
+    where player_id = ${player_id};
   `
   if (result.length === 0) return null
   return {
@@ -48,10 +48,10 @@ export async function getPushSubscription(device_id: string): Promise<PushSubscr
 /**
  * Deletes a push subscription.
  */
-export async function deletePushSubscription(device_id: string): Promise<void> {
+export async function deletePushSubscription(player_id: string): Promise<void> {
   const sql = await getSql()
   await sql`
     delete from push_subscriptions
-    where device_id = ${device_id};
+    where player_id = ${player_id};
   `
 }

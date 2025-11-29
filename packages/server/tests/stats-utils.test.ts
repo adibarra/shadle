@@ -7,28 +7,28 @@ export default testSuite(({ describe }) => {
     test('should count tries correctly for multiple users and puzzles', () => {
       const mockChunk: PuzzleAttempt[] = [
         {
-          device_id: 'user1',
+          player_id: 'user1',
           puzzle_id: '2025-01-01',
           tries: 3,
           timestamp: new Date('2025-01-01T00:00:00.000Z'),
           solved: true,
         },
         {
-          device_id: 'user1',
+          player_id: 'user1',
           puzzle_id: '2025-01-02',
           tries: 5,
           timestamp: new Date('2025-01-02T00:00:00.000Z'),
           solved: true,
         },
         {
-          device_id: 'user2',
+          player_id: 'user2',
           puzzle_id: '2025-01-03',
           tries: 3,
           timestamp: new Date('2025-01-03T00:00:00.000Z'),
           solved: true,
         },
         {
-          device_id: 'user2',
+          player_id: 'user2',
           puzzle_id: '2025-01-04',
           tries: 7,
           timestamp: new Date('2025-01-04T00:00:00.000Z'),
@@ -53,28 +53,28 @@ export default testSuite(({ describe }) => {
     test('should accumulate counts for same tries values', () => {
       const mockChunk: PuzzleAttempt[] = [
         {
-          device_id: 'user1',
+          player_id: 'user1',
           puzzle_id: '2025-01-01',
           tries: 3,
           timestamp: new Date('2025-01-01T00:00:00.000Z'),
           solved: true,
         },
         {
-          device_id: 'user1',
+          player_id: 'user1',
           puzzle_id: '2025-01-02',
           tries: 3,
           timestamp: new Date('2025-01-02T00:00:00.000Z'),
           solved: false,
         },
         {
-          device_id: 'user1',
+          player_id: 'user1',
           puzzle_id: '2025-01-03',
           tries: 3,
           timestamp: new Date('2025-01-03T00:00:00.000Z'),
           solved: true,
         },
         {
-          device_id: 'user2',
+          player_id: 'user2',
           puzzle_id: '2025-01-04',
           tries: 3,
           timestamp: new Date('2025-01-04T00:00:00.000Z'),
@@ -89,21 +89,21 @@ export default testSuite(({ describe }) => {
     test('should handle large tries values', () => {
       const mockChunk: PuzzleAttempt[] = [
         {
-          device_id: 'user1',
+          player_id: 'user1',
           puzzle_id: '2025-01-01',
           tries: 10,
           timestamp: new Date('2025-01-01T00:00:00.000Z'),
           solved: true,
         },
         {
-          device_id: 'user1',
+          player_id: 'user1',
           puzzle_id: '2025-01-02',
           tries: 25,
           timestamp: new Date('2025-01-02T00:00:00.000Z'),
           solved: false,
         },
         {
-          device_id: 'user1',
+          player_id: 'user1',
           puzzle_id: '2025-01-03',
           tries: 50,
           timestamp: new Date('2025-01-03T00:00:00.000Z'),

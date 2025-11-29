@@ -2,7 +2,7 @@ import type { GuessStatus, HistoryResponse, StatsResponse, ValidColor } from '@s
 
 const API_BASE = `${window.location.origin}/api/v1`
 
-export async function submitGuess(puzzleId: string, guess: ValidColor[], deviceId: string): Promise<GuessStatus[]> {
+export async function submitGuess(puzzleId: string, guess: ValidColor[], playerId: string): Promise<GuessStatus[]> {
   const response = await fetch(`${API_BASE}/guess`, {
     method: 'POST',
     headers: {
@@ -11,7 +11,7 @@ export async function submitGuess(puzzleId: string, guess: ValidColor[], deviceI
     body: JSON.stringify({
       puzzleId,
       guess,
-      deviceId,
+      playerId,
     }),
   })
 
@@ -23,9 +23,9 @@ export async function submitGuess(puzzleId: string, guess: ValidColor[], deviceI
   return data.feedback.map((item: { letter: string, status: GuessStatus }) => item.status)
 }
 
-export async function getHistory(deviceId: string, puzzleId?: string): Promise<HistoryResponse> {
+export async function getHistory(playerId: string, puzzleId?: string): Promise<HistoryResponse> {
   const url = new URL(`${API_BASE}/history`)
-  url.searchParams.set('deviceId', deviceId)
+  url.searchParams.set('playerId', playerId)
   if (puzzleId) {
     url.searchParams.set('puzzleId', puzzleId)
   }

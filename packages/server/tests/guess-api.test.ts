@@ -3,12 +3,12 @@ import config from '@shadle/config'
 import { GuessStatus } from '@shadle/types'
 import { expect, testSuite } from 'manten'
 import { getPuzzleAnswer, validateGuess } from '../src/logic/guess.js'
-import { validateDeviceId, validateGuessFormat, validatePuzzleId } from '../src/utils/validation.js'
+import { validateGuessFormat, validatePlayerId, validatePuzzleId } from '../src/utils/validation.js'
 
 // mock the database operation for testing
-function mockRecordPuzzleAttempt(_deviceId: string, _puzzleId: string, _solved: boolean) {
+function mockRecordPuzzleAttempt(_playerId: string, _puzzleId: string, _solved: boolean) {
   return Promise.resolve({
-    device_id: _deviceId,
+    player_id: _playerId,
     puzzle_id: _puzzleId,
     tries: 1,
     timestamp: new Date().toISOString(),
@@ -20,17 +20,17 @@ export default testSuite(({ describe }) => {
   describe('guess API logic', ({ test }) => {
     test('should process valid guess request successfully', async () => {
       const request: GuessRequest = {
-        deviceId: 'test-device-1',
+        playerId: 'test-player-1',
         puzzleId: '§2025-11-11',
         guess: ['P', 'O', 'M', 'C', 'B'], // correct answer
       }
 
       // validate inputs
-      const deviceValidation = validateDeviceId(request.deviceId)
+      const playerValidation = validatePlayerId(request.playerId)
       const puzzleValidation = validatePuzzleId(request.puzzleId)
       const guessValidation = validateGuessFormat(request.guess)
 
-      expect(deviceValidation.isValid).toBe(true)
+      expect(playerValidation.isValid).toBe(true)
       expect(puzzleValidation.isValid).toBe(true)
       expect(guessValidation.isValid).toBe(true)
 
@@ -43,7 +43,7 @@ export default testSuite(({ describe }) => {
       expect(feedback.every(f => f.status === GuessStatus.CORRECT)).toBe(true)
 
       // record attempt
-      const attemptResult = await mockRecordPuzzleAttempt(request.deviceId, request.puzzleId, true)
+      const attemptResult = await mockRecordPuzzleAttempt(request.playerId, request.puzzleId, true)
       expect(attemptResult.tries).toBe(1)
 
       // should return success response
@@ -60,7 +60,7 @@ export default testSuite(({ describe }) => {
 
     test('should handle incorrect guess', async () => {
       const request: GuessRequest = {
-        deviceId: 'test-device-2',
+        playerId: 'test-player-2',
         puzzleId: '§2025-11-11',
         guess: ['R', 'G', 'B', 'Y', 'M'], // incorrect
       }
@@ -71,7 +71,7 @@ export default testSuite(({ describe }) => {
       expect(feedback.every(f => f.status === GuessStatus.CORRECT)).toBe(false)
       expect(feedback.some(f => f.status !== GuessStatus.CORRECT)).toBe(true)
 
-      const attemptResult = await mockRecordPuzzleAttempt(request.deviceId, request.puzzleId, false)
+      const attemptResult = await mockRecordPuzzleAttempt(request.playerId, request.puzzleId, false)
 
       const response: GuessResponse = {
         tries: attemptResult.tries,
@@ -82,21 +82,21 @@ export default testSuite(({ describe }) => {
       expect(response.correct).toBe(false)
     })
 
-    test('should reject invalid device ID', () => {
+    test('should reject invalid player ID', () => {
       const request = {
-        deviceId: '',
+        playerId: '',
         puzzleId: '§2025-11-11',
         guess: ['R', 'G', 'B', 'Y', 'M'],
       }
 
-      const validation = validateDeviceId(request.deviceId)
+      const validation = validatePlayerId(request.playerId)
       expect(validation.isValid).toBe(false)
-      expect(validation.error).toContain('Device ID is required')
+      expect(validation.error).toContain('Player ID is required')
     })
 
     test('should reject invalid puzzle ID', () => {
       const request = {
-        deviceId: 'test-device',
+        playerId: 'test-player',
         puzzleId: '',
         guess: ['R', 'G', 'B', 'Y', 'M'],
       }
@@ -108,7 +108,7 @@ export default testSuite(({ describe }) => {
 
     test('should reject invalid guess format', () => {
       const request = {
-        deviceId: 'test-device',
+        playerId: 'test-player',
         puzzleId: '§2025-11-11',
         guess: ['X', 'Y', 'Z', '1', '2'] as ValidColor[], // 5 chars but invalid colors
       } as GuessRequest
@@ -120,7 +120,7 @@ export default testSuite(({ describe }) => {
 
     test('should reject guess that is too short', () => {
       const request = {
-        deviceId: 'test-device',
+        playerId: 'test-player',
         puzzleId: '§2025-11-11',
         guess: ['R', 'G', 'B'],
       } as GuessRequest
@@ -132,7 +132,7 @@ export default testSuite(({ describe }) => {
 
     test('should reject guess that is too long', () => {
       const request = {
-        deviceId: 'test-device',
+        playerId: 'test-player',
         puzzleId: '§2025-11-11',
         guess: ['R', 'G', 'B', 'Y', 'P', 'O'],
       } as GuessRequest
@@ -158,7 +158,7 @@ export default testSuite(({ describe }) => {
       // test that the API logic would properly handle null answer by rejecting the guess
       // simulate what would happen in the route handler
       const request = {
-        deviceId: 'test-device',
+        playerId: 'test-player',
         puzzleId: 'non-existent-puzzle',
         guess: ['R', 'G', 'B', 'Y', 'M'],
       } as GuessRequest
@@ -168,11 +168,11 @@ export default testSuite(({ describe }) => {
       expect(answer).toBeNull()
 
       // validate inputs first (these should pass)
-      const deviceValidation = validateDeviceId(request.deviceId)
+      const playerValidation = validatePlayerId(request.playerId)
       const puzzleValidation = validatePuzzleId(request.puzzleId)
       const guessValidation = validateGuessFormat(request.guess)
 
-      expect(deviceValidation.isValid).toBe(true)
+      expect(playerValidation.isValid).toBe(true)
       expect(puzzleValidation.isValid).toBe(true)
       expect(guessValidation.isValid).toBe(true)
 
@@ -188,7 +188,7 @@ export default testSuite(({ describe }) => {
 
     test('should handle case insensitive guesses', async () => {
       const request: GuessRequest = {
-        deviceId: 'test-device',
+        playerId: 'test-player',
         puzzleId: '§2025-11-11',
         guess: ['p', 'o', 'm', 'c', 'b'] as unknown as ValidColor[], // lowercase
       }
@@ -201,7 +201,7 @@ export default testSuite(({ describe }) => {
 
     test('should provide correct feedback for partial matches', async () => {
       const request: GuessRequest = {
-        deviceId: 'test-device',
+        playerId: 'test-player',
         puzzleId: '§2025-11-11',
         guess: ['O', 'B', 'M', 'G', 'Y'], // O present, B present, M correct, G absent, Y absent
       }
