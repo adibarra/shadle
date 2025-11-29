@@ -119,7 +119,7 @@ function handlePlayRandom() {
       </div>
     </div>
     <div v-if="stats" class="mb-4">
-      <h3 class="mb-2 text-lg font-semibold">
+      <h3 class="mb-6 text-center text-lg font-semibold">
         {{ t('modals.win.distribution.title') }}
       </h3>
       <DistributionChart
