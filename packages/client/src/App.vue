@@ -16,7 +16,7 @@ import PhoneContainer from '~/components/PhoneContainer.vue'
 <style>
 :root {
   --color-bg: color(display-p3 0.0705 0.0705 0.0705);
-  --color-text: #color(display-p3 0.8980 0.9058 0.9215);
+  --color-text: color(display-p3 0.8980 0.9058 0.9215);
   --color-text-alt: color(display-p3 0.0705 0.0705 0.0705);
   --color-outline: color(display-p3 0.3333 0.3333 0.3333);
   --color-accent: color(display-p3 0 0.2666 1);
