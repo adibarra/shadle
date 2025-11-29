@@ -21,14 +21,25 @@ import PhoneContainer from '~/components/PhoneContainer.vue'
   --color-outline: color(display-p3 0.3333 0.3333 0.3333);
   --color-accent: color(display-p3 0 0.2666 1);
 
-  --color-r: #c70000;
-  --color-g: #0d8c0d;
+  --color-r: color(display-p3 0.7176 0 0);
+  --color-g: color(display-p3 0.0274 0.6 0.0274);
+  --color-b: color(display-p3 0 0.2666 1);
+  --color-y: color(display-p3 1 0.8156 0.2117);
+  --color-m: color(display-p3 0.5019 0 0.5019);
+  --color-c: color(display-p3 0.0313 0.5686 0.6980);
+  --color-p: color(display-p3 0.9254 0.2823 0.6);
+  --color-o: color(display-p3 1 0.5019 0);
+}
+
+:root.original {
+  --color-r: #b70000;
+  --color-g: #079907;
   --color-b: #0044ff;
-  --color-y: #ffc509;
+  --color-y: #ffd036;
   --color-m: #800080;
   --color-c: #0891b2;
   --color-p: #ec4899;
-  --color-o: #f47a00;
+  --color-o: #ff8000;
 }
 
 :root.colorblind {
@@ -43,14 +54,14 @@ import PhoneContainer from '~/components/PhoneContainer.vue'
 }
 
 :root.retro {
-  --color-r: #ff0000;
-  --color-g: #00ff00;
-  --color-b: #0000ff;
-  --color-y: #ffff00;
-  --color-m: #bc00ff;
-  --color-c: #00ffff;
-  --color-p: #ff1493;
-  --color-o: #ff8200;
+  --color-r: color(display-p3 1 0 0);
+  --color-g: color(display-p3 0 1 0);
+  --color-b: color(display-p3 0 0 1);
+  --color-y: color(display-p3 1 1 0);
+  --color-m: color(display-p3 0.7372 0 1);
+  --color-c: color(display-p3 0 1 1);
+  --color-p: color(display-p3 1 0.0784 0.5764);
+  --color-o: color(display-p3 1 0.5098 0);
 }
 
 :root.blues {
