@@ -14,13 +14,35 @@ maxDate.setHours(23, 59, 59, 999) // End of day
 maxDate.setDate(maxDate.getDate()) // Today
 
 const selectedDate = ref<Date | null>(null)
+const playedDates = ref<Set<string>>(new Set())
 
-// Function to disable dates outside the allowed range
+async function fetchPlayedDates() {
+  try {
+    const deviceId = localStorage.getItem('shadle-device-id') || ''
+    const history = await getHistory(deviceId)
+    const dates = new Set<string>()
+    for (const attempt of history.attempts) {
+      if (attempt.puzzle_id.startsWith('§')) {
+        const dateStr = attempt.puzzle_id.slice(1)
+        dates.add(dateStr)
+      }
+    }
+    playedDates.value = dates
+  } catch (error) {
+    console.error('Failed to fetch played dates:', error)
+  }
+}
+
+onMounted(fetchPlayedDates)
+
 function isDateDisabled(date: Date) {
   const checkDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())
   const minCheck = new Date(minDate.getFullYear(), minDate.getMonth(), minDate.getDate())
   const maxCheck = new Date(maxDate.getFullYear(), maxDate.getMonth(), maxDate.getDate())
-  return checkDate <= minCheck || checkDate >= maxCheck
+  if (checkDate <= minCheck || checkDate >= maxCheck) return true
+
+  const dateStr = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`
+  return playedDates.value.has(dateStr)
 }
 
 async function selectPuzzle() {
@@ -32,7 +54,6 @@ async function selectPuzzle() {
   const dateStr = `${year}-${month}-${day}`
   ui.close('pastPuzzles')
   await game.setPuzzleMode('past', dateStr)
-  // If not already played, the mode is set and game resets
 }
 </script>
 
