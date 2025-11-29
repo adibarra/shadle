@@ -3,8 +3,8 @@ import { GuessStatus } from '@shadle/types'
 import { useStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, readonly, ref } from 'vue'
+import { getPlayerId, loadGameState as loadGameStateUtil, resetGameStates, resetPlayerId, saveGameState as saveGameStateUtil } from '~/utils'
 import { getHistory, submitGuess as submitGuessAPI } from '../composables/api'
-import { generatePlayerId } from '../utils'
 import { useUiStore } from './ui'
 
 const STORAGE_KEY = 'shadle-game-state'
@@ -75,7 +75,7 @@ export const useGameStore = defineStore('game', () => {
   function saveGameState() {
     try {
       const key = `${STORAGE_KEY}-${currentMode.value}`
-      localStorage.setItem(key, JSON.stringify(gameState.value))
+      saveGameStateUtil(key, gameState.value)
     } catch (error) {
       console.error('Failed to save game state:', error)
     }
@@ -84,9 +84,9 @@ export const useGameStore = defineStore('game', () => {
   function loadGameState() {
     try {
       const key = `${STORAGE_KEY}-${currentMode.value}`
-      const saved = localStorage.getItem(key)
+      const saved = loadGameStateUtil(key)
       if (saved) {
-        const parsed = JSON.parse(saved)
+        const parsed = saved
         if (parsed.puzzleId === generatePuzzleId()) {
           gameState.value = parsed
           // Derive selectedDate and randomSeed from puzzleId
@@ -116,21 +116,9 @@ export const useGameStore = defineStore('game', () => {
     return `§${date}`
   }
 
-  function _getPlayerId() {
-    let playerId = localStorage.getItem('shadle-player-id')
-    if (!playerId) {
-      playerId = generatePlayerId()
-      localStorage.setItem('shadle-player-id', playerId)
-    }
-    return playerId
-  }
-
   function resetApp() {
-    localStorage.setItem('shadle-player-id', generatePlayerId())
-    // Clear all mode-specific game states
-    localStorage.removeItem(`${STORAGE_KEY}-daily`)
-    localStorage.removeItem(`${STORAGE_KEY}-random`)
-    localStorage.removeItem(`${STORAGE_KEY}-past`)
+    resetPlayerId()
+    resetGameStates()
     // Clear mode data
     selectedDate.value = ''
     randomSeed.value = ''
@@ -186,7 +174,7 @@ export const useGameStore = defineStore('game', () => {
 
     // Check if already played for daily and past modes
     if (mode === 'daily' || mode === 'past') {
-      const playerId = _getPlayerId()
+      const playerId = getPlayerId()
       try {
         const history = await getHistory(playerId, puzzleId)
         if (history.attempts.length > 0) {
@@ -224,7 +212,7 @@ export const useGameStore = defineStore('game', () => {
     if (!canSubmit.value) return
 
     try {
-      const feedback = await submitGuessAPI(gameState.value.puzzleId, currentGuess.value, _getPlayerId())
+      const feedback = await submitGuessAPI(gameState.value.puzzleId, currentGuess.value, getPlayerId())
       gameState.value.guesses.push([...currentGuess.value])
       gameState.value.feedback.push(feedback)
       gameState.value.attempts++

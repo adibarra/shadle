@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { VueDatePicker } from '@vuepic/vue-datepicker'
+import { getPlayerId } from '~/utils'
 import '@vuepic/vue-datepicker/dist/main.css'
 
 const ui = useUiStore()
@@ -18,7 +19,7 @@ const playedDates = ref<Set<string>>(new Set())
 
 async function fetchPlayedDates() {
   try {
-    const playerId = localStorage.getItem('shadle-player-id') || ''
+    const playerId = getPlayerId()
     const history = await getHistory(playerId)
     const dates = new Set<string>()
     for (const attempt of history.attempts) {

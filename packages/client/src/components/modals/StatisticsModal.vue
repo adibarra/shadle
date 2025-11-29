@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { getPlayerId } from '~/utils'
+
 const ui = useUiStore()
 const { t } = useI18n()
 
 // Get player ID
 const playerId = computed(() => {
   if (typeof window === 'undefined') return ''
-  return localStorage.getItem('shadle-player-id') || ''
+  return getPlayerId()
 })
 
 // Statistics data
