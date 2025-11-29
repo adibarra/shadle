@@ -24,6 +24,7 @@
       "description": "Elige tu esquema de color preferido.",
       "options": {
         "default": "Predeterminado",
+        "original": "Original",
         "colorblind": "Daltónico",
         "retro": "Retro",
         "blues": "Azules"

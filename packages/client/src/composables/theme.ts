@@ -3,6 +3,7 @@ import { watch } from 'vue'
 
 export const themes = {
   default: '',
+  original: 'original',
   colorblind: 'colorblind',
   retro: 'retro',
   blues: 'blues',
