@@ -122,6 +122,10 @@ async function selectPuzzle() {
   color: var(--color-text) !important;
 }
 
+:deep(.dp__selection_preview) {
+  color: var(--color-text) !important;
+}
+
 :deep(.dp__action_select) {
   color: var(--color-text) !important;
 }
