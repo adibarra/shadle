@@ -154,10 +154,7 @@ watchEffect(() => {
       </div>
 
       <!-- Tries Distribution -->
-      <div v-if="stats.gamesWon > 0" class="space-y-2">
-        <h3 class="text-center text-lg font-semibold">
-          {{ t('stats.triesDistribution') }}
-        </h3>
+      <div v-if="stats.gamesWon > 0" class="pt-6">
         <DistributionChart
           :tries-distribution="stats.triesDistribution"
           :games-won="stats.gamesWon"
