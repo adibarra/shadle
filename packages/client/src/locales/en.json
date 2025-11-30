@@ -95,12 +95,18 @@
   "stats": {
     "title": "Statistics",
     "loading": "Loading statistics...",
+    "sections": {
+      "overall": "Overall",
+      "completion": "Completion",
+      "performance": "Performance"
+    },
     "gamesPlayed": "Games Played",
     "winRate": "Win Rate",
     "currentStreak": "Current Streak",
     "bestStreak": "Best Streak",
     "dailyCompleted": "Daily Completed",
     "randomCompleted": "Random Completed",
+    "totalGuesses": "Total Guesses",
     "averageTries": "Average Tries",
     "triesDistribution": "Tries Distribution"
   },

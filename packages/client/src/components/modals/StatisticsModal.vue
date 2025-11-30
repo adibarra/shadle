@@ -17,6 +17,7 @@ const stats = ref({
   winRate: 0,
   dailyCompleted: 0,
   randomCompleted: 0,
+  totalGuesses: 0,
   averageTries: 0,
   triesDistribution: {} as Record<number, number>,
 })
@@ -35,6 +36,9 @@ function calculateStats(history: any[]) {
   // Calculate completed puzzles for daily and random
   stats.value.dailyCompleted = history.filter(game => game.solved && game.puzzle_id.startsWith('§')).length
   stats.value.randomCompleted = history.filter(game => game.solved && game.puzzle_id.startsWith('random:')).length
+
+  // Calculate total guesses
+  stats.value.totalGuesses = history.reduce((sum, game) => sum + game.tries, 0)
 
   // Calculate average tries for won games
   const wonGames = history.filter(game => game.solved)
@@ -86,59 +90,78 @@ watchEffect(() => {
       {{ error }}
     </div>
 
-    <div v-else class="space-y-6">
-      <!-- Games Played -->
-      <div class="text-center">
-        <div class="text-4xl font-bold opacity-75">
-          {{ stats.gamesPlayed }}
-        </div>
-        <div class="text-sm">
-          {{ t('stats.gamesPlayed') }}
+    <div v-else class="space-y-10">
+      <!-- Overall Stats -->
+      <div>
+        <h4 class="mb-4 text-center text-lg font-semibold">
+          {{ t('stats.sections.overall') }}
+        </h4>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="text-center">
+            <div class="text-3xl font-bold opacity-75">
+              {{ stats.gamesPlayed }}
+            </div>
+            <div class="text-xs">
+              {{ t('stats.gamesPlayed') }}
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold opacity-75">
+              {{ stats.winRate }}%
+            </div>
+            <div class="text-xs">
+              {{ t('stats.winRate') }}
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl font-bold opacity-75">
+              {{ stats.totalGuesses.toLocaleString() }}
+            </div>
+            <div class="text-xs">
+              {{ t('stats.totalGuesses') }}
+            </div>
+          </div>
+          <div v-if="stats.gamesWon > 0" class="text-center">
+            <div class="text-3xl font-bold opacity-75">
+              {{ stats.averageTries }}
+            </div>
+            <div class="text-xs">
+              {{ t('stats.averageTries') }}
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Win Rate -->
-      <div class="text-center">
-        <div class="text-4xl font-bold opacity-75">
-          {{ stats.winRate }}%
-        </div>
-        <div class="text-sm">
-          {{ t('stats.winRate') }}
-        </div>
-      </div>
-
-      <!-- Completed Puzzles -->
-      <div class="grid grid-cols-2 gap-4">
-        <div class="text-center">
-          <div class="text-3xl font-bold opacity-75">
-            {{ stats.dailyCompleted }}
+      <!-- Completion Stats -->
+      <div>
+        <h4 class="mb-4 text-center text-lg font-semibold">
+          {{ t('stats.sections.completion') }}
+        </h4>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="text-center">
+            <div class="text-3xl font-bold opacity-75">
+              {{ stats.dailyCompleted }}
+            </div>
+            <div class="text-xs">
+              {{ t('stats.dailyCompleted') }}
+            </div>
           </div>
-          <div class="text-sm">
-            {{ t('stats.dailyCompleted') }}
-          </div>
-        </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold opacity-75">
-            {{ stats.randomCompleted }}
-          </div>
-          <div class="text-sm">
-            {{ t('stats.randomCompleted') }}
+          <div class="text-center">
+            <div class="text-3xl font-bold opacity-75">
+              {{ stats.randomCompleted }}
+            </div>
+            <div class="text-xs">
+              {{ t('stats.randomCompleted') }}
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Average Tries -->
-      <div v-if="stats.gamesWon > 0" class="text-center">
-        <div class="text-4xl font-bold opacity-75">
-          {{ stats.averageTries }}
-        </div>
-        <div class="text-sm">
-          {{ t('stats.averageTries') }}
-        </div>
-      </div>
-
-      <!-- Tries Distribution -->
-      <div v-if="stats.gamesWon > 0" class="pt-6">
+      <!-- Performance Details -->
+      <div v-if="stats.gamesWon > 0">
+        <h4 class="mb-4 text-center text-lg font-semibold">
+          {{ t('stats.sections.performance') }}
+        </h4>
         <DistributionChart
           :tries-distribution="stats.triesDistribution"
           :games-won="stats.gamesWon"

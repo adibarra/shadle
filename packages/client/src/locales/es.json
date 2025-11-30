@@ -95,12 +95,18 @@
   "stats": {
     "title": "Estadísticas",
     "loading": "Cargando estadísticas...",
+    "sections": {
+      "overall": "General",
+      "completion": "Completación",
+      "performance": "Rendimiento"
+    },
     "gamesPlayed": "Juegos Jugados",
     "winRate": "Tasa de Victoria",
     "currentStreak": "Racha Actual",
     "bestStreak": "Mejor Racha",
     "dailyCompleted": "Diarios Completados",
     "randomCompleted": "Aleatorios Completados",
+    "totalGuesses": "Total de Intentos",
     "averageTries": "Intentos Promedio",
     "triesDistribution": "Distribución Intentos"
   },
