@@ -21,7 +21,7 @@ export default {
       `
 
       const puzzleCount = Number(countResult[0]?.count ?? 0)
-      logger.info(`[puzzle-stats-all] Found ${puzzleCount} puzzle ids to update`)
+      logger.debug(`[puzzle-stats-all] Found ${puzzleCount} puzzle ids to update`)
 
       const idsResult = await sql`
         select distinct puzzle_id

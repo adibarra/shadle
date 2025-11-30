@@ -46,7 +46,7 @@ export async function startTasks(): Promise<void> {
       cron.schedule(task.schedule, async () => {
         const taskStartTime = performance.now()
         try {
-          logger.info(`Running task: ${task.name}`)
+          logger.debug(`Running task: ${task.name}`)
           await task.run()
           logger.info(`Task ${task.name} completed in ${(performance.now() - taskStartTime).toFixed(2)}ms`)
         } catch (error) {

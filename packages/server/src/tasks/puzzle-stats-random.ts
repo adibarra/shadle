@@ -21,7 +21,7 @@ export default {
       `
 
       const randomPuzzleCount = Number(result[0]?.count ?? 0)
-      logger.info(`[puzzle-stats-random] Found ${randomPuzzleCount} puzzle ids to aggregate`)
+      logger.debug(`[puzzle-stats-random] Found ${randomPuzzleCount} puzzle ids to aggregate`)
 
       try {
         const stats = await getRandomPuzzleStats()
