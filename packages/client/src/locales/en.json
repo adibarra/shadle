@@ -99,6 +99,8 @@
     "winRate": "Win Rate",
     "currentStreak": "Current Streak",
     "bestStreak": "Best Streak",
+    "dailyCompleted": "Daily Completed",
+    "randomCompleted": "Random Completed",
     "averageTries": "Average Tries",
     "triesDistribution": "Tries Distribution"
   },

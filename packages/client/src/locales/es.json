@@ -99,6 +99,8 @@
     "winRate": "Tasa de Victoria",
     "currentStreak": "Racha Actual",
     "bestStreak": "Mejor Racha",
+    "dailyCompleted": "Diarios Completados",
+    "randomCompleted": "Aleatorios Completados",
     "averageTries": "Intentos Promedio",
     "triesDistribution": "Distribución Intentos"
   },

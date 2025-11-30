@@ -15,8 +15,8 @@ const stats = ref({
   gamesPlayed: 0,
   gamesWon: 0,
   winRate: 0,
-  currentStreak: 0,
-  bestStreak: 0,
+  dailyCompleted: 0,
+  randomCompleted: 0,
   averageTries: 0,
   triesDistribution: {} as Record<number, number>,
 })
@@ -32,27 +32,9 @@ function calculateStats(history: any[]) {
   stats.value.gamesWon = history.filter(game => game.solved).length
   stats.value.winRate = Math.round((stats.value.gamesWon / stats.value.gamesPlayed) * 100)
 
-  // Calculate streaks
-  let currentStreak = 0
-  let bestStreak = 0
-  let tempStreak = 0
-
-  // Sort by date (most recent first)
-  const sortedHistory = [...history].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-
-  for (const game of sortedHistory) {
-    if (game.solved) {
-      tempStreak++
-      bestStreak = Math.max(bestStreak, tempStreak)
-    } else {
-      break
-    }
-  }
-
-  currentStreak = tempStreak
-
-  stats.value.currentStreak = currentStreak
-  stats.value.bestStreak = bestStreak
+  // Calculate completed puzzles for daily and random
+  stats.value.dailyCompleted = history.filter(game => game.solved && game.puzzle_id.startsWith('§')).length
+  stats.value.randomCompleted = history.filter(game => game.solved && game.puzzle_id.startsWith('random:')).length
 
   // Calculate average tries for won games
   const wonGames = history.filter(game => game.solved)
@@ -125,22 +107,22 @@ watchEffect(() => {
         </div>
       </div>
 
-      <!-- Streaks -->
+      <!-- Completed Puzzles -->
       <div class="grid grid-cols-2 gap-4">
         <div class="text-center">
           <div class="text-3xl font-bold opacity-75">
-            {{ stats.currentStreak }}
+            {{ stats.dailyCompleted }}
           </div>
           <div class="text-sm">
-            {{ t('stats.currentStreak') }}
+            {{ t('stats.dailyCompleted') }}
           </div>
         </div>
         <div class="text-center">
           <div class="text-3xl font-bold opacity-75">
-            {{ stats.bestStreak }}
+            {{ stats.randomCompleted }}
           </div>
           <div class="text-sm">
-            {{ t('stats.bestStreak') }}
+            {{ t('stats.randomCompleted') }}
           </div>
         </div>
       </div>
