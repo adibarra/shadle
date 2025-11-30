@@ -107,7 +107,7 @@ watchEffect(() => {
           </div>
           <div class="text-center">
             <div class="text-3xl font-bold opacity-75">
-              {{ stats.winRate }}%
+              {{ stats.gamesPlayed > 0 ? `${stats.winRate}%` : 'N/A' }}
             </div>
             <div class="text-xs">
               {{ t('stats.winRate') }}
@@ -115,15 +115,15 @@ watchEffect(() => {
           </div>
           <div class="text-center">
             <div class="text-3xl font-bold opacity-75">
-              {{ stats.totalGuesses.toLocaleString() }}
+              {{ stats.gamesPlayed > 0 ? stats.totalGuesses.toLocaleString() : 'N/A' }}
             </div>
             <div class="text-xs">
               {{ t('stats.totalGuesses') }}
             </div>
           </div>
-          <div v-if="stats.gamesWon > 0" class="text-center">
+          <div class="text-center">
             <div class="text-3xl font-bold opacity-75">
-              {{ stats.averageTries }}
+              {{ stats.gamesWon > 0 ? stats.averageTries : 'N/A' }}
             </div>
             <div class="text-xs">
               {{ t('stats.averageTries') }}
