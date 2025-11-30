@@ -4,7 +4,7 @@ import { GuessStatus } from '@shadle/types'
 import confetti from 'canvas-confetti'
 import { textColorClasses } from '~/constants'
 
-const { t } = useI18n()
+const { t, d } = useI18n()
 const { share } = useShare()
 const game = useGameStore()
 const ui = useUiStore()
@@ -70,7 +70,12 @@ watch(() => ui.isOpen('win'), (isOpen) => {
 })
 
 function generateShareText() {
-  let text = `Shadle ${game.attempts}/6\n\n`
+  const dateStr = game.selectedDate || new Date().toISOString().split('T')[0]
+  const [year, month, day] = dateStr.split('-').map(Number)
+  const date = new Date(year, month - 1, day)
+  const formattedDate = d(date, 'short')
+
+  let text = `Shadle ${game.attempts}/6\n${formattedDate}\n\n`
   for (let i = 0; i < game.guesses.length; i++) {
     for (let j = 0; j < game.guesses[i].length; j++) {
       const status = game.feedback[i][j]
