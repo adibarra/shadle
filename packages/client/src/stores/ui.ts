@@ -2,7 +2,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { ref, watchEffect } from 'vue'
 
 export const useUiStore = defineStore('ui', () => {
-  type ModalType = 'menu' | 'settings' | 'instructions' | 'statistics' | 'pastPuzzles' | 'win' | 'more' | 'privacyPolicy' | 'credits' | 'faq'
+  type ModalType = 'menu' | 'settings' | 'instructions' | 'statistics' | 'pastPuzzles' | 'win' | 'privacyPolicy' | 'credits' | 'faq'
 
   const activeModal = ref<ModalType | null>(null)
 
@@ -15,7 +15,7 @@ export const useUiStore = defineStore('ui', () => {
 
   const updateModalFromHash = () => {
     const hash = window.location.hash.slice(1)
-    if (['menu', 'settings', 'instructions', 'statistics', 'pastPuzzles', 'win', 'more', 'privacyPolicy', 'credits', 'faq'].includes(hash)) {
+    if (['menu', 'settings', 'instructions', 'statistics', 'pastPuzzles', 'win', 'privacyPolicy', 'credits', 'faq'].includes(hash)) {
       activeModal.value = hash as ModalType
     } else {
       activeModal.value = null

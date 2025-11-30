@@ -62,6 +62,13 @@ const menuOptions = computed(() => [
     disabled: false,
   },
   {
+    id: 'faq',
+    title: t('more.faq'),
+    icon: 'i-carbon:help',
+    action: () => ui.open('faq'),
+    disabled: false,
+  },
+  {
     id: 'settings',
     title: t('menu.settings'),
     icon: 'i-carbon:settings',
@@ -69,10 +76,17 @@ const menuOptions = computed(() => [
     disabled: false,
   },
   {
-    id: 'more',
-    title: t('menu.more'),
-    icon: 'i-carbon:information',
-    action: () => ui.open('more'),
+    id: 'credits',
+    title: t('more.credits'),
+    icon: 'i-carbon:user',
+    action: () => ui.open('credits'),
+    disabled: false,
+  },
+  {
+    id: 'privacyPolicy',
+    title: t('more.privacyPolicy'),
+    icon: 'i-carbon:document',
+    action: () => ui.open('privacyPolicy'),
     disabled: false,
   },
 ])
