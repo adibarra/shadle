@@ -7,7 +7,7 @@
 </h1>
 
 <h3 align="center">
-  A React-based Wordle-style game for colors with PWA and notifications
+  A Vue-based Wordle-style game for colors with PWA and notifications
 </h3>
 
 <p align="center">
@@ -30,7 +30,7 @@
 
 Shadle is a web app that implements a Wordle-style game for guessing colors. Built with modern web technologies, it features a progressive web app (PWA) with notifications, allowing users to play and track their progress.
 
-The project is built using a monorepo structure with pnpm, featuring a React frontend, Node.js backend, and PostgreSQL database.
+The project is built using a monorepo structure with pnpm, featuring a Vue frontend, Node.js backend, and PostgreSQL database.
 
 ## Environment Setup
 
