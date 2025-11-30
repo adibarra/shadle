@@ -16,7 +16,7 @@ import PhoneContainer from '~/components/PhoneContainer.vue'
 <style>
 :root {
   --color-bg: color(display-p3 0.0705 0.0705 0.0705);
-  --color-text: color(display-p3 0.8980 0.9058 0.9215);
+  --color-text: color(display-p3 0.898 0.9058 0.9215);
   --color-text-alt: color(display-p3 0.0705 0.0705 0.0705);
   --color-outline: color(display-p3 0.3333 0.3333 0.3333);
   --color-accent: color(display-p3 0 0.2666 1);
@@ -26,7 +26,7 @@ import PhoneContainer from '~/components/PhoneContainer.vue'
   --color-b: color(display-p3 0 0.2666 1);
   --color-y: color(display-p3 1 0.8156 0.2117);
   --color-m: color(display-p3 0.5019 0 0.5019);
-  --color-c: color(display-p3 0.0313 0.5686 0.6980);
+  --color-c: color(display-p3 0.0313 0.5686 0.698);
   --color-p: color(display-p3 0.9254 0.2823 0.6);
   --color-o: color(display-p3 1 0.5019 0);
 }
