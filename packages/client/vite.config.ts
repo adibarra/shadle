@@ -70,6 +70,11 @@ export default defineConfig({
     // https://https://vite-pwa-org.netlify.app/
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
+      },
       includeAssets: ['favicon.svg', 'favicon-dark.svg'],
       manifest: {
         name: 'Shadle',
