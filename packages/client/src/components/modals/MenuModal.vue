@@ -64,7 +64,7 @@ const menuOptions = computed(() => [
   {
     id: 'faq',
     title: t('more.faq'),
-    icon: 'i-carbon:help',
+    icon: 'i-carbon:information',
     action: () => ui.open('faq'),
     disabled: false,
   },
