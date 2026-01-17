@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const isDev = import.meta.env.DEV
+const isProd = import.meta.env.MODE === 'production'
 
-if (!isDev) {
+if (isProd) {
   useHead({
     script: [
       {
@@ -14,7 +14,7 @@ if (!isDev) {
 }
 
 onMounted(() => {
-  if (!isDev && window.adsbygoogle) {
+  if (isProd && window.adsbygoogle) {
     ;(window.adsbygoogle = window.adsbygoogle || []).push({})
   }
 })
@@ -27,7 +27,7 @@ onMounted(() => {
     </div>
     <div v-else class="flex items-center justify-center p-4 min-h-svh">
       <div class="flex items-center gap-4">
-        <div v-if="!isDev" class="h-[600px] w-[160px] flex-shrink-0">
+        <div v-if="isProd" class="h-[600px] w-[160px] flex-shrink-0">
           <ins
             class="adsbygoogle"
             style="display:block"
@@ -43,7 +43,7 @@ onMounted(() => {
             <slot />
           </div>
         </div>
-        <div v-if="!isDev" class="h-[600px] w-[160px] flex-shrink-0">
+        <div v-if="isProd" class="h-[600px] w-[160px] flex-shrink-0">
           <ins
             class="adsbygoogle"
             style="display:block"

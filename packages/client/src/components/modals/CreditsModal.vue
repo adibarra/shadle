@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { t } = useI18n()
-const commitHash = import.meta.env.VITE_COMMIT_HASH
+const commitHash = import.meta.env.COMMIT_HASH
 </script>
 
 <template>

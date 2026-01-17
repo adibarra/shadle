@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const isDev = import.meta.env.DEV
+const isProd = import.meta.env.MODE === 'production'
 
-if (!isDev) {
+if (isProd) {
   useHead({
     script: [
       {
@@ -48,7 +48,7 @@ onMounted(() => {
     }
   })
 
-  if (!isDev && window.adsbygoogle) {
+  if (isProd && window.adsbygoogle) {
     ;(window.adsbygoogle = window.adsbygoogle || []).push({})
   }
 })
@@ -64,7 +64,7 @@ onUnmounted(() => {
   <footer ref="footerRef" class="w-full flex flex-grow flex-col items-center" role="contentinfo">
     <div class="grow" />
     <div
-      v-if="!isDev"
+      v-if="isProd"
       class="mx-4"
       :class="isPwa && isIos ? 'mt-5 mb-10' : 'my-5'"
       :style="`width:${adSize.w}px; height:${adSize.h}px;`"

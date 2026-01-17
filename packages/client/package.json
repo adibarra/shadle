@@ -3,7 +3,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=prod vite build --mode production",
+    "build": "NODE_ENV=prod vite build",
     "check": "vue-tsc --noEmit",
     "clean": "rm -rf dist/ src/auto-imports.d.ts src/components.d.ts vite.config.ts.timestamp-*",
     "clean:all": "pnpm run clean && git clean -fdX",

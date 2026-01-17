@@ -120,6 +120,6 @@ export default defineConfig({
   ],
 
   define: {
-    'import.meta.env.VITE_COMMIT_HASH': JSON.stringify(commitHash.slice(0, 7)),
+    'import.meta.env.COMMIT_HASH': JSON.stringify(commitHash.slice(0, 7)),
   },
 })
