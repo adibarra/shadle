@@ -9,10 +9,9 @@ WORKDIR /app
 
 FROM base AS deps
 
-COPY pnpm-lock.yaml ./
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
 RUN pnpm fetch
 
-COPY pnpm-workspace.yaml package.json ./
 COPY --parents packages/*/package.json ./
 RUN pnpm install --frozen-lockfile --offline
 
