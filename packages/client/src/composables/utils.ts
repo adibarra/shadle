@@ -10,12 +10,6 @@ export const isCompactViewport = computed<boolean>(() => {
 })
 
 /**
- * A reactive boolean indicating whether the user prefers dark mode.
- * @returns True if the user prefers dark mode, false otherwise.
- */
-export const preferredDark = usePreferredDark()
-
-/**
  * A reactive boolean indicating whether the device is running ios.
  * @returns True if the device is running ios, false otherwise.
  */

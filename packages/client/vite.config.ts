@@ -69,7 +69,7 @@ export default defineConfig({
         clientsClaim: true,
         skipWaiting: true,
       },
-      includeAssets: ['favicon.svg', 'favicon-dark.svg'],
+      includeAssets: ['favicon.svg', 'favicon.ico', 'apple-touch-icon-180x180.png'],
       manifest: {
         name: 'Shadle',
         short_name: 'Shadle',
@@ -93,10 +93,10 @@ export default defineConfig({
             type: 'image/png',
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'maskable-icon-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable',
+            purpose: 'maskable',
           },
         ],
       },
