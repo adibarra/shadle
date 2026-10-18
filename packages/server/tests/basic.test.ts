@@ -1,9 +1,7 @@
-import { expect, testSuite } from 'manten'
+import { describe, expect, test } from 'bun:test'
 
-export default testSuite(({ describe }) => {
-  describe('basic', ({ test }) => {
-    test('true should be true', () => {
-      expect(true).toBe(true)
-    })
+describe('basic', () => {
+  test('true should be true', () => {
+    expect(true).toBe(true)
   })
 })

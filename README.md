@@ -30,22 +30,13 @@
 
 Shadle is a web app that implements a Wordle-style game for guessing colors. Built with modern web technologies, it features a progressive web app (PWA) with notifications, allowing users to play and track their progress.
 
-The project is built using a monorepo structure with pnpm, featuring a Vue frontend, Node.js backend, and PostgreSQL database.
+The project is a Bun workspace monorepo with a Vue frontend, a Bun backend, and a PostgreSQL database.
 
 ## Environment Setup
 
 This is a one-time setup. If you have already done this, you can skip to the next section.
 
-1. Install [nvm](https://github.com/nvm-sh/nvm) for your platform, then install and use Node.js v24:
-
-   ```bash
-   # Install Node.js version 24 using nvm
-   $ nvm install 24
-   # Switch to use Node.js version 24
-   $ nvm use 24
-   ```
-
-   Alternatively, install Node.js v24 directly. Other versions may work but are not tested.
+1. Install [Bun](https://bun.sh) v1.4 or newer.
 
 2. Clone the repository and navigate into the project directory:
 
@@ -56,21 +47,17 @@ This is a one-time setup. If you have already done this, you can skip to the nex
    $ cd shadle
    ```
 
-3. Run the following commands:
+3. Install dependencies and create your local environment file:
 
    ```bash
-    # Enable corepack to manage package managers
-    $ corepack enable
-    # Install the required package manager (pnpm) via corepack
-    $ corepack install
-    # Copy the example environment file to create a local .env file
-    $ cp --no-clobber .env.example .env
+   # Install dependencies
+   $ bun install
+   # Copy the example environment file to create a local .env file
+   $ cp --no-clobber .env.example .env
    ```
 
-   Alternatively, if you prefer not to use corepack, install pnpm by following these instructions: [https://pnpm.io/installation](https://pnpm.io/installation).
-
 4. Make sure to fill out the `.env` file with the appropriate values.
-5. **Set up PostgreSQL database** (for dev/testing only; production uses docker compose)
+5. **Set up PostgreSQL database** (for dev/testing)
 
    ```bash
    # Create database container for both development and testing
@@ -79,7 +66,7 @@ This is a one-time setup. If you have already done this, you can skip to the nex
      -e POSTGRES_PASSWORD=password \
      -e POSTGRES_DB=postgres \
      -p 5432:5432 \
-     postgres:alpine
+     postgres:18-alpine
 
    # Create database
    sudo docker exec shadle-db \
@@ -94,22 +81,21 @@ This is a one-time setup. If you have already done this, you can skip to the nex
 
 Make sure you are in the repo's root directory before running these commands.
 
-| Scripts         | Description                                        |
-| --------------- | -------------------------------------------------- |
-| pnpm build      | builds the app for production (use before preview) |
-| pnpm check      | runs type checks                                   |
-| pnpm clean      | removes build artifacts                            |
-| pnpm clean:all  | removes build artifacts and dependencies           |
-| pnpm dev        | runs development environment                       |
-| pnpm dev:client | runs development environment for client only       |
-| pnpm dev:core   | runs development environment without tasks         |
-| pnpm dev:server | runs development environment for server only       |
-| pnpm lint       | prints warnings about code formatting              |
-| pnpm lint:fix   | auto-fixes the code formatting                     |
-| pnpm preview    | runs the full built app in production preview mode |
-| pnpm start      | starts the server                                  |
-| pnpm taze       | updates dependencies                               |
-| pnpm test       | runs tests                                         |
+| Scripts           | Description                                        |
+| ----------------- | -------------------------------------------------- |
+| bun run build     | builds the app for production (use before preview) |
+| bun run check     | runs type checks                                   |
+| bun run clean     | removes build artifacts                            |
+| bun run clean:all | removes build artifacts and dependencies           |
+| bun run dev       | runs development environment                       |
+| bun run fmt       | checks formatting (oxfmt)                          |
+| bun run fmt:fix   | formats the code (oxfmt)                           |
+| bun run lint      | lints the code (oxlint)                            |
+| bun run lint:fix  | auto-fixes lint issues (oxlint)                    |
+| bun run preview   | runs the full built app in production preview mode |
+| bun run start     | starts the server                                  |
+| bun run taze      | updates dependencies                               |
+| bun run test      | runs tests                                         |
 
 ## License
 

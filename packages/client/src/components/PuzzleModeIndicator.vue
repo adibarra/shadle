@@ -18,14 +18,14 @@ const displayText = computed(() => {
 </script>
 
 <template>
-  <div style="position: absolute; top: 0; right: 0; z-index: 40; width: 85px; height: 85px; overflow: hidden;">
+  <div style="position: absolute; top: 0; right: 0; z-index: 40; width: 85px; height: 85px; overflow: hidden">
     <div
       style="
         position: absolute;
         z-index: 1;
         font-size: 12px;
         font-weight: bold;
-        color: #FFF;
+        color: #fff;
         text-align: center;
         line-height: 25px;
         transform: rotate(45deg);

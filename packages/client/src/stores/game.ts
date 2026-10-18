@@ -3,7 +3,13 @@ import { GuessStatus } from '@shadle/types'
 import { useStorage } from '@vueuse/core'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { computed, readonly, ref } from 'vue'
-import { getPlayerId, loadGameState as loadGameStateUtil, resetGameStates, resetPlayerId, saveGameState as saveGameStateUtil } from '~/utils'
+import {
+  getPlayerId,
+  loadGameState as loadGameStateUtil,
+  resetGameStates,
+  resetPlayerId,
+  saveGameState as saveGameStateUtil,
+} from '~/utils'
 import { getHistory, submitGuess as submitGuessAPI } from '../composables/api'
 import { useUiStore } from './ui'
 

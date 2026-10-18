@@ -19,9 +19,7 @@ const commitHash = import.meta.env.COMMIT_HASH
           adibarra
         </a>
       </p>
-      <p class="text-xs">
-        Build version: {{ commitHash }}
-      </p>
+      <p class="text-xs">Build version: {{ commitHash }}</p>
     </div>
   </BaseModal>
 </template>

@@ -1,19 +1,13 @@
 #  syntax=docker/dockerfile:1-labs
-FROM node:24-alpine AS base
+FROM oven/bun:1.4.3-alpine AS base
 
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-
-RUN corepack enable
 WORKDIR /app
 
 FROM base AS deps
 
-COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
-RUN pnpm fetch
-
+COPY package.json bun.lock bunfig.toml ./
 COPY --parents packages/*/package.json ./
-RUN pnpm install --frozen-lockfile --offline
+RUN bun install --frozen-lockfile
 
 FROM deps AS builder
 
@@ -23,8 +17,8 @@ ENV CI=true
 
 COPY . .
 
-RUN pnpm run test
-RUN pnpm run build
+RUN bun run test
+RUN bun run build
 
 FROM adibarra/nginx-static:latest AS client
 
@@ -36,4 +30,4 @@ FROM base AS server
 
 COPY --from=builder --exclude=packages/client/dist /app /app
 EXPOSE 81
-CMD ["pnpm", "run", "start"]
+CMD ["bun", "run", "start"]

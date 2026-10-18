@@ -9,7 +9,7 @@ export type Platform = 'ios' | 'android' | 'web'
  * R: Red, G: Green, B: Blue, Y: Yellow, M: Magenta, C: Cyan, P: Pink, O: Orange
  */
 export const VALID_COLORS = ['R', 'G', 'B', 'Y', 'M', 'C', 'P', 'O'] as const
-export type ValidColor = typeof VALID_COLORS[number]
+export type ValidColor = (typeof VALID_COLORS)[number]
 
 /**
  * Pre-compiled regex for validating color guesses

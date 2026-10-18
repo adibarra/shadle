@@ -34,11 +34,9 @@ export interface HasLogger {
  * @returns A logger instance.
  */
 export function getLogger(prefix?: string, parent?: Logger): Logger {
-  if (loggers.has(prefix))
-    return loggers.get(prefix)!
+  if (loggers.has(prefix)) return loggers.get(prefix)!
 
-  if (typeof parent !== 'undefined')
-    return getChildLogger(prefix ?? '', parent)
+  if (typeof parent !== 'undefined') return getChildLogger(prefix ?? '', parent)
 
   return createLogger(prefix)
 }
@@ -94,7 +92,10 @@ function createLogger(prefix?: string): Logger {
  * @returns A child logger instance.
  */
 function getChildLogger(prefix: string, parentLogger: Logger): Logger {
-  return parentLogger.child({}, {
-    msgPrefix: `[${prefix}] `,
-  })
+  return parentLogger.child(
+    {},
+    {
+      msgPrefix: `[${prefix}] `,
+    },
+  )
 }

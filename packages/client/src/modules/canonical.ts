@@ -5,11 +5,13 @@ export const install: UserModule = ({ router, head }) => {
     if (typeof window === 'undefined') return
 
     head.push({
-      link: [{
-        key: 'canonical',
-        rel: 'canonical',
-        href: window.location.origin + window.location.pathname,
-      }],
+      link: [
+        {
+          key: 'canonical',
+          rel: 'canonical',
+          href: window.location.origin + window.location.pathname,
+        },
+      ],
     })
   })
 }

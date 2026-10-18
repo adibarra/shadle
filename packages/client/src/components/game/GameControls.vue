@@ -34,9 +34,7 @@ const { t } = useI18n()
       :disabled="!canSubmit"
       class="w-full border rounded bg-transparent px-2 py-1 text-[var(--color-text)]"
       :class="[
-        !canSubmit
-          ? 'border-[var(--color-outline)] opacity-50'
-          : 'border-[var(--color-outline)] active:opacity-75',
+        !canSubmit ? 'border-[var(--color-outline)] opacity-50' : 'border-[var(--color-outline)] active:opacity-75',
       ]"
       @click="emit('submit')"
     >

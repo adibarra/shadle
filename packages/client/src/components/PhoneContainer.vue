@@ -30,7 +30,7 @@ onMounted(() => {
         <div v-if="isProd" class="h-[600px] w-[160px] flex-shrink-0">
           <ins
             class="adsbygoogle"
-            style="display:block"
+            style="display: block"
             data-ad-client="ca-pub-1557521916095990"
             data-ad-slot="9781791714"
             data-ad-format="auto"
@@ -38,7 +38,10 @@ onMounted(() => {
           />
         </div>
         <div v-else class="h-[600px] w-[160px] flex-shrink-0 rounded-[8px] bg-[var(--color-outline)]" />
-        <div class="relative flex overflow-hidden border-4 border-gray-700 rounded-3xl bg-[var(--color-bg)] shadow-2xl" style="width: 375px; height: 812px;">
+        <div
+          class="relative flex overflow-hidden border-4 border-gray-700 rounded-3xl bg-[var(--color-bg)] shadow-2xl"
+          style="width: 375px; height: 812px"
+        >
           <div class="relative flex grow flex-col">
             <slot />
           </div>
@@ -46,7 +49,7 @@ onMounted(() => {
         <div v-if="isProd" class="h-[600px] w-[160px] flex-shrink-0">
           <ins
             class="adsbygoogle"
-            style="display:block"
+            style="display: block"
             data-ad-client="ca-pub-1557521916095990"
             data-ad-slot="9781791714"
             data-ad-format="auto"

@@ -47,7 +47,7 @@ async function prepare(): Promise<void> {
     await runMigrations()
     const duration = performance.now() - startTime
 
-    logger.info(`Database ready in ${(duration).toFixed(2)}ms.`)
+    logger.info(`Database ready in ${duration.toFixed(2)}ms.`)
   } catch (err) {
     logger.fatal('Database preparation failed.')
     logger.fatal(err)

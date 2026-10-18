@@ -27,9 +27,15 @@ interface Props {
         v-for="color in VALID_COLORS"
         :key="color"
         :class="`relative rounded p-4 transition-colors duration-500 select-none ${
-          props.disabledColors.includes(color) || props.locked ? `bg-[hsl(0,0%,20%)] cursor-not-allowed pointer-events-none` : `${bgColorClasses[color]} cursor-pointer`
+          props.disabledColors.includes(color) || props.locked
+            ? `bg-[hsl(0,0%,20%)] cursor-not-allowed pointer-events-none`
+            : `${bgColorClasses[color]} cursor-pointer`
         }`"
-        :style="props.disabledColors.includes(color) || props.locked ? { boxShadow: `inset 0 0 0 1px var(--color-${color.toLowerCase()})` } : {}"
+        :style="
+          props.disabledColors.includes(color) || props.locked
+            ? { boxShadow: `inset 0 0 0 1px var(--color-${color.toLowerCase()})` }
+            : {}
+        "
         @click="props.disabledColors.includes(color) || props.locked || emit('select', color)"
       />
       <div v-if="props.locked" class="absolute inset-0 rounded bg-[var(--color-bg)] outline-1">
@@ -39,7 +45,10 @@ interface Props {
           :text="$t('game.newRandomPuzzle')"
           @click="game.setPuzzleMode('random')"
         />
-        <div v-else class="h-full w-full flex items-center justify-center border border-[var(--color-outline)] rounded px-4 text-center text-sm">
+        <div
+          v-else
+          class="h-full w-full flex items-center justify-center border border-[var(--color-outline)] rounded px-4 text-center text-sm"
+        >
           <p>{{ $t('game.locked.description') }}</p>
         </div>
       </div>

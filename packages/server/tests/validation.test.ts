@@ -1,156 +1,160 @@
 import type { ValidColor } from '@shadle/types'
 import { VALID_COLORS } from '@shadle/types'
-import { expect, testSuite } from 'manten'
+import { describe, expect, test } from 'bun:test'
 import { validateGuessFormat, validatePlayerId, validatePuzzleId } from '../src/utils/validation.js'
 
-export default testSuite(({ describe }) => {
-  describe('validatePuzzleId', ({ test }) => {
-    test('should return valid for non-empty string', () => {
-      const result = validatePuzzleId('test-puzzle')
+describe('validatePuzzleId', () => {
+  test('should return valid for non-empty string', () => {
+    const result = validatePuzzleId('test-puzzle')
+    expect(result.isValid).toBe(true)
+    expect(result.error).toBeUndefined()
+  })
+
+  test('should return invalid for empty string', () => {
+    const result = validatePuzzleId('')
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe('Puzzle ID is required.')
+  })
+
+  test('should accept various puzzle ID formats', () => {
+    expect(validatePuzzleId('§2025-11-11').isValid).toBe(true)
+    expect(validatePuzzleId('custom-puzzle-123').isValid).toBe(true)
+    expect(validatePuzzleId('test_123').isValid).toBe(true)
+  })
+})
+
+describe('validatePlayerId', () => {
+  test('should return valid for non-empty string', () => {
+    const result = validatePlayerId('player-123')
+    expect(result.isValid).toBe(true)
+    expect(result.error).toBeUndefined()
+  })
+
+  test('should return invalid for empty string', () => {
+    const result = validatePlayerId('')
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe('Player ID is required.')
+  })
+
+  test('should return invalid for undefined', () => {
+    const result = validatePlayerId(undefined)
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe('Player ID is required.')
+  })
+
+  test('should return invalid for null', () => {
+    const result = validatePlayerId(null as any)
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe('Player ID is required.')
+  })
+
+  test('should accept various player ID formats', () => {
+    expect(validatePlayerId('abc123').isValid).toBe(true)
+    expect(validatePlayerId('player-uuid-123').isValid).toBe(true)
+    expect(validatePlayerId('test_player_123').isValid).toBe(true)
+  })
+})
+
+describe('validateGuessFormat', () => {
+  test('should return valid for correct 5-letter guess with valid colors', () => {
+    const result = validateGuessFormat(['R', 'G', 'B', 'Y', 'M'])
+    expect(result.isValid).toBe(true)
+    expect(result.error).toBeUndefined()
+  })
+
+  test('should return invalid for lowercase guess', () => {
+    const result = validateGuessFormat(['r', 'g', 'b', 'y', 'm'] as unknown as ValidColor[])
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe('Guess must contain only valid color letters: R, G, B, Y, M, C, P, O.')
+  })
+
+  test('should return invalid for mixed case guess', () => {
+    const result = validateGuessFormat(['R', 'g', 'B', 'Y', 'm'] as unknown as ValidColor[])
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe('Guess must contain only valid color letters: R, G, B, Y, M, C, P, O.')
+  })
+
+  test('should return invalid for undefined', () => {
+    const result = validateGuessFormat(undefined)
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe('Guess is required and must be an array.')
+  })
+
+  test('should return invalid for null', () => {
+    const result = validateGuessFormat(null as any)
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe('Guess is required and must be an array.')
+  })
+
+  test('should return invalid for non-string', () => {
+    const result = validateGuessFormat(123 as any)
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe('Guess is required and must be an array.')
+  })
+
+  test('should return invalid for empty string', () => {
+    const result = validateGuessFormat([] as any)
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe('Guess is required and must be an array.')
+  })
+
+  test('should return invalid for too short guess', () => {
+    const result = validateGuessFormat(['R', 'G', 'B'])
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe('Guess must be exactly 5 colors.')
+  })
+
+  test('should return invalid for too long guess', () => {
+    const result = validateGuessFormat(['R', 'G', 'B', 'Y', 'P', 'O'])
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe('Guess must be exactly 5 colors.')
+  })
+
+  test('should return invalid for guess with invalid characters', () => {
+    const result = validateGuessFormat(['R', 'G', 'B', 'Y', 'X'] as unknown as ValidColor[])
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe(`Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}.`)
+  })
+
+  test('should return invalid for guess with numbers', () => {
+    const result = validateGuessFormat(['R', 'G', 'B', 'Y', '1'] as unknown as ValidColor[])
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe(`Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}.`)
+  })
+
+  test('should return invalid for guess with special characters', () => {
+    const result = validateGuessFormat(['R', 'G', 'B', 'Y', '!'] as unknown as ValidColor[])
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe(`Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}.`)
+  })
+
+  test('should return invalid for guess with spaces', () => {
+    const result = validateGuessFormat(['R', 'G', 'B', 'Y', ' '] as unknown as ValidColor[])
+    expect(result.isValid).toBe(false)
+    expect(result.error).toBe(`Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}.`)
+  })
+
+  test('should accept all valid color letters', () => {
+    const validGuesses = VALID_COLORS.map(color => [color, color, color, color, color])
+    validGuesses.forEach(guess => {
+      const result = validateGuessFormat(guess)
       expect(result.isValid).toBe(true)
       expect(result.error).toBeUndefined()
-    })
-
-    test('should return invalid for empty string', () => {
-      const result = validatePuzzleId('')
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Puzzle ID is required.')
-    })
-
-    test('should accept various puzzle ID formats', () => {
-      expect(validatePuzzleId('§2025-11-11').isValid).toBe(true)
-      expect(validatePuzzleId('custom-puzzle-123').isValid).toBe(true)
-      expect(validatePuzzleId('test_123').isValid).toBe(true)
     })
   })
 
-  describe('validatePlayerId', ({ test }) => {
-    test('should return valid for non-empty string', () => {
-      const result = validatePlayerId('player-123')
+  test('should accept mixed valid colors', () => {
+    const validGuesses = [
+      ['R', 'G', 'B', 'Y', 'M'],
+      ['M', 'C', 'P', 'G', 'O'],
+      ['O', 'Y', 'R', 'G', 'B'],
+      ['B', 'C', 'M', 'P', 'O'],
+      ['G', 'Y', 'M', 'C', 'B'],
+    ]
+    validGuesses.forEach(guess => {
+      const result = validateGuessFormat(guess as ValidColor[])
       expect(result.isValid).toBe(true)
       expect(result.error).toBeUndefined()
-    })
-
-    test('should return invalid for empty string', () => {
-      const result = validatePlayerId('')
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Player ID is required.')
-    })
-
-    test('should return invalid for undefined', () => {
-      const result = validatePlayerId(undefined)
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Player ID is required.')
-    })
-
-    test('should return invalid for null', () => {
-      const result = validatePlayerId(null as any)
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Player ID is required.')
-    })
-
-    test('should accept various player ID formats', () => {
-      expect(validatePlayerId('abc123').isValid).toBe(true)
-      expect(validatePlayerId('player-uuid-123').isValid).toBe(true)
-      expect(validatePlayerId('test_player_123').isValid).toBe(true)
-    })
-  })
-
-  describe('validateGuessFormat', ({ test }) => {
-    test('should return valid for correct 5-letter guess with valid colors', () => {
-      const result = validateGuessFormat(['R', 'G', 'B', 'Y', 'M'])
-      expect(result.isValid).toBe(true)
-      expect(result.error).toBeUndefined()
-    })
-
-    test('should return invalid for lowercase guess', () => {
-      const result = validateGuessFormat(['r', 'g', 'b', 'y', 'm'] as unknown as ValidColor[])
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Guess must contain only valid color letters: R, G, B, Y, M, C, P, O.')
-    })
-
-    test('should return invalid for mixed case guess', () => {
-      const result = validateGuessFormat(['R', 'g', 'B', 'Y', 'm'] as unknown as ValidColor[])
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Guess must contain only valid color letters: R, G, B, Y, M, C, P, O.')
-    })
-
-    test('should return invalid for undefined', () => {
-      const result = validateGuessFormat(undefined)
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Guess is required and must be an array.')
-    })
-
-    test('should return invalid for null', () => {
-      const result = validateGuessFormat(null as any)
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Guess is required and must be an array.')
-    })
-
-    test('should return invalid for non-string', () => {
-      const result = validateGuessFormat(123 as any)
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Guess is required and must be an array.')
-    })
-
-    test('should return invalid for empty string', () => {
-      const result = validateGuessFormat([] as any)
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Guess is required and must be an array.')
-    })
-
-    test('should return invalid for too short guess', () => {
-      const result = validateGuessFormat(['R', 'G', 'B'])
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Guess must be exactly 5 colors.')
-    })
-
-    test('should return invalid for too long guess', () => {
-      const result = validateGuessFormat(['R', 'G', 'B', 'Y', 'P', 'O'])
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe('Guess must be exactly 5 colors.')
-    })
-
-    test('should return invalid for guess with invalid characters', () => {
-      const result = validateGuessFormat(['R', 'G', 'B', 'Y', 'X'] as unknown as ValidColor[])
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe(`Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}.`)
-    })
-
-    test('should return invalid for guess with numbers', () => {
-      const result = validateGuessFormat(['R', 'G', 'B', 'Y', '1'] as unknown as ValidColor[])
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe(`Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}.`)
-    })
-
-    test('should return invalid for guess with special characters', () => {
-      const result = validateGuessFormat(['R', 'G', 'B', 'Y', '!'] as unknown as ValidColor[])
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe(`Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}.`)
-    })
-
-    test('should return invalid for guess with spaces', () => {
-      const result = validateGuessFormat(['R', 'G', 'B', 'Y', ' '] as unknown as ValidColor[])
-      expect(result.isValid).toBe(false)
-      expect(result.error).toBe(`Guess must contain only valid color letters: ${VALID_COLORS.join(', ')}.`)
-    })
-
-    test('should accept all valid color letters', () => {
-      const validGuesses = VALID_COLORS.map(color => [color, color, color, color, color])
-      validGuesses.forEach((guess) => {
-        const result = validateGuessFormat(guess)
-        expect(result.isValid).toBe(true)
-        expect(result.error).toBeUndefined()
-      })
-    })
-
-    test('should accept mixed valid colors', () => {
-      const validGuesses = [['R', 'G', 'B', 'Y', 'M'], ['M', 'C', 'P', 'G', 'O'], ['O', 'Y', 'R', 'G', 'B'], ['B', 'C', 'M', 'P', 'O'], ['G', 'Y', 'M', 'C', 'B']]
-      validGuesses.forEach((guess) => {
-        const result = validateGuessFormat(guess as ValidColor[])
-        expect(result.isValid).toBe(true)
-        expect(result.error).toBeUndefined()
-      })
     })
   })
 })

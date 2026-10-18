@@ -50,7 +50,7 @@ function getConfig(): Config {
 
   const defaults = {
     API_HOST: '0.0.0.0',
-    API_CORS_ORIGIN_REGEX: '^https?://(?:127\.0\.0\.1|localhost)(?::\d{1,5})?$',
+    API_CORS_ORIGIN_REGEX: String.raw`^https?://(?:127\.0\.0\.1|localhost)(?::\d{1,5})?$`,
     POSTGRES_URL: 'postgresql://postgres:password@postgres:5432/shadle',
     POSTGRES_DEV_URL: 'postgresql://postgres:password@localhost:5432/shadle_dev',
     PUZZLE_SALT: 'default-salt',
@@ -72,9 +72,9 @@ function getConfig(): Config {
     POSTGRES_DEV_URL: parsed.POSTGRES_DEV_URL || defaults.POSTGRES_DEV_URL,
     PUZZLE_SALT: IS_TEST ? defaults.PUZZLE_SALT : parsed.PUZZLE_SALT || defaults.PUZZLE_SALT,
     LOG_LEVEL: {
-      CONSOLE: (parsed.LOG_LEVEL_CONSOLE || defaults.LOG_LEVEL.CONSOLE),
-      FILE: (parsed.LOG_LEVEL_FILE || defaults.LOG_LEVEL.FILE),
-      MIN: (parsed.LOG_LEVEL_MIN || defaults.LOG_LEVEL.MIN),
+      CONSOLE: parsed.LOG_LEVEL_CONSOLE || defaults.LOG_LEVEL.CONSOLE,
+      FILE: parsed.LOG_LEVEL_FILE || defaults.LOG_LEVEL.FILE,
+      MIN: parsed.LOG_LEVEL_MIN || defaults.LOG_LEVEL.MIN,
     },
   }
 }

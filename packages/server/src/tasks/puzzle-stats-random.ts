@@ -30,7 +30,9 @@ export default {
         logger.error(`Failed to update stats for 'random': ${error instanceof Error ? error.message : String(error)}`)
       }
     } catch (error) {
-      logger.error(`Failed to update random puzzle statistics: ${error instanceof Error ? error.message : String(error)}`)
+      logger.error(
+        `Failed to update random puzzle statistics: ${error instanceof Error ? error.message : String(error)}`,
+      )
     }
   },
 }

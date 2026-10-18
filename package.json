@@ -1,32 +1,36 @@
 {
   "name": "shadle",
-  "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.24.0",
   "description": "A Wordle-style game for colors.",
   "contributors": [
     "adibarra <github@adibarra.com> (https://adibarra.com)"
   ],
+  "workspaces": [
+    "packages/*"
+  ],
+  "type": "module",
   "scripts": {
-    "build": "pnpm --filter @shadle/client run build",
-    "clean": "pnpm --parallel run clean",
-    "clean:all": "[ -f .env ] && mv .env .env.backup; pnpm --parallel run clean:all && git clean -fdX; [ -f .env.backup ] && mv .env.backup .env",
-    "dev": "pnpm --parallel --color run dev",
-    "lint": "eslint . --cache; exit 0",
-    "lint:fix": "eslint . --fix --cache; exit 0",
-    "preview": "COMMIT_HASH=$(git rev-parse HEAD) pnpm --parallel --color run preview",
-    "start": "pnpm --filter @shadle/server run start",
+    "build": "bun run --filter @shadle/client build",
+    "check": "bun run --filter '*' check",
+    "clean": "bun run --filter '*' clean",
+    "clean:all": "[ -f .env ] && mv .env .env.backup; bun run --filter '*' clean:all && git clean -fdX; [ -f .env.backup ] && mv .env.backup .env",
+    "dev": "bun run --filter '*' dev",
+    "fmt": "oxfmt --check",
+    "fmt:fix": "oxfmt",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "preview": "COMMIT_HASH=$(git rev-parse HEAD) bun run --filter '*' preview",
+    "start": "bun run --filter @shadle/server start",
     "taze": "taze -r -I",
-    "test": "pnpm --parallel --color run test",
-    "check": "pnpm --parallel run check"
+    "test": "bun run --filter '*' test"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^6.2.0",
     "@types/node": "^24.10.1",
-    "eslint": "^9.39.1",
-    "eslint-plugin-format": "^1.0.2",
+    "oxfmt": "^0.73.0",
+    "oxlint": "^1.88.0",
     "taze": "^19.9.2",
     "typescript": "^5.9.3"
-  }
+  },
+  "packageManager": "bun@1.4.3"
 }

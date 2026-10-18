@@ -46,13 +46,7 @@ export default defineConfig({
 
     // https://github.com/unplugin/unplugin-auto-import
     AutoImport({
-      imports: [
-        'vue',
-        '@vueuse/core',
-        'vue-i18n',
-        unheadVueComposablesImports,
-        VueRouterAutoImports,
-      ],
+      imports: ['vue', '@vueuse/core', 'vue-i18n', unheadVueComposablesImports, VueRouterAutoImports],
       dts: 'src/auto-imports.d.ts',
       dirs: ['src/composables', 'src/stores'],
       vueTemplate: true,
@@ -110,12 +104,13 @@ export default defineConfig({
 
     // https://github.com/feat-agency/vite-plugin-webfont-dl
     ...(process.env.NODE_ENV === 'prod'
-      ? [WebfontDownload([
-          'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap',
-          'https://fonts.googleapis.com/css2?family=DM+Serif+Display:wght@400;500;700&display=swap',
-          'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&display=swap',
-        ],
-        )]
+      ? [
+          WebfontDownload([
+            'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap',
+            'https://fonts.googleapis.com/css2?family=DM+Serif+Display:wght@400;500;700&display=swap',
+            'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;700&display=swap',
+          ]),
+        ]
       : []),
   ],
 

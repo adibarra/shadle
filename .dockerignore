@@ -1,18 +1,15 @@
 !.env.example
-!pnpm-lock.yaml
-!pnpm-workspace.yaml
+!bun.lock
 !README.md
 *~
 *.tsbuildinfo
 .DS_Store
 .env
 .env*
-.eslintcache
 .git/
 .gitattributes
 .github/
 .gitignore
-.pnpm-store/
 .vite/
 .vscode/
 *:Zone.Identifier
@@ -22,6 +19,5 @@ logs/
 deploy.sh
 dist/
 node_modules/
-pnpm-debug.log*
 Thumbs.db
 vite.config.ts.timestamp-*

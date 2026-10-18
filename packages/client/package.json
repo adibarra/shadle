@@ -1,14 +1,14 @@
 {
   "name": "@shadle/client",
-  "type": "module",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "NODE_ENV=prod vite build",
     "check": "vue-tsc --noEmit",
     "clean": "rm -rf dist/ src/auto-imports.d.ts src/components.d.ts vite.config.ts.timestamp-*",
-    "clean:all": "pnpm run clean && git clean -fdX",
+    "clean:all": "bun run clean && git clean -fdX",
     "dev": "COMMIT_HASH=$(git rev-parse HEAD) NODE_ENV=dev vite dev --port 3333 --host --clearScreen false",
-    "preview": "COMMIT_HASH=$(git rev-parse HEAD) pnpm run build && vite preview --port 3000 --host",
+    "preview": "COMMIT_HASH=$(git rev-parse HEAD) bun run build && vite preview --port 3000 --host",
     "test": "NODE_ENV=test vitest run"
   },
   "dependencies": {
@@ -42,7 +42,6 @@
     "@types/nprogress": "^0.2.3",
     "caniuse-lite": "^1.0.30001757",
     "jsdom": "^27.2.0",
-    "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "vite-plugin-pwa": "^1.2.0",
     "vitest": "^4.0.14",

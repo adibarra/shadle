@@ -140,7 +140,11 @@ export async function getRandomPuzzleStats(): Promise<PuzzleStats> {
  * Creates the history record if it doesn't exist.
  * If the puzzle was already completed, does nothing.
  */
-export async function recordPuzzleAttempt(player_id: string, puzzle_id: string, completed?: boolean): Promise<PuzzleAttempt> {
+export async function recordPuzzleAttempt(
+  player_id: string,
+  puzzle_id: string,
+  completed?: boolean,
+): Promise<PuzzleAttempt> {
   const sql = await getSql()
   const result = await sql`
     with current as (

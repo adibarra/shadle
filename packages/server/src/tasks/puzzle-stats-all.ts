@@ -36,7 +36,9 @@ export default {
           const stats = await getPuzzleAttemptAggregates(puzzleId)
           await upsertPuzzleStats(stats)
         } catch (error) {
-          logger.error(`Failed to update stats for '${puzzleId}': ${error instanceof Error ? error.message : String(error)}`)
+          logger.error(
+            `Failed to update stats for '${puzzleId}': ${error instanceof Error ? error.message : String(error)}`,
+          )
         }
       }
     } catch (error) {

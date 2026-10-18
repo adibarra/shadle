@@ -43,7 +43,8 @@ function calculateStats(history: any[]) {
   // Calculate average tries for won games
   const wonGames = history.filter(game => game.solved)
   if (wonGames.length > 0) {
-    stats.value.averageTries = Math.round((wonGames.reduce((sum, game) => sum + game.tries, 0) / wonGames.length) * 10) / 10
+    stats.value.averageTries =
+      Math.round((wonGames.reduce((sum, game) => sum + game.tries, 0) / wonGames.length) * 10) / 10
   }
 
   // Calculate tries distribution
@@ -162,10 +163,7 @@ watchEffect(() => {
         <h4 class="mb-4 text-center text-lg font-semibold">
           {{ t('stats.sections.performance') }}
         </h4>
-        <DistributionChart
-          :tries-distribution="stats.triesDistribution"
-          :games-won="stats.gamesWon"
-        />
+        <DistributionChart :tries-distribution="stats.triesDistribution" :games-won="stats.gamesWon" />
       </div>
     </div>
   </BaseModal>

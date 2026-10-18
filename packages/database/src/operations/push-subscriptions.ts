@@ -4,7 +4,11 @@ import { getSql } from '../initializer'
 /**
  * Creates or updates a push notification subscription.
  */
-export async function upsertPushSubscription(player_id: string, platform: string, push_sub: any): Promise<PushSubscription> {
+export async function upsertPushSubscription(
+  player_id: string,
+  platform: string,
+  push_sub: any,
+): Promise<PushSubscription> {
   const sql = await getSql()
   const result = await sql`
     insert into push_subscriptions (player_id, platform, push_sub)

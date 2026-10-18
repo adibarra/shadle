@@ -20,7 +20,7 @@ export async function submitGuess(puzzleId: string, guess: ValidColor[], playerI
   }
 
   const data = await response.json()
-  return data.feedback.map((item: { letter: string, status: GuessStatus }) => item.status)
+  return data.feedback.map((item: { letter: string; status: GuessStatus }) => item.status)
 }
 
 export async function getHistory(playerId: string, puzzleId?: string): Promise<HistoryResponse> {

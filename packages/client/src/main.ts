@@ -21,8 +21,9 @@ const router = createRouter({
 const app = createApp(App)
 
 // install all modules under `modules/`
-Object.values(import.meta.glob<{ install: UserModule }>('./modules/*.ts', { eager: true }))
-  .forEach(i => i.install?.({ app, router, head }))
+Object.values(import.meta.glob<{ install: UserModule }>('./modules/*.ts', { eager: true })).forEach(i =>
+  i.install?.({ app, router, head }),
+)
 
 // mount the app
 app.use(router)
@@ -30,8 +31,8 @@ app.use(head)
 
 // handle HMR for routes
 if (import.meta.hot) {
-  handleHotUpdate(router, (newRoutes) => {
-    router.getRoutes().forEach((route) => {
+  handleHotUpdate(router, newRoutes => {
+    router.getRoutes().forEach(route => {
       if (route.name) {
         router.removeRoute(route.name)
       }

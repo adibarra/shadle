@@ -16,9 +16,7 @@
     ]
   },
   "vueCompilerOptions": {
-    "plugins": [
-      "unplugin-vue-macros/volar"
-    ]
+    "plugins": ["unplugin-vue-macros/volar"]
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "tests/**/*.ts"],
   "exclude": ["dist", "node_modules"]

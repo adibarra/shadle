@@ -14,18 +14,23 @@ interface Props {
 
 <template>
   <div class="grid grid-rows-6 mx-6 mb-4 gap-5">
-    <div
-      v-for="(_, guessIndex) in Array(6).fill(null)"
-      :key="guessIndex"
-      class="relative grid grid-cols-5 gap-1"
-    >
-      <div v-if="guessIndex === props.guesses.length && !game.won && !game.lost" class="bounce-lr absolute left-[-1.5rem] top-1/2 w-4 flex items-center justify-center">
+    <div v-for="(_, guessIndex) in Array(6).fill(null)" :key="guessIndex" class="relative grid grid-cols-5 gap-1">
+      <div
+        v-if="guessIndex === props.guesses.length && !game.won && !game.lost"
+        class="bounce-lr absolute left-[-1.5rem] top-1/2 w-4 flex items-center justify-center"
+      >
         <span class="color-cycle text-lg">&gt;</span>
       </div>
       <ColorSwatch
         v-for="(__, colorIndex) in Array(5).fill(null)"
         :key="colorIndex"
-        :color="guessIndex < props.guesses.length ? props.guesses[guessIndex][colorIndex] : guessIndex === props.guesses.length && props.currentGuess && colorIndex < props.currentGuess.length ? props.currentGuess[colorIndex] : undefined"
+        :color="
+          guessIndex < props.guesses.length
+            ? props.guesses[guessIndex][colorIndex]
+            : guessIndex === props.guesses.length && props.currentGuess && colorIndex < props.currentGuess.length
+              ? props.currentGuess[colorIndex]
+              : undefined
+        "
         :feedback="guessIndex < props.guesses.length ? props.feedback?.[guessIndex]?.[colorIndex] : undefined"
       />
     </div>

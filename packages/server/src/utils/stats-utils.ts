@@ -20,7 +20,10 @@ export function processChunkForDistribution(chunk: PuzzleAttempt[]): Record<numb
 /**
  * Merges two tries distribution objects.
  */
-export function mergeDistributions(dist1: Record<number, number>, dist2: Record<number, number>): Record<number, number> {
+export function mergeDistributions(
+  dist1: Record<number, number>,
+  dist2: Record<number, number>,
+): Record<number, number> {
   const merged = { ...dist1 }
   for (const [tries, count] of Object.entries(dist2)) {
     const triesNum = Number(tries)

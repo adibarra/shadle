@@ -1,8 +1,7 @@
 import type postgres from 'postgres'
 
 // credit: https://github.com/porsager/postgres/issues/807#issuecomment-2191994261
-export type PendingQuery<T extends postgres.Row = postgres.Row>
-  = postgres.PendingQuery<T[]>
+export type PendingQuery<T extends postgres.Row = postgres.Row> = postgres.PendingQuery<T[]>
 
 // credit: https://github.com/porsager/postgres/issues/807#issuecomment-2191994261
 export function join(fragments: (PendingQuery | null)[], joiner: PendingQuery): PendingQuery {

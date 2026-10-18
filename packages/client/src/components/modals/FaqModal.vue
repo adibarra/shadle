@@ -27,9 +27,15 @@ const pwaGuideUrl = computed(() => {
           {{ t('faq.gameModes.question') }}
         </h3>
         <ul class="list-disc list-inside space-y-1">
-          <li><strong>{{ t('menu.dailyPuzzle') }}:</strong> {{ t('faq.gameModes.daily') }}</li>
-          <li><strong>{{ t('menu.randomPuzzle') }}:</strong> {{ t('faq.gameModes.random') }}</li>
-          <li><strong>{{ t('menu.pastPuzzles') }}:</strong> {{ t('faq.gameModes.past') }}</li>
+          <li>
+            <strong>{{ t('menu.dailyPuzzle') }}:</strong> {{ t('faq.gameModes.daily') }}
+          </li>
+          <li>
+            <strong>{{ t('menu.randomPuzzle') }}:</strong> {{ t('faq.gameModes.random') }}
+          </li>
+          <li>
+            <strong>{{ t('menu.pastPuzzles') }}:</strong> {{ t('faq.gameModes.past') }}
+          </li>
         </ul>
       </div>
       <div>
@@ -43,7 +49,13 @@ const pwaGuideUrl = computed(() => {
           {{ t('faq.pwa.question') }}
         </h3>
         <p>{{ t('faq.pwa.answer') }}</p>
-        <p>{{ t('faq.pwa.guide') }} <a :href="pwaGuideUrl" target="_blank" class="text-blue-500 underline">{{ t('faq.pwa.guideLink', { defaultValue: 'this guide' }) }}</a>.</p>
+        <p>
+          {{ t('faq.pwa.guide') }}
+          <a :href="pwaGuideUrl" target="_blank" class="text-blue-500 underline">{{
+            t('faq.pwa.guideLink', { defaultValue: 'this guide' })
+          }}</a
+          >.
+        </p>
       </div>
       <div>
         <h3 class="mb-2 font-semibold">

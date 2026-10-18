@@ -1,6 +1,5 @@
 .idea/
 .npm/
-.pnpm-store/
 .yarn/
 logs/
 node_modules/
@@ -8,7 +7,6 @@ node_modules/
 *:Zone.Identifier
 .DS_Store
 .env
-.eslintcache
 .pnp.*
 tsconfig.tsbuildinfo
 

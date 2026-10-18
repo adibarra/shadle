@@ -16,14 +16,18 @@ export function useTheme() {
     theme.value = newTheme
   }
 
-  watch(theme, (newTheme) => {
-    Object.values(themes).forEach((cls) => {
-      if (cls) document.documentElement.classList.remove(cls)
-    })
+  watch(
+    theme,
+    newTheme => {
+      Object.values(themes).forEach(cls => {
+        if (cls) document.documentElement.classList.remove(cls)
+      })
 
-    const cls = themes[newTheme as keyof typeof themes]
-    if (cls) document.documentElement.classList.add(cls)
-  }, { immediate: true })
+      const cls = themes[newTheme as keyof typeof themes]
+      if (cls) document.documentElement.classList.add(cls)
+    },
+    { immediate: true },
+  )
 
   return { theme, setTheme }
 }

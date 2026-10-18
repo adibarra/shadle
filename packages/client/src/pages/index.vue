@@ -11,11 +11,7 @@ onMounted(() => {
 
 <template>
   <Instructions />
-  <GameBoard
-    :guesses="game.guesses"
-    :feedback="game.feedback"
-    :current-guess="game.currentGuess"
-  />
+  <GameBoard :guesses="game.guesses" :feedback="game.feedback" :current-guess="game.currentGuess" />
   <GameControls
     :current-guess-length="game.currentGuess.length"
     :can-submit="game.canSubmit"
@@ -39,7 +35,7 @@ onMounted(() => {
   <PrivacyPolicyModal />
 
   <!-- Hidden links for SEO -->
-  <div style="display: none;">
+  <div style="display: none">
     <a href="#menu">Menu</a>
     <a href="#pastPuzzles">Past Puzzles</a>
     <a href="#statistics">Statistics</a>

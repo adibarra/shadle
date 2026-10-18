@@ -17,18 +17,19 @@ const route: FastifyPluginAsync = async (fastify): Promise<void> => {
 
     try {
       const stats = await getPuzzleStats(puzzleId)
-      const puzzleStats = stats.length > 0
-        ? stats[0]
-        : {
-            puzzle_id: puzzleId,
-            totalAttempts: 0,
-            totalPlayers: 0,
-            avgTries: 0,
-            successRate: 0,
-            failedAttempts: 0,
-            triesDistribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
-            completionRate: 0,
-          }
+      const puzzleStats =
+        stats.length > 0
+          ? stats[0]
+          : {
+              puzzle_id: puzzleId,
+              totalAttempts: 0,
+              totalPlayers: 0,
+              avgTries: 0,
+              successRate: 0,
+              failedAttempts: 0,
+              triesDistribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 },
+              completionRate: 0,
+            }
       return reply.code(200).send({
         puzzleId: puzzleStats.puzzle_id,
         totalAttempts: puzzleStats.totalAttempts,

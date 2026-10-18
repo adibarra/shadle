@@ -1,0 +1,5 @@
+[install]
+# Skip package versions published less than 24 hours ago.
+minimumReleaseAge = 86400
+# Flat node_modules: pino resolves transports (pino-pretty) by name from its own directory.
+linker = "hoisted"

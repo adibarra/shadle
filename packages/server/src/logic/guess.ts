@@ -9,7 +9,7 @@ function hashString(str: string): bigint {
   let hash = 0n
   for (let i = 0; i < str.length; i++) {
     const char = BigInt(str.charCodeAt(i))
-    hash = ((hash << 5n) - hash) + char
+    hash = (hash << 5n) - hash + char
     hash = hash & hash // convert to 32-bit integer
   }
   return hash > 0n ? hash : -hash
@@ -65,24 +65,27 @@ export function validateGuess(guess: ValidColor[], answer: ValidColor[]): GuessR
   const { feedback: initialFeedback, usedAnswerPositions } = guess.reduce<{
     feedback: GuessResponse['feedback']
     usedAnswerPositions: Set<number>
-  }>((acc, letter, index) => {
-    if (letter === answer[index]) {
-      acc.feedback[index] = { letter, status: GuessStatus.CORRECT }
-      acc.usedAnswerPositions.add(index)
-    }
-    return acc
-  }, {
-    feedback: Array.from({ length: 5 }),
-    usedAnswerPositions: new Set<number>(),
-  })
+  }>(
+    (acc, letter, index) => {
+      if (letter === answer[index]) {
+        acc.feedback[index] = { letter, status: GuessStatus.CORRECT }
+        acc.usedAnswerPositions.add(index)
+      }
+      return acc
+    },
+    {
+      feedback: Array.from({ length: 5 }),
+      usedAnswerPositions: new Set<number>(),
+    },
+  )
 
   return guess.map((letter, index) => {
     if (initialFeedback[index]) {
       return initialFeedback[index]
     }
 
-    const unusedAnswerIndex = answer.findIndex((answerLetter, answerIndex) =>
-      !usedAnswerPositions.has(answerIndex) && answerLetter === letter,
+    const unusedAnswerIndex = answer.findIndex(
+      (answerLetter, answerIndex) => !usedAnswerPositions.has(answerIndex) && answerLetter === letter,
     )
 
     if (unusedAnswerIndex !== -1) {

@@ -14,7 +14,7 @@ if (isProd) {
 }
 
 const footerRef = ref<HTMLElement | null>(null)
-const adSize = ref<{ w: number, h: number }>({ w: 0, h: 0 })
+const adSize = ref<{ w: number; h: number }>({ w: 0, h: 0 })
 let resizeObserver: ResizeObserver | null = null
 
 function computeAdSize() {
@@ -71,7 +71,7 @@ onUnmounted(() => {
     >
       <ins
         class="adsbygoogle"
-        style="display:block"
+        style="display: block"
         data-ad-client="ca-pub-1557521916095990"
         data-ad-slot="4651494788"
       />

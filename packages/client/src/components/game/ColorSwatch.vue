@@ -13,10 +13,7 @@ const props = defineProps<Props>()
 
 <template>
   <div class="mx-auto h-6 w-12 flex items-center justify-center">
-    <div
-      class="relative h-full w-full overflow-hidden bg-[hsl(0,0%,13%)]"
-      style="clip-path: inset(0 round 0.25rem)"
-    >
+    <div class="relative h-full w-full overflow-hidden bg-[hsl(0,0%,13%)]" style="clip-path: inset(0 round 0.25rem)">
       <div
         v-if="props.color"
         :class="`absolute inset-0 z-10 transition-opacity duration-500 ${bgColorClasses[props.color]}`"

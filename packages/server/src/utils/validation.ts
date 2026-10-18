@@ -8,7 +8,7 @@ import { VALID_COLORS } from '@shadle/types'
 /**
  * Validates that a puzzle ID is present and non-empty
  */
-export function validatePuzzleId(puzzleId: string): { isValid: boolean, error?: string } {
+export function validatePuzzleId(puzzleId: string): { isValid: boolean; error?: string } {
   if (!puzzleId) {
     return { isValid: false, error: 'Puzzle ID is required.' }
   }
@@ -18,7 +18,7 @@ export function validatePuzzleId(puzzleId: string): { isValid: boolean, error?: 
 /**
  * Validates that a player ID is present and non-empty
  */
-export function validatePlayerId(playerId: string | undefined): { isValid: boolean, error?: string } {
+export function validatePlayerId(playerId: string | undefined): { isValid: boolean; error?: string } {
   if (!playerId) {
     return { isValid: false, error: 'Player ID is required.' }
   }
@@ -28,7 +28,7 @@ export function validatePlayerId(playerId: string | undefined): { isValid: boole
 /**
  * Validates that a guess array meets the required format
  */
-export function validateGuessFormat(guess: ValidColor[] | undefined): { isValid: boolean, error?: string } {
+export function validateGuessFormat(guess: ValidColor[] | undefined): { isValid: boolean; error?: string } {
   if (!Array.isArray(guess) || guess.length === 0) {
     return { isValid: false, error: 'Guess is required and must be an array.' }
   }
