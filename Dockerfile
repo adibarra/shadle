@@ -26,8 +26,22 @@ COPY nginx.conf /usr/local/nginx/conf/nginx.conf
 COPY --from=builder /app/packages/client/dist /srv
 CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
 
+FROM base AS prod-deps
+
+COPY package.json bun.lock bunfig.toml ./
+COPY --parents packages/*/package.json ./
+RUN bun install --frozen-lockfile --production --filter @shadle/server
+
 FROM base AS server
 
-COPY --from=builder --exclude=packages/client/dist /app /app
+ENV NODE_ENV=prod
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY package.json ./
+COPY --parents packages/config/package.json packages/config/src \
+  packages/constants/package.json packages/constants/src \
+  packages/database/package.json packages/database/src \
+  packages/logger/package.json packages/logger/src \
+  packages/server/package.json packages/server/src \
+  packages/types/package.json packages/types/src ./
 EXPOSE 81
-CMD ["bun", "run", "start"]
+CMD ["bun", "packages/server/src/index.ts"]

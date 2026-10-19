@@ -4,6 +4,7 @@ import { LOGS_DIR } from '@shadle/constants'
 import pino from 'pino'
 
 const loggers = new Map<string | undefined, Logger>()
+let rootLogger: Logger | undefined
 
 /**
  * Logger type alias for the Pino logger instance.
@@ -34,21 +35,22 @@ export interface HasLogger {
  * @returns A logger instance.
  */
 export function getLogger(prefix?: string, parent?: Logger): Logger {
-  if (loggers.has(prefix)) return loggers.get(prefix)!
+  const cached = loggers.get(prefix)
+  if (cached) return cached
 
   if (typeof parent !== 'undefined') return getChildLogger(prefix ?? '', parent)
 
-  return createLogger(prefix)
+  const logger = typeof prefix === 'undefined' ? getRootLogger() : getChildLogger(prefix, getRootLogger())
+  loggers.set(prefix, logger)
+  return logger
 }
 
 /**
- * Creates a logger instance with the specified prefix.
- *
- * @param prefix - Optional prefix for log messages.
- * @returns A logger instance.
+ * Creates the one root logger. Each pino transport runs in its own worker thread,
+ * so every prefixed logger must be a child of this instance instead of a new transport.
  */
-function createLogger(prefix?: string): Logger {
-  return pino({
+function getRootLogger(): Logger {
+  rootLogger ??= pino({
     level: config.LOG_LEVEL.MIN,
     transport: {
       targets: [
@@ -75,13 +77,13 @@ function createLogger(prefix?: string): Logger {
       ],
     },
     base: undefined,
-    msgPrefix: prefix ? `[${prefix}] ` : undefined,
     serializers: {
       req: req => ({ url: req.url }),
       res: res => ({ code: res.statusCode }),
       responseTime: (time: number) => `${Math.round(time)}ms`,
     },
   })
+  return rootLogger
 }
 
 /**
